@@ -1,6 +1,6 @@
 /*******************************************************************************
 * File Name: LandingLight.h  
-* Version 2.5
+* Version 2.10
 *
 * Description:
 *  This file containts Control Register function prototypes and register defines
@@ -40,17 +40,15 @@ uint8   LandingLight_ClearInterrupt(void) ;
 /* Drive Modes */
 #define LandingLight_DRIVE_MODE_BITS        (3)
 #define LandingLight_DRIVE_MODE_IND_MASK    (0xFFFFFFFFu >> (32 - LandingLight_DRIVE_MODE_BITS))
-#define LandingLight_DRIVE_MODE_SHIFT       (0x00u)
-#define LandingLight_DRIVE_MODE_MASK        (0x07u << LandingLight_DRIVE_MODE_SHIFT)
 
-#define LandingLight_DM_ALG_HIZ         (0x00u << LandingLight_DRIVE_MODE_SHIFT)
-#define LandingLight_DM_DIG_HIZ         (0x01u << LandingLight_DRIVE_MODE_SHIFT)
-#define LandingLight_DM_RES_UP          (0x02u << LandingLight_DRIVE_MODE_SHIFT)
-#define LandingLight_DM_RES_DWN         (0x03u << LandingLight_DRIVE_MODE_SHIFT)
-#define LandingLight_DM_OD_LO           (0x04u << LandingLight_DRIVE_MODE_SHIFT)
-#define LandingLight_DM_OD_HI           (0x05u << LandingLight_DRIVE_MODE_SHIFT)
-#define LandingLight_DM_STRONG          (0x06u << LandingLight_DRIVE_MODE_SHIFT)
-#define LandingLight_DM_RES_UPDWN       (0x07u << LandingLight_DRIVE_MODE_SHIFT)
+#define LandingLight_DM_ALG_HIZ         (0x00u)
+#define LandingLight_DM_DIG_HIZ         (0x01u)
+#define LandingLight_DM_RES_UP          (0x02u)
+#define LandingLight_DM_RES_DWN         (0x03u)
+#define LandingLight_DM_OD_LO           (0x04u)
+#define LandingLight_DM_OD_HI           (0x05u)
+#define LandingLight_DM_STRONG          (0x06u)
+#define LandingLight_DM_RES_UPDWN       (0x07u)
 
 /* Digital Port Constants */
 #define LandingLight_MASK               LandingLight__MASK
@@ -78,6 +76,16 @@ uint8   LandingLight_ClearInterrupt(void) ;
     #define LandingLight_INTSTAT                (* (reg32 *) LandingLight__INTSTAT)
 
 #endif /* Interrupt Registers */
+
+
+/***************************************
+* The following code is DEPRECATED and 
+* must not be used.
+***************************************/
+
+#define LandingLight_DRIVE_MODE_SHIFT       (0x00u)
+#define LandingLight_DRIVE_MODE_MASK        (0x07u << LandingLight_DRIVE_MODE_SHIFT)
+
 
 #endif /* End Pins LandingLight_H */
 

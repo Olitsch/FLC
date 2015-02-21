@@ -1,6 +1,6 @@
 /*******************************************************************************
 * File Name: CollisionLight.h  
-* Version 2.5
+* Version 2.10
 *
 * Description:
 *  This file containts Control Register function prototypes and register defines
@@ -40,17 +40,15 @@ uint8   CollisionLight_ClearInterrupt(void) ;
 /* Drive Modes */
 #define CollisionLight_DRIVE_MODE_BITS        (3)
 #define CollisionLight_DRIVE_MODE_IND_MASK    (0xFFFFFFFFu >> (32 - CollisionLight_DRIVE_MODE_BITS))
-#define CollisionLight_DRIVE_MODE_SHIFT       (0x00u)
-#define CollisionLight_DRIVE_MODE_MASK        (0x07u << CollisionLight_DRIVE_MODE_SHIFT)
 
-#define CollisionLight_DM_ALG_HIZ         (0x00u << CollisionLight_DRIVE_MODE_SHIFT)
-#define CollisionLight_DM_DIG_HIZ         (0x01u << CollisionLight_DRIVE_MODE_SHIFT)
-#define CollisionLight_DM_RES_UP          (0x02u << CollisionLight_DRIVE_MODE_SHIFT)
-#define CollisionLight_DM_RES_DWN         (0x03u << CollisionLight_DRIVE_MODE_SHIFT)
-#define CollisionLight_DM_OD_LO           (0x04u << CollisionLight_DRIVE_MODE_SHIFT)
-#define CollisionLight_DM_OD_HI           (0x05u << CollisionLight_DRIVE_MODE_SHIFT)
-#define CollisionLight_DM_STRONG          (0x06u << CollisionLight_DRIVE_MODE_SHIFT)
-#define CollisionLight_DM_RES_UPDWN       (0x07u << CollisionLight_DRIVE_MODE_SHIFT)
+#define CollisionLight_DM_ALG_HIZ         (0x00u)
+#define CollisionLight_DM_DIG_HIZ         (0x01u)
+#define CollisionLight_DM_RES_UP          (0x02u)
+#define CollisionLight_DM_RES_DWN         (0x03u)
+#define CollisionLight_DM_OD_LO           (0x04u)
+#define CollisionLight_DM_OD_HI           (0x05u)
+#define CollisionLight_DM_STRONG          (0x06u)
+#define CollisionLight_DM_RES_UPDWN       (0x07u)
 
 /* Digital Port Constants */
 #define CollisionLight_MASK               CollisionLight__MASK
@@ -78,6 +76,16 @@ uint8   CollisionLight_ClearInterrupt(void) ;
     #define CollisionLight_INTSTAT                (* (reg32 *) CollisionLight__INTSTAT)
 
 #endif /* Interrupt Registers */
+
+
+/***************************************
+* The following code is DEPRECATED and 
+* must not be used.
+***************************************/
+
+#define CollisionLight_DRIVE_MODE_SHIFT       (0x00u)
+#define CollisionLight_DRIVE_MODE_MASK        (0x07u << CollisionLight_DRIVE_MODE_SHIFT)
+
 
 #endif /* End Pins CollisionLight_H */
 

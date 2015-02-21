@@ -1,6 +1,6 @@
 /*******************************************************************************
 * File Name: UART_2_SPI_UART.h
-* Version 1.20
+* Version 2.0
 *
 * Description:
 *  This file provides constants and parameter values for the SCB Component in
@@ -48,6 +48,13 @@
 #define UART_2_SPI_RX_TRIGGER_LEVEL       (7u)
 #define UART_2_SPI_TX_TRIGGER_LEVEL       (0u)
 
+#define UART_2_SPI_BYTE_MODE_ENABLE       (0u)
+#define UART_2_SPI_FREE_RUN_SCLK_ENABLE   (0u)
+#define UART_2_SPI_SS0_POLARITY           (0u)
+#define UART_2_SPI_SS1_POLARITY           (0u)
+#define UART_2_SPI_SS2_POLARITY           (0u)
+#define UART_2_SPI_SS3_POLARITY           (0u)
+
 
 /***************************************
 *   UART Initial Parameter Constants
@@ -81,11 +88,15 @@
 #define UART_2_UART_RX_TRIGGER_LEVEL      (7u)
 #define UART_2_UART_TX_TRIGGER_LEVEL      (0u)
 
-/* Sources of RX errors */
-#define UART_2_INTR_RX_ERR        (UART_2_INTR_RX_OVERFLOW    | \
-                                             UART_2_INTR_RX_UNDERFLOW   | \
-                                             UART_2_INTR_RX_FRAME_ERROR | \
-                                             UART_2_INTR_RX_PARITY_ERROR)
+#define UART_2_UART_BYTE_MODE_ENABLE      (0u)
+#define UART_2_UART_CTS_ENABLE            (0u)
+#define UART_2_UART_CTS_POLARITY          (0u)
+#define UART_2_UART_RTS_POLARITY          (0u)
+#define UART_2_UART_RTS_FIFO_LEVEL        (4u)
+
+/* SPI mode enum */
+#define UART_2_SPI_SLAVE  (0u)
+#define UART_2_SPI_MASTER (1u)
 
 /* UART direction enum */
 #define UART_2_UART_RX    (1u)
@@ -99,13 +110,16 @@
 
 #if(UART_2_SCB_MODE_UNCONFIG_CONST_CFG)
 
+    /* Mode */
+    #define UART_2_SPI_MASTER_CONST       (1u)
+
     /* Direction */
     #define UART_2_RX_DIRECTION           (1u)
     #define UART_2_TX_DIRECTION           (1u)
     #define UART_2_UART_RX_DIRECTION      (1u)
     #define UART_2_UART_TX_DIRECTION      (1u)
 
-    /* Only external RX and TX buffer for uncofigured mode */
+    /* Only external RX and TX buffer for Uncofigured mode */
     #define UART_2_INTERNAL_RX_SW_BUFFER   (0u)
     #define UART_2_INTERNAL_TX_SW_BUFFER   (0u)
 
@@ -126,37 +140,37 @@
     #define UART_2_CHECK_SPI_WAKE_ENABLE  (0u != UART_2_scbEnableWake)
     #define UART_2_UART_WAKE_ENABLE_CONST (1u)
 
+    /* SPI/UART: TX or RX FIFO size */
+    #if (UART_2_CY_SCBIP_V0 || UART_2_CY_SCBIP_V1)
+        #define UART_2_SPI_UART_FIFO_SIZE (UART_2_FIFO_SIZE)
+    #else
+        #define UART_2_SPI_UART_FIFO_SIZE (UART_2_GET_FIFO_SIZE(UART_2_CTRL_REG & \
+                                                                                    UART_2_CTRL_BYTE_MODE))
+    #endif /* (UART_2_CY_SCBIP_V0 || UART_2_CY_SCBIP_V1) */
+
 #else
 
-    /* SPI internal RX and TX buffers */
-    #define UART_2_INTERNAL_SPI_RX_SW_BUFFER  (UART_2_SPI_RX_BUFFER_SIZE > \
-                                                                                            UART_2_FIFO_SIZE)
-    #define UART_2_INTERNAL_SPI_TX_SW_BUFFER  (UART_2_SPI_TX_BUFFER_SIZE > \
-                                                                                            UART_2_FIFO_SIZE)
-
-    /* UART internal RX and TX buffers */
-    #define UART_2_INTERNAL_UART_RX_SW_BUFFER  (UART_2_UART_RX_BUFFER_SIZE > \
-                                                                                            UART_2_FIFO_SIZE)
-    #define UART_2_INTERNAL_UART_TX_SW_BUFFER  (UART_2_UART_TX_BUFFER_SIZE > \
-                                                                                            UART_2_FIFO_SIZE)
-
-    /* SPI Direction */
-    #define UART_2_SPI_RX_DIRECTION (1u)
-    #define UART_2_SPI_TX_DIRECTION (1u)
-
-    /* UART Direction */
-    #define UART_2_UART_RX_DIRECTION (0u != (UART_2_UART_DIRECTION & UART_2_UART_RX))
-    #define UART_2_UART_TX_DIRECTION (0u != (UART_2_UART_DIRECTION & UART_2_UART_TX))
-
-    /* Direction */
-    #define UART_2_RX_DIRECTION ((UART_2_SCB_MODE_SPI_CONST_CFG) ? \
-                                            (UART_2_SPI_RX_DIRECTION) : (UART_2_UART_RX_DIRECTION))
-
-    #define UART_2_TX_DIRECTION ((UART_2_SCB_MODE_SPI_CONST_CFG) ? \
-                                            (UART_2_SPI_TX_DIRECTION) : (UART_2_UART_TX_DIRECTION))
-
     /* Internal RX and TX buffer: for SPI or UART */
-    #if(UART_2_SCB_MODE_SPI_CONST_CFG)
+    #if (UART_2_SCB_MODE_SPI_CONST_CFG)
+
+        /* SPI Direction */
+        #define UART_2_SPI_RX_DIRECTION (1u)
+        #define UART_2_SPI_TX_DIRECTION (1u)
+
+        /* Get FIFO size */
+        #if (UART_2_CY_SCBIP_V0 || UART_2_CY_SCBIP_V1)
+            #define UART_2_SPI_UART_FIFO_SIZE    (UART_2_FIFO_SIZE)
+        #else
+            #define UART_2_SPI_UART_FIFO_SIZE \
+                                           UART_2_GET_FIFO_SIZE(UART_2_SPI_BYTE_MODE_ENABLE)
+
+        #endif /* (UART_2_CY_SCBIP_V0 || UART_2_CY_SCBIP_V1) */
+
+        /* SPI internal RX and TX buffers */
+        #define UART_2_INTERNAL_SPI_RX_SW_BUFFER  (UART_2_SPI_RX_BUFFER_SIZE > \
+                                                                UART_2_SPI_UART_FIFO_SIZE)
+        #define UART_2_INTERNAL_SPI_TX_SW_BUFFER  (UART_2_SPI_TX_BUFFER_SIZE > \
+                                                                UART_2_SPI_UART_FIFO_SIZE)
 
         /* Internal SPI RX and TX buffer */
         #define UART_2_INTERNAL_RX_SW_BUFFER  (UART_2_INTERNAL_SPI_RX_SW_BUFFER)
@@ -172,6 +186,24 @@
 
     #else
 
+        /* UART Direction */
+        #define UART_2_UART_RX_DIRECTION (0u != (UART_2_UART_DIRECTION & UART_2_UART_RX))
+        #define UART_2_UART_TX_DIRECTION (0u != (UART_2_UART_DIRECTION & UART_2_UART_TX))
+
+        /* Get FIFO size */
+        #if (UART_2_CY_SCBIP_V0 || UART_2_CY_SCBIP_V1)
+            #define UART_2_SPI_UART_FIFO_SIZE    (UART_2_FIFO_SIZE)
+        #else
+            #define UART_2_SPI_UART_FIFO_SIZE \
+                                           UART_2_GET_FIFO_SIZE(UART_2_UART_BYTE_MODE_ENABLE)
+        #endif /* (UART_2_CY_SCBIP_V0 || UART_2_CY_SCBIP_V1) */
+
+        /* UART internal RX and TX buffers */
+        #define UART_2_INTERNAL_UART_RX_SW_BUFFER  (UART_2_UART_RX_BUFFER_SIZE > \
+                                                                UART_2_SPI_UART_FIFO_SIZE)
+        #define UART_2_INTERNAL_UART_TX_SW_BUFFER  (UART_2_UART_TX_BUFFER_SIZE > \
+                                                                    UART_2_SPI_UART_FIFO_SIZE)
+
         /* Internal UART RX and TX buffer */
         #define UART_2_INTERNAL_RX_SW_BUFFER  (UART_2_INTERNAL_UART_RX_SW_BUFFER)
         #define UART_2_INTERNAL_TX_SW_BUFFER  (UART_2_INTERNAL_UART_TX_SW_BUFFER)
@@ -183,7 +215,18 @@
         /* Get wakeup enable option */
         #define UART_2_SPI_WAKE_ENABLE_CONST  (0u)
         #define UART_2_UART_WAKE_ENABLE_CONST (0u != UART_2_UART_WAKE_ENABLE)
+
     #endif /* (UART_2_SCB_MODE_SPI_CONST_CFG) */
+
+    /* Mode */
+    #define UART_2_SPI_MASTER_CONST   (UART_2_SPI_MODE == UART_2_SPI_MASTER)
+
+    /* Direction */
+    #define UART_2_RX_DIRECTION ((UART_2_SCB_MODE_SPI_CONST_CFG) ? \
+                                            (UART_2_SPI_RX_DIRECTION) : (UART_2_UART_RX_DIRECTION))
+
+    #define UART_2_TX_DIRECTION ((UART_2_SCB_MODE_SPI_CONST_CFG) ? \
+                                            (UART_2_SPI_TX_DIRECTION) : (UART_2_UART_TX_DIRECTION))
 
     /* Internal RX and TX buffer: for SPI or UART. Used in conditional compilation check */
     #define UART_2_CHECK_RX_SW_BUFFER (UART_2_INTERNAL_RX_SW_BUFFER)
@@ -197,13 +240,6 @@
     #define UART_2_CHECK_SPI_WAKE_ENABLE  (UART_2_SPI_WAKE_ENABLE_CONST)
 
 #endif /* End (UART_2_SCB_MODE_UNCONFIG_CONST_CFG) */
-
-/* Bootloader communication interface enable: NOT supported yet */
-#define UART_2_SPI_BTLDR_COMM_ENABLED   ((CYDEV_BOOTLOADER_IO_COMP == CyBtldr_UART_2) || \
-                                                    (CYDEV_BOOTLOADER_IO_COMP == CyBtldr_Custom_Interface))
-
-#define UART_2_UART_BTLDR_COMM_ENABLED   ((CYDEV_BOOTLOADER_IO_COMP == CyBtldr_UART_2) || \
-                                                    (CYDEV_BOOTLOADER_IO_COMP == CyBtldr_Custom_Interface))
 
 
 /***************************************
@@ -233,6 +269,9 @@ typedef struct
     uint32 rxTriggerLevel;
     uint32 txInterruptMask;
     uint32 txTriggerLevel;
+    uint8 enableByteMode;
+    uint8 enableFreeRunSclk;
+    uint8 polaritySs;
 } UART_2_SPI_INIT_STRUCT;
 
 /* UART_2_UART_INIT_STRUCT */
@@ -264,6 +303,11 @@ typedef struct
     uint32 rxTriggerLevel;
     uint32 txInterruptMask;
     uint32 txTriggerLevel;
+    uint8 enableByteMode;
+    uint8 enableCts;
+    uint8 ctsPolarity;
+    uint8 rtsRxFifoLevel;
+    uint8 rtsPolarity;
 } UART_2_UART_INIT_STRUCT;
 
 
@@ -277,7 +321,16 @@ typedef struct
 #endif /* (UART_2_SCB_MODE_UNCONFIG_CONST_CFG) */
 
 #if(UART_2_SCB_MODE_SPI_INC)
-    void UART_2_SpiSetActiveSlaveSelect(uint32 activeSelect);
+    #define UART_2_SpiIsBusBusy() ((uint32) (0u != (UART_2_SPI_STATUS_REG & \
+                                                              UART_2_SPI_STATUS_BUS_BUSY)))
+
+    #if (UART_2_SPI_MASTER_CONST)
+        void UART_2_SpiSetActiveSlaveSelect(uint32 slaveSelect);
+    #endif /*(UART_2_SPI_MASTER_CONST) */
+
+    #if !(UART_2_CY_SCBIP_V0 || UART_2_CY_SCBIP_V1)
+        void UART_2_SpiSetSlaveSelectPolarity(uint32 slaveSelect, uint32 polarity);
+    #endif /* !(UART_2_CY_SCBIP_V0 || UART_2_CY_SCBIP_V1) */
 #endif /* (UART_2_SCB_MODE_SPI_INC) */
 
 /* UART specific functions */
@@ -288,29 +341,42 @@ typedef struct
 #if(UART_2_SCB_MODE_UART_INC)
     void UART_2_UartSetRxAddress(uint32 address);
     void UART_2_UartSetRxAddressMask(uint32 addressMask);
+
+    /* UART RX direction APIs */
+    #if(UART_2_UART_RX_DIRECTION)
+        uint32 UART_2_UartGetChar(void);
+        uint32 UART_2_UartGetByte(void);
+
+        #if !(UART_2_CY_SCBIP_V0 || UART_2_CY_SCBIP_V1)
+            /* UART APIs for Flow Control */
+            void UART_2_UartSetRtsPolarity(uint32 polarity);
+            void UART_2_UartSetRtsFifoLevel(uint32 level);
+        #endif /* !(UART_2_CY_SCBIP_V0 || UART_2_CY_SCBIP_V1) */
+    #endif /* (UART_2_UART_RX_DIRECTION) */
+
+    /* UART TX direction APIs */
+    #if(UART_2_UART_TX_DIRECTION)
+        #define UART_2_UartPutChar(ch)    UART_2_SpiUartWriteTxData((uint32)(ch))
+        void UART_2_UartPutString(const char8 string[]);
+        void UART_2_UartPutCRLF(uint32 txDataByte);
+
+        #if !(UART_2_CY_SCBIP_V0 || UART_2_CY_SCBIP_V1)
+            /* UART APIs for Flow Control */
+            void UART_2_UartEnableCts(void);
+            void UART_2_UartDisableCts(void);
+            void UART_2_UartSetCtsPolarity(uint32 polarity);
+        #endif /* !(UART_2_CY_SCBIP_V0 || UART_2_CY_SCBIP_V1) */
+    #endif /* (UART_2_UART_TX_DIRECTION) */
 #endif /* (UART_2_SCB_MODE_UART_INC) */
 
-/* UART RX direction APIs */
-#if(UART_2_UART_RX_DIRECTION)
-    uint32 UART_2_UartGetChar(void);
-    uint32 UART_2_UartGetByte(void);
-#endif /* (UART_2_UART_RX_DIRECTION) */
-
-/* UART TX direction APIs */
-#if(UART_2_UART_TX_DIRECTION)
-    #define UART_2_UartPutChar(ch)    UART_2_SpiUartWriteTxData((uint32)(ch))
-    void UART_2_UartPutString(const char8 string[]);
-    void UART_2_UartPutCRLF(uint32 txDataByte);
-#endif /* (UART_2_UART_TX_DIRECTION) */
-
-/* Common APIs Rx direction */
+/* Common APIs RX direction */
 #if(UART_2_RX_DIRECTION)
     uint32 UART_2_SpiUartReadRxData(void);
     uint32 UART_2_SpiUartGetRxBufferSize(void);
     void   UART_2_SpiUartClearRxBuffer(void);
 #endif /* (UART_2_RX_DIRECTION) */
 
-/* Common APIs Tx direction */
+/* Common APIs TX direction */
 #if(UART_2_TX_DIRECTION)
     void   UART_2_SpiUartWriteTxData(uint32 txData);
     void   UART_2_SpiUartPutArray(const uint8 wrBuf[], uint32 count);
@@ -323,24 +389,6 @@ CY_ISR_PROTO(UART_2_SPI_UART_ISR);
 #if(UART_2_UART_RX_WAKEUP_IRQ)
     CY_ISR_PROTO(UART_2_UART_WAKEUP_ISR);
 #endif /* (UART_2_UART_RX_WAKEUP_IRQ) */
-
-#if defined(CYDEV_BOOTLOADER_IO_COMP) && (UART_2_SPI_BTLDR_COMM_ENABLED)
-    /* SPI Bootloader physical layer functions */
-    void UART_2_SpiCyBtldrCommStart(void);
-    void UART_2_SpiCyBtldrCommStop (void);
-    void UART_2_SpiCyBtldrCommReset(void);
-    cystatus UART_2_SpiCyBtldrCommRead       (uint8 pData[], uint16 size, uint16 * count, uint8 timeOut);
-    cystatus UART_2_SpiCyBtldrCommWrite(const uint8 pData[], uint16 size, uint16 * count, uint8 timeOut);
-#endif /* defined(CYDEV_BOOTLOADER_IO_COMP) && (UART_2_SPI_BTLDR_COMM_ENABLED) */
-
-#if defined(CYDEV_BOOTLOADER_IO_COMP) && (UART_2_UART_BTLDR_COMM_ENABLED)
-    /* UART Bootloader physical layer functions */
-    void UART_2_UartCyBtldrCommStart(void);
-    void UART_2_UartCyBtldrCommStop (void);
-    void UART_2_UartCyBtldrCommReset(void);
-    cystatus UART_2_UartCyBtldrCommRead       (uint8 pData[], uint16 size, uint16 * count, uint8 timeOut);
-    cystatus UART_2_UartCyBtldrCommWrite(const uint8 pData[], uint16 size, uint16 * count, uint8 timeOut);
-#endif /* defined(CYDEV_BOOTLOADER_IO_COMP) && (UART_2_UART_BTLDR_COMM_ENABLED) */
 
 
 /***************************************
@@ -357,7 +405,6 @@ CY_ISR_PROTO(UART_2_SPI_UART_ISR);
     uint32 UART_2_GetWordFromTxBuffer(uint32 idx);
 
 #else
-
     /* RX direction */
     #if(UART_2_INTERNAL_RX_SW_BUFFER_CONST)
         #define UART_2_PutWordInRxBuffer(idx, rxDataByte) \
@@ -387,10 +434,6 @@ CY_ISR_PROTO(UART_2_SPI_UART_ISR);
 *         SPI API Constants
 ***************************************/
 
-/* SPI mode enum */
-#define UART_2_SPI_SLAVE  (0u)
-#define UART_2_SPI_MASTER (1u)
-
 /* SPI sub mode enum */
 #define UART_2_SPI_MODE_MOTOROLA      (0x00u)
 #define UART_2_SPI_MODE_TI_COINCIDES  (0x01u)
@@ -398,6 +441,7 @@ CY_ISR_PROTO(UART_2_SPI_UART_ISR);
 #define UART_2_SPI_MODE_NATIONAL      (0x02u)
 #define UART_2_SPI_MODE_MASK          (0x03u)
 #define UART_2_SPI_MODE_TI_PRECEDES_MASK  (0x10u)
+#define UART_2_SPI_MODE_NS_MICROWIRE  (UART_2_SPI_MODE_NATIONAL)
 
 /* SPI phase and polarity mode enum */
 #define UART_2_SPI_SCLK_CPHA0_CPOL0   (0x00u)
@@ -413,11 +457,15 @@ CY_ISR_PROTO(UART_2_SPI_UART_ISR);
 #define UART_2_SPI_TRANSFER_SEPARATED     (0u)
 #define UART_2_SPI_TRANSFER_CONTINUOUS    (1u)
 
-/* SPI master active slave select constants for UART_2_SpiSetActiveSlaveSelect() */
-#define UART_2_SPIM_ACTIVE_SS0    (0x00u)
-#define UART_2_SPIM_ACTIVE_SS1    (0x01u)
-#define UART_2_SPIM_ACTIVE_SS2    (0x02u)
-#define UART_2_SPIM_ACTIVE_SS3    (0x03u)
+/* SPI slave select constants */
+#define UART_2_SPI_SLAVE_SELECT0    (UART_2_SCB__SS0_POSISTION)
+#define UART_2_SPI_SLAVE_SELECT1    (UART_2_SCB__SS1_POSISTION)
+#define UART_2_SPI_SLAVE_SELECT2    (UART_2_SCB__SS2_POSISTION)
+#define UART_2_SPI_SLAVE_SELECT3    (UART_2_SCB__SS3_POSISTION)
+
+/* SPI slave select polarity settings */
+#define UART_2_SPI_SS_ACTIVE_LOW  (0u)
+#define UART_2_SPI_SS_ACTIVE_HIGH (1u)
 
 
 /***************************************
@@ -456,6 +504,28 @@ CY_ISR_PROTO(UART_2_SPI_UART_ISR);
 /* Uart MP: mark (address) and space (data) bit definitions */
 #define UART_2_UART_MP_MARK       (0x100u)
 #define UART_2_UART_MP_SPACE      (0x000u)
+
+/* UART CTS/RTS polarity settings */
+#define UART_2_UART_CTS_ACTIVE_LOW    (0u)
+#define UART_2_UART_CTS_ACTIVE_HIGH   (1u)
+#define UART_2_UART_RTS_ACTIVE_LOW    (0u)
+#define UART_2_UART_RTS_ACTIVE_HIGH   (1u)
+
+/* Sources of RX errors */
+#define UART_2_INTR_RX_ERR        (UART_2_INTR_RX_OVERFLOW    | \
+                                             UART_2_INTR_RX_UNDERFLOW   | \
+                                             UART_2_INTR_RX_FRAME_ERROR | \
+                                             UART_2_INTR_RX_PARITY_ERROR)
+
+/* Shifted INTR_RX_ERR defines ONLY for UART_2_UartGetByte() */
+#define UART_2_UART_RX_OVERFLOW       (UART_2_INTR_RX_OVERFLOW << 8u)
+#define UART_2_UART_RX_UNDERFLOW      (UART_2_INTR_RX_UNDERFLOW << 8u)
+#define UART_2_UART_RX_FRAME_ERROR    (UART_2_INTR_RX_FRAME_ERROR << 8u)
+#define UART_2_UART_RX_PARITY_ERROR   (UART_2_INTR_RX_PARITY_ERROR << 8u)
+#define UART_2_UART_RX_ERROR_MASK     (UART_2_UART_RX_OVERFLOW    | \
+                                                 UART_2_UART_RX_UNDERFLOW   | \
+                                                 UART_2_UART_RX_FRAME_ERROR | \
+                                                 UART_2_UART_RX_PARITY_ERROR)
 
 
 /***************************************
@@ -496,10 +566,10 @@ CY_ISR_PROTO(UART_2_SPI_UART_ISR);
                                                                           UART_2_CTRL_OVS_IRDA_LP_OVS16)))))))
 
 #define UART_2_GET_UART_RX_CTRL_ENABLED(direction) ((0u != (UART_2_UART_RX & (direction))) ? \
-                                                                    (UART_2_RX_CTRL_ENABLED) : (0u))
+                                                                     (UART_2_RX_CTRL_ENABLED) : (0u))
 
 #define UART_2_GET_UART_TX_CTRL_ENABLED(direction) ((0u != (UART_2_UART_TX & (direction))) ? \
-                                                                    (UART_2_TX_CTRL_ENABLED) : (0u))
+                                                                     (UART_2_TX_CTRL_ENABLED) : (0u))
 
 
 /***************************************
@@ -515,12 +585,19 @@ CY_ISR_PROTO(UART_2_SPI_UART_ISR);
 *       SPI Init Register Settings
 ***************************************/
 
+#define UART_2_SPI_SS_POLARITY \
+             (((uint32) UART_2_SPI_SS0_POLARITY << UART_2_SPI_SLAVE_SELECT0) | \
+              ((uint32) UART_2_SPI_SS1_POLARITY << UART_2_SPI_SLAVE_SELECT1) | \
+              ((uint32) UART_2_SPI_SS2_POLARITY << UART_2_SPI_SLAVE_SELECT2) | \
+              ((uint32) UART_2_SPI_SS3_POLARITY << UART_2_SPI_SLAVE_SELECT3))
+
 #if(UART_2_SCB_MODE_SPI_CONST_CFG)
 
     /* SPI Configuration */
     #define UART_2_SPI_DEFAULT_CTRL \
-                    (UART_2_GET_CTRL_OVS(UART_2_SPI_OVS_FACTOR)         | \
-                     UART_2_GET_CTRL_EC_AM_MODE(UART_2_SPI_WAKE_ENABLE) | \
+                    (UART_2_GET_CTRL_OVS(UART_2_SPI_OVS_FACTOR) | \
+                     UART_2_GET_CTRL_BYTE_MODE (UART_2_SPI_BYTE_MODE_ENABLE) | \
+                     UART_2_GET_CTRL_EC_AM_MODE(UART_2_SPI_WAKE_ENABLE)      | \
                      UART_2_CTRL_SPI)
 
     #define UART_2_SPI_DEFAULT_SPI_CTRL \
@@ -529,6 +606,8 @@ CY_ISR_PROTO(UART_2_SPI_UART_ISR);
                                                                   UART_2_SPI_MODE_TI_PRECEDES_MASK)     | \
                      UART_2_GET_SPI_CTRL_SCLK_MODE     (UART_2_SPI_CLOCK_MODE)                | \
                      UART_2_GET_SPI_CTRL_LATE_MISO_SAMPLE(UART_2_SPI_LATE_MISO_SAMPLE_ENABLE) | \
+                     UART_2_GET_SPI_CTRL_SCLK_CONTINUOUS(UART_2_SPI_FREE_RUN_SCLK_ENABLE)     | \
+                     UART_2_GET_SPI_CTRL_SSEL_POLARITY (UART_2_SPI_SS_POLARITY)               | \
                      UART_2_GET_SPI_CTRL_SUB_MODE      (UART_2_SPI_SUB_MODE)                  | \
                      UART_2_GET_SPI_CTRL_MASTER_MODE   (UART_2_SPI_MODE))
 
@@ -599,7 +678,8 @@ CY_ISR_PROTO(UART_2_SPI_UART_ISR);
     #endif /* (UART_2_UART_MODE_IRDA == UART_2_UART_SUB_MODE) */
 
     #define UART_2_UART_DEFAULT_CTRL \
-                                (UART_2_GET_CTRL_ADDR_ACCEPT(UART_2_UART_MP_ACCEPT_ADDRESS) | \
+                                (UART_2_GET_CTRL_BYTE_MODE  (UART_2_UART_BYTE_MODE_ENABLE)  | \
+                                 UART_2_GET_CTRL_ADDR_ACCEPT(UART_2_UART_MP_ACCEPT_ADDRESS) | \
                                  UART_2_DEFAULT_CTRL_OVS                                              | \
                                  UART_2_CTRL_UART)
 
@@ -647,6 +727,12 @@ CY_ISR_PROTO(UART_2_SPI_UART_ISR);
     #define UART_2_UART_DEFAULT_TX_FIFO_CTRL \
                                 UART_2_GET_TX_FIFO_CTRL_TRIGGER_LEVEL(UART_2_UART_TX_TRIGGER_LEVEL)
 
+    #define UART_2_UART_DEFAULT_FLOW_CTRL \
+                        (UART_2_GET_UART_FLOW_CTRL_TRIGGER_LEVEL(UART_2_UART_RTS_FIFO_LEVEL) | \
+                         UART_2_GET_UART_FLOW_CTRL_RTS_POLARITY (UART_2_UART_RTS_POLARITY)   | \
+                         UART_2_GET_UART_FLOW_CTRL_CTS_POLARITY (UART_2_UART_CTS_POLARITY)   | \
+                         UART_2_GET_UART_FLOW_CTRL_CTS_ENABLE   (UART_2_UART_CTS_ENABLE))
+
     /* Interrupt sources */
     #define UART_2_UART_DEFAULT_INTR_I2C_EC_MASK  (UART_2_NO_INTR_SOURCES)
     #define UART_2_UART_DEFAULT_INTR_SPI_EC_MASK  (UART_2_NO_INTR_SOURCES)
@@ -656,6 +742,17 @@ CY_ISR_PROTO(UART_2_SPI_UART_ISR);
     #define UART_2_UART_DEFAULT_INTR_TX_MASK      (UART_2_UART_INTR_TX_MASK)
 
 #endif /* (UART_2_SCB_MODE_UART_CONST_CFG) */
+
+
+/***************************************
+* The following code is DEPRECATED and
+* must not be used.
+***************************************/
+
+#define UART_2_SPIM_ACTIVE_SS0    (UART_2_SPI_SLAVE_SELECT0)
+#define UART_2_SPIM_ACTIVE_SS1    (UART_2_SPI_SLAVE_SELECT1)
+#define UART_2_SPIM_ACTIVE_SS2    (UART_2_SPI_SLAVE_SELECT2)
+#define UART_2_SPIM_ACTIVE_SS3    (UART_2_SPI_SLAVE_SELECT3)
 
 #endif /* CY_SCB_SPI_UART_UART_2_H */
 

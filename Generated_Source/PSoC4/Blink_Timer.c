@@ -1,6 +1,6 @@
 /*******************************************************************************
 * File Name: Blink_Timer.c
-* Version 1.10
+* Version 2.0
 *
 * Description:
 *  This file provides the source code to the API for the Blink_Timer
@@ -17,7 +17,6 @@
 *******************************************************************************/
 
 #include "Blink_Timer.h"
-#include "CyLib.h"
 
 uint8 Blink_Timer_initVar = 0u;
 
@@ -41,95 +40,31 @@ void Blink_Timer_Init(void)
 
     /* Set values from customizer to CTRL */
     #if (Blink_Timer__QUAD == Blink_Timer_CONFIG)
-        Blink_Timer_CONTROL_REG =
-        (((uint32)(Blink_Timer_QUAD_ENCODING_MODES     << Blink_Timer_QUAD_MODE_SHIFT))       |
-         ((uint32)(Blink_Timer_CONFIG                  << Blink_Timer_MODE_SHIFT)));
-    #endif  /* (Blink_Timer__QUAD == Blink_Timer_CONFIG) */
+        Blink_Timer_CONTROL_REG = Blink_Timer_CTRL_QUAD_BASE_CONFIG;
+        
+        /* Set values from customizer to CTRL1 */
+        Blink_Timer_TRIG_CONTROL1_REG  = Blink_Timer_QUAD_SIGNALS_MODES;
 
-    #if (Blink_Timer__PWM_SEL == Blink_Timer_CONFIG)
-        Blink_Timer_CONTROL_REG =
-        (((uint32)(Blink_Timer_PWM_STOP_EVENT          << Blink_Timer_PWM_STOP_KILL_SHIFT))    |
-         ((uint32)(Blink_Timer_PWM_OUT_INVERT          << Blink_Timer_INV_OUT_SHIFT))         |
-         ((uint32)(Blink_Timer_PWM_OUT_N_INVERT        << Blink_Timer_INV_COMPL_OUT_SHIFT))     |
-         ((uint32)(Blink_Timer_PWM_MODE                << Blink_Timer_MODE_SHIFT)));
-
-        #if (Blink_Timer__PWM_PR == Blink_Timer_PWM_MODE)
-            Blink_Timer_CONTROL_REG |=
-            ((uint32)(Blink_Timer_PWM_RUN_MODE         << Blink_Timer_ONESHOT_SHIFT));
-
-            Blink_Timer_WriteCounter(Blink_Timer_PWM_PR_INIT_VALUE);
-        #else
-            Blink_Timer_CONTROL_REG |=
-            (((uint32)(Blink_Timer_PWM_ALIGN           << Blink_Timer_UPDOWN_SHIFT))          |
-             ((uint32)(Blink_Timer_PWM_KILL_EVENT      << Blink_Timer_PWM_SYNC_KILL_SHIFT)));
-        #endif  /* (Blink_Timer__PWM_PR == Blink_Timer_PWM_MODE) */
-
-        #if (Blink_Timer__PWM_DT == Blink_Timer_PWM_MODE)
-            Blink_Timer_CONTROL_REG |=
-            ((uint32)(Blink_Timer_PWM_DEAD_TIME_CYCLE  << Blink_Timer_PRESCALER_SHIFT));
-        #endif  /* (Blink_Timer__PWM_DT == Blink_Timer_PWM_MODE) */
-
-        #if (Blink_Timer__PWM == Blink_Timer_PWM_MODE)
-            Blink_Timer_CONTROL_REG |=
-            ((uint32)Blink_Timer_PWM_PRESCALER         << Blink_Timer_PRESCALER_SHIFT);
-        #endif  /* (Blink_Timer__PWM == Blink_Timer_PWM_MODE) */
-    #endif  /* (Blink_Timer__PWM_SEL == Blink_Timer_CONFIG) */
-
-    #if (Blink_Timer__TIMER == Blink_Timer_CONFIG)
-        Blink_Timer_CONTROL_REG =
-        (((uint32)(Blink_Timer_TC_PRESCALER            << Blink_Timer_PRESCALER_SHIFT))   |
-         ((uint32)(Blink_Timer_TC_COUNTER_MODE         << Blink_Timer_UPDOWN_SHIFT))      |
-         ((uint32)(Blink_Timer_TC_RUN_MODE             << Blink_Timer_ONESHOT_SHIFT))     |
-         ((uint32)(Blink_Timer_TC_COMP_CAP_MODE        << Blink_Timer_MODE_SHIFT)));
-    #endif  /* (Blink_Timer__TIMER == Blink_Timer_CONFIG) */
-
-    /* Set values from customizer to CTRL1 */
-    #if (Blink_Timer__QUAD == Blink_Timer_CONFIG)
-        Blink_Timer_TRIG_CONTROL1_REG  =
-        (((uint32)(Blink_Timer_QUAD_PHIA_SIGNAL_MODE   << Blink_Timer_COUNT_SHIFT))       |
-         ((uint32)(Blink_Timer_QUAD_INDEX_SIGNAL_MODE  << Blink_Timer_RELOAD_SHIFT))      |
-         ((uint32)(Blink_Timer_QUAD_STOP_SIGNAL_MODE   << Blink_Timer_STOP_SHIFT))        |
-         ((uint32)(Blink_Timer_QUAD_PHIB_SIGNAL_MODE   << Blink_Timer_START_SHIFT)));
-    #endif  /* (Blink_Timer__QUAD == Blink_Timer_CONFIG) */
-
-    #if (Blink_Timer__PWM_SEL == Blink_Timer_CONFIG)
-        Blink_Timer_TRIG_CONTROL1_REG  =
-        (((uint32)(Blink_Timer_PWM_SWITCH_SIGNAL_MODE  << Blink_Timer_CAPTURE_SHIFT))     |
-         ((uint32)(Blink_Timer_PWM_COUNT_SIGNAL_MODE   << Blink_Timer_COUNT_SHIFT))       |
-         ((uint32)(Blink_Timer_PWM_RELOAD_SIGNAL_MODE  << Blink_Timer_RELOAD_SHIFT))      |
-         ((uint32)(Blink_Timer_PWM_STOP_SIGNAL_MODE    << Blink_Timer_STOP_SHIFT))        |
-         ((uint32)(Blink_Timer_PWM_START_SIGNAL_MODE   << Blink_Timer_START_SHIFT)));
-    #endif  /* (Blink_Timer__PWM_SEL == Blink_Timer_CONFIG) */
-
-    #if (Blink_Timer__TIMER == Blink_Timer_CONFIG)
-        Blink_Timer_TRIG_CONTROL1_REG  =
-        (((uint32)(Blink_Timer_TC_CAPTURE_SIGNAL_MODE  << Blink_Timer_CAPTURE_SHIFT))     |
-         ((uint32)(Blink_Timer_TC_COUNT_SIGNAL_MODE    << Blink_Timer_COUNT_SHIFT))       |
-         ((uint32)(Blink_Timer_TC_RELOAD_SIGNAL_MODE   << Blink_Timer_RELOAD_SHIFT))      |
-         ((uint32)(Blink_Timer_TC_STOP_SIGNAL_MODE     << Blink_Timer_STOP_SHIFT))        |
-         ((uint32)(Blink_Timer_TC_START_SIGNAL_MODE    << Blink_Timer_START_SHIFT)));
-    #endif  /* (Blink_Timer__TIMER == Blink_Timer_CONFIG) */
-
-    /* Set values from customizer to INTR */
-    #if (Blink_Timer__QUAD == Blink_Timer_CONFIG)
+        /* Set values from customizer to INTR */
         Blink_Timer_SetInterruptMode(Blink_Timer_QUAD_INTERRUPT_MASK);
+        
+         /* Set other values */
+        Blink_Timer_SetCounterMode(Blink_Timer_COUNT_DOWN);
+        Blink_Timer_WritePeriod(Blink_Timer_QUAD_PERIOD_INIT_VALUE);
+        Blink_Timer_WriteCounter(Blink_Timer_QUAD_PERIOD_INIT_VALUE);
     #endif  /* (Blink_Timer__QUAD == Blink_Timer_CONFIG) */
 
-    #if (Blink_Timer__PWM_SEL == Blink_Timer_CONFIG)
-        Blink_Timer_SetInterruptMode(Blink_Timer_PWM_INTERRUPT_MASK);
-    #endif  /* (Blink_Timer__PWM_SEL == Blink_Timer_CONFIG) */
-
     #if (Blink_Timer__TIMER == Blink_Timer_CONFIG)
+        Blink_Timer_CONTROL_REG = Blink_Timer_CTRL_TIMER_BASE_CONFIG;
+        
+        /* Set values from customizer to CTRL1 */
+        Blink_Timer_TRIG_CONTROL1_REG  = Blink_Timer_TIMER_SIGNALS_MODES;
+    
+        /* Set values from customizer to INTR */
         Blink_Timer_SetInterruptMode(Blink_Timer_TC_INTERRUPT_MASK);
-    #endif  /* (Blink_Timer__TIMER == Blink_Timer_CONFIG) */
-
-    /* Set other values from customizer */
-    #if (Blink_Timer__TIMER == Blink_Timer_CONFIG)
+        
+        /* Set other values from customizer */
         Blink_Timer_WritePeriod(Blink_Timer_TC_PERIOD_VALUE );
-
-        #if (Blink_Timer__COUNT_DOWN == Blink_Timer_TC_COUNTER_MODE)
-            Blink_Timer_WriteCounter(Blink_Timer_TC_PERIOD_VALUE );
-        #endif  /* (Blink_Timer__COUNT_DOWN == Blink_Timer_TC_COUNTER_MODE) */
 
         #if (Blink_Timer__COMPARE == Blink_Timer_TC_COMP_CAP_MODE)
             Blink_Timer_WriteCompare(Blink_Timer_TC_COMPARE_VALUE);
@@ -139,21 +74,49 @@ void Blink_Timer_Init(void)
                 Blink_Timer_WriteCompareBuf(Blink_Timer_TC_COMPARE_BUF_VALUE);
             #endif  /* (1u == Blink_Timer_TC_COMPARE_SWAP) */
         #endif  /* (Blink_Timer__COMPARE == Blink_Timer_TC_COMP_CAP_MODE) */
+
+        /* Initialize counter value */
+        #if (Blink_Timer_CY_TCPWM_V2 && Blink_Timer_TIMER_UPDOWN_CNT_USED && !Blink_Timer_CY_TCPWM_4000)
+            Blink_Timer_WriteCounter(1u);
+        #elif(Blink_Timer__COUNT_DOWN == Blink_Timer_TC_COUNTER_MODE)
+            Blink_Timer_WriteCounter(Blink_Timer_TC_PERIOD_VALUE);
+        #else
+            Blink_Timer_WriteCounter(0u);
+        #endif /* (Blink_Timer_CY_TCPWM_V2 && Blink_Timer_TIMER_UPDOWN_CNT_USED && !Blink_Timer_CY_TCPWM_4000) */
     #endif  /* (Blink_Timer__TIMER == Blink_Timer_CONFIG) */
 
     #if (Blink_Timer__PWM_SEL == Blink_Timer_CONFIG)
-        Blink_Timer_WritePeriod(Blink_Timer_PWM_PERIOD_VALUE );
-        Blink_Timer_WriteCompare(Blink_Timer_PWM_COMPARE_VALUE);
+        Blink_Timer_CONTROL_REG = Blink_Timer_CTRL_PWM_BASE_CONFIG;
 
-        #if (1u == Blink_Timer_PWM_COMPARE_SWAP)
-            Blink_Timer_SetCompareSwap(1u);
-            Blink_Timer_WriteCompareBuf(Blink_Timer_PWM_COMPARE_BUF_VALUE);
-        #endif  /* (1u == Blink_Timer_PWM_COMPARE_SWAP) */
+        #if (Blink_Timer__PWM_PR == Blink_Timer_PWM_MODE)
+            Blink_Timer_CONTROL_REG |= Blink_Timer_CTRL_PWM_RUN_MODE;
+            Blink_Timer_WriteCounter(Blink_Timer_PWM_PR_INIT_VALUE);
+        #else
+            Blink_Timer_CONTROL_REG |= Blink_Timer_CTRL_PWM_ALIGN | Blink_Timer_CTRL_PWM_KILL_EVENT;
+            
+            /* Initialize counter value */
+            #if (Blink_Timer_CY_TCPWM_V2 && Blink_Timer_PWM_UPDOWN_CNT_USED && !Blink_Timer_CY_TCPWM_4000)
+                Blink_Timer_WriteCounter(1u);
+            #elif (Blink_Timer__RIGHT == Blink_Timer_PWM_ALIGN)
+                Blink_Timer_WriteCounter(Blink_Timer_PWM_PERIOD_VALUE);
+            #else 
+                Blink_Timer_WriteCounter(0u);
+            #endif  /* (Blink_Timer_CY_TCPWM_V2 && Blink_Timer_PWM_UPDOWN_CNT_USED && !Blink_Timer_CY_TCPWM_4000) */
+        #endif  /* (Blink_Timer__PWM_PR == Blink_Timer_PWM_MODE) */
 
-        #if (1u == Blink_Timer_PWM_PERIOD_SWAP)
-            Blink_Timer_SetPeriodSwap(1u);
-            Blink_Timer_WritePeriodBuf(Blink_Timer_PWM_PERIOD_BUF_VALUE);
-        #endif  /* (1u == Blink_Timer_PWM_PERIOD_SWAP) */
+        #if (Blink_Timer__PWM_DT == Blink_Timer_PWM_MODE)
+            Blink_Timer_CONTROL_REG |= Blink_Timer_CTRL_PWM_DEAD_TIME_CYCLE;
+        #endif  /* (Blink_Timer__PWM_DT == Blink_Timer_PWM_MODE) */
+
+        #if (Blink_Timer__PWM == Blink_Timer_PWM_MODE)
+            Blink_Timer_CONTROL_REG |= Blink_Timer_CTRL_PWM_PRESCALER;
+        #endif  /* (Blink_Timer__PWM == Blink_Timer_PWM_MODE) */
+
+        /* Set values from customizer to CTRL1 */
+        Blink_Timer_TRIG_CONTROL1_REG  = Blink_Timer_PWM_SIGNALS_MODES;
+    
+        /* Set values from customizer to INTR */
+        Blink_Timer_SetInterruptMode(Blink_Timer_PWM_INTERRUPT_MASK);
 
         /* Set values from customizer to CTRL2 */
         #if (Blink_Timer__PWM_PR == Blink_Timer_PWM_MODE)
@@ -167,7 +130,6 @@ void Blink_Timer_Init(void)
             #endif  /* ( Blink_Timer_PWM_LEFT == Blink_Timer_PWM_ALIGN) */
 
             #if (Blink_Timer__RIGHT == Blink_Timer_PWM_ALIGN)
-                Blink_Timer_WriteCounter(Blink_Timer_PWM_PERIOD_VALUE);
                 Blink_Timer_TRIG_CONTROL2_REG = Blink_Timer_PWM_MODE_RIGHT;
             #endif  /* ( Blink_Timer_PWM_RIGHT == Blink_Timer_PWM_ALIGN) */
 
@@ -179,7 +141,22 @@ void Blink_Timer_Init(void)
                 Blink_Timer_TRIG_CONTROL2_REG = Blink_Timer_PWM_MODE_ASYM;
             #endif  /* (Blink_Timer__ASYMMETRIC == Blink_Timer_PWM_ALIGN) */
         #endif  /* (Blink_Timer__PWM_PR == Blink_Timer_PWM_MODE) */
+
+        /* Set other values from customizer */
+        Blink_Timer_WritePeriod(Blink_Timer_PWM_PERIOD_VALUE );
+        Blink_Timer_WriteCompare(Blink_Timer_PWM_COMPARE_VALUE);
+
+        #if (1u == Blink_Timer_PWM_COMPARE_SWAP)
+            Blink_Timer_SetCompareSwap(1u);
+            Blink_Timer_WriteCompareBuf(Blink_Timer_PWM_COMPARE_BUF_VALUE);
+        #endif  /* (1u == Blink_Timer_PWM_COMPARE_SWAP) */
+
+        #if (1u == Blink_Timer_PWM_PERIOD_SWAP)
+            Blink_Timer_SetPeriodSwap(1u);
+            Blink_Timer_WritePeriodBuf(Blink_Timer_PWM_PERIOD_BUF_VALUE);
+        #endif  /* (1u == Blink_Timer_PWM_PERIOD_SWAP) */
     #endif  /* (Blink_Timer__PWM_SEL == Blink_Timer_CONFIG) */
+    
 }
 
 
@@ -857,28 +834,29 @@ void Blink_Timer_SetPeriodSwap(uint32 swapEnable)
 *******************************************************************************/
 void Blink_Timer_WriteCompare(uint32 compare)
 {
-    #if (Blink_Timer_CY_TCPWM_V2)
+    #if (Blink_Timer_CY_TCPWM_4000)
         uint32 currentMode;
-    #endif /* (Blink_Timer_CY_TCPWM_V2) */
+    #endif /* (Blink_Timer_CY_TCPWM_4000) */
 
-    #if (Blink_Timer_CY_TCPWM_V2)
+    #if (Blink_Timer_CY_TCPWM_4000)
         currentMode = ((Blink_Timer_CONTROL_REG & Blink_Timer_UPDOWN_MASK) >> Blink_Timer_UPDOWN_SHIFT);
 
-        if (Blink_Timer__COUNT_DOWN == currentMode)
+        if (((uint32)Blink_Timer__COUNT_DOWN == currentMode) && (0xFFFFu != compare))
         {
-            Blink_Timer_COMP_CAP_REG = ((compare + 1u) & Blink_Timer_16BIT_MASK);
+            compare++;
         }
-        else if (Blink_Timer__COUNT_UP == currentMode)
+        else if (((uint32)Blink_Timer__COUNT_UP == currentMode) && (0u != compare))
         {
-            Blink_Timer_COMP_CAP_REG = ((compare - 1u) & Blink_Timer_16BIT_MASK);
+            compare--;
         }
         else
         {
-            Blink_Timer_COMP_CAP_REG = (compare & Blink_Timer_16BIT_MASK);
         }
-    #else
-        Blink_Timer_COMP_CAP_REG = (compare & Blink_Timer_16BIT_MASK);
-    #endif /* (Blink_Timer_CY_TCPWM_V2) */
+        
+    
+    #endif /* (Blink_Timer_CY_TCPWM_4000) */
+    
+    Blink_Timer_COMP_CAP_REG = (compare & Blink_Timer_16BIT_MASK);
 }
 
 
@@ -899,30 +877,32 @@ void Blink_Timer_WriteCompare(uint32 compare)
 *******************************************************************************/
 uint32 Blink_Timer_ReadCompare(void)
 {
-    #if (Blink_Timer_CY_TCPWM_V2)
+    #if (Blink_Timer_CY_TCPWM_4000)
         uint32 currentMode;
         uint32 regVal;
-    #endif /* (Blink_Timer_CY_TCPWM_V2) */
+    #endif /* (Blink_Timer_CY_TCPWM_4000) */
 
-    #if (Blink_Timer_CY_TCPWM_V2)
+    #if (Blink_Timer_CY_TCPWM_4000)
         currentMode = ((Blink_Timer_CONTROL_REG & Blink_Timer_UPDOWN_MASK) >> Blink_Timer_UPDOWN_SHIFT);
-
-        if (Blink_Timer__COUNT_DOWN == currentMode)
+        
+        regVal = Blink_Timer_COMP_CAP_REG;
+        
+        if (((uint32)Blink_Timer__COUNT_DOWN == currentMode) && (0u != regVal))
         {
-            regVal = ((Blink_Timer_COMP_CAP_REG - 1u) & Blink_Timer_16BIT_MASK);
+            regVal--;
         }
-        else if (Blink_Timer__COUNT_UP == currentMode)
+        else if (((uint32)Blink_Timer__COUNT_UP == currentMode) && (0xFFFFu != regVal))
         {
-            regVal = ((Blink_Timer_COMP_CAP_REG + 1u) & Blink_Timer_16BIT_MASK);
+            regVal++;
         }
         else
         {
-            regVal = (Blink_Timer_COMP_CAP_REG & Blink_Timer_16BIT_MASK);
         }
-        return (regVal);
+
+        return (regVal & Blink_Timer_16BIT_MASK);
     #else
         return (Blink_Timer_COMP_CAP_REG & Blink_Timer_16BIT_MASK);
-    #endif /* (Blink_Timer_CY_TCPWM_V2) */
+    #endif /* (Blink_Timer_CY_TCPWM_4000) */
 }
 
 
@@ -943,28 +923,27 @@ uint32 Blink_Timer_ReadCompare(void)
 *******************************************************************************/
 void Blink_Timer_WriteCompareBuf(uint32 compareBuf)
 {
-    #if (Blink_Timer_CY_TCPWM_V2)
+    #if (Blink_Timer_CY_TCPWM_4000)
         uint32 currentMode;
-    #endif /* (Blink_Timer_CY_TCPWM_V2) */
+    #endif /* (Blink_Timer_CY_TCPWM_4000) */
 
-    #if (Blink_Timer_CY_TCPWM_V2)
+    #if (Blink_Timer_CY_TCPWM_4000)
         currentMode = ((Blink_Timer_CONTROL_REG & Blink_Timer_UPDOWN_MASK) >> Blink_Timer_UPDOWN_SHIFT);
 
-        if (Blink_Timer__COUNT_DOWN == currentMode)
+        if (((uint32)Blink_Timer__COUNT_DOWN == currentMode) && (0xFFFFu != compareBuf))
         {
-            Blink_Timer_COMP_CAP_BUF_REG = ((compareBuf + 1u) & Blink_Timer_16BIT_MASK);
+            compareBuf++;
         }
-        else if (Blink_Timer__COUNT_UP == currentMode)
+        else if (((uint32)Blink_Timer__COUNT_UP == currentMode) && (0u != compareBuf))
         {
-            Blink_Timer_COMP_CAP_BUF_REG = ((compareBuf - 1u) & Blink_Timer_16BIT_MASK);
+            compareBuf --;
         }
         else
         {
-            Blink_Timer_COMP_CAP_BUF_REG = (compareBuf & Blink_Timer_16BIT_MASK);
         }
-    #else
-        Blink_Timer_COMP_CAP_BUF_REG = (compareBuf & Blink_Timer_16BIT_MASK);
-    #endif /* (Blink_Timer_CY_TCPWM_V2) */
+    #endif /* (Blink_Timer_CY_TCPWM_4000) */
+    
+    Blink_Timer_COMP_CAP_BUF_REG = (compareBuf & Blink_Timer_16BIT_MASK);
 }
 
 
@@ -985,30 +964,32 @@ void Blink_Timer_WriteCompareBuf(uint32 compareBuf)
 *******************************************************************************/
 uint32 Blink_Timer_ReadCompareBuf(void)
 {
-    #if (Blink_Timer_CY_TCPWM_V2)
+    #if (Blink_Timer_CY_TCPWM_4000)
         uint32 currentMode;
         uint32 regVal;
-    #endif /* (Blink_Timer_CY_TCPWM_V2) */
+    #endif /* (Blink_Timer_CY_TCPWM_4000) */
 
-    #if (Blink_Timer_CY_TCPWM_V2)
+    #if (Blink_Timer_CY_TCPWM_4000)
         currentMode = ((Blink_Timer_CONTROL_REG & Blink_Timer_UPDOWN_MASK) >> Blink_Timer_UPDOWN_SHIFT);
 
-        if (Blink_Timer__COUNT_DOWN == currentMode)
+        regVal = Blink_Timer_COMP_CAP_BUF_REG;
+        
+        if (((uint32)Blink_Timer__COUNT_DOWN == currentMode) && (0u != regVal))
         {
-            regVal = ((Blink_Timer_COMP_CAP_BUF_REG - 1u) & Blink_Timer_16BIT_MASK);
+            regVal--;
         }
-        else if (Blink_Timer__COUNT_UP == currentMode)
+        else if (((uint32)Blink_Timer__COUNT_UP == currentMode) && (0xFFFFu != regVal))
         {
-            regVal = ((Blink_Timer_COMP_CAP_BUF_REG + 1u) & Blink_Timer_16BIT_MASK);
+            regVal++;
         }
         else
         {
-            regVal = (Blink_Timer_COMP_CAP_BUF_REG & Blink_Timer_16BIT_MASK);
         }
-        return (regVal);
+
+        return (regVal & Blink_Timer_16BIT_MASK);
     #else
         return (Blink_Timer_COMP_CAP_BUF_REG & Blink_Timer_16BIT_MASK);
-    #endif /* (Blink_Timer_CY_TCPWM_V2) */
+    #endif /* (Blink_Timer_CY_TCPWM_4000) */
 }
 
 

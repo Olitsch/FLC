@@ -1,6 +1,6 @@
 /*******************************************************************************
 * File Name: UART_2_PM.c
-* Version 1.20
+* Version 2.0
 *
 * Description:
 *  This file provides the source code to the Power Management support for
@@ -54,7 +54,7 @@
 *
 * Summary:
 *  Prepares the component to enter Deep Sleep.
-*  The “Enable wakeup from Sleep Mode” selection has an influence on
+*  The "Enable wakeup from Sleep Mode" selection has an influence on
 *  this function implementation.
 *
 * Parameters:
@@ -78,7 +78,7 @@ void UART_2_Sleep(void)
         {
             UART_2_EzI2CSaveConfig();
         }
-    #if(!UART_2_CY_SCBIP_V1_I2C_ONLY)
+    #if(!UART_2_CY_SCBIP_V1)
         else if(UART_2_SCB_MODE_SPI_RUNTM_CFG)
         {
             UART_2_SpiSaveConfig();
@@ -87,10 +87,10 @@ void UART_2_Sleep(void)
         {
             UART_2_UartSaveConfig();
         }
-    #endif /* (!UART_2_CY_SCBIP_V1_I2C_ONLY) */
+    #endif /* (!UART_2_CY_SCBIP_V1) */
         else
         {
-            /* Unknown mode: do nothing */
+            /* Unknown mode */
         }
     }
     else
@@ -137,9 +137,9 @@ void UART_2_Sleep(void)
 ********************************************************************************
 *
 * Summary:
-*  Prepares the component for the Active mode operation after exiting Deep Sleep.
-*  The “Enable wakeup from Sleep Mode” option has an influence on this function
-*  implementation.
+*  Prepares the component for the Active mode operation after exiting
+*  Deep Sleep. The "Enable wakeup from Sleep Mode" option has an influence
+*  on this function implementation.
 *  This function should not be called after exiting Sleep.
 *
 * Parameters:
@@ -163,7 +163,7 @@ void UART_2_Wakeup(void)
         {
             UART_2_EzI2CRestoreConfig();
         }
-    #if(!UART_2_CY_SCBIP_V1_I2C_ONLY)
+    #if(!UART_2_CY_SCBIP_V1)
         else if(UART_2_SCB_MODE_SPI_RUNTM_CFG)
         {
             UART_2_SpiRestoreConfig();
@@ -172,10 +172,10 @@ void UART_2_Wakeup(void)
         {
             UART_2_UartRestoreConfig();
         }
-    #endif /* (!UART_2_CY_SCBIP_V1_I2C_ONLY) */
+    #endif /* (!UART_2_CY_SCBIP_V1) */
         else
         {
-            /* Unknown mode: do nothing */
+            /* Unknown mode */
         }
     }
     else

@@ -1,6 +1,6 @@
 /*******************************************************************************
 * File Name: PWM_Timer.c
-* Version 1.10
+* Version 2.0
 *
 * Description:
 *  This file provides the source code to the API for the PWM_Timer
@@ -17,7 +17,6 @@
 *******************************************************************************/
 
 #include "PWM_Timer.h"
-#include "CyLib.h"
 
 uint8 PWM_Timer_initVar = 0u;
 
@@ -41,95 +40,31 @@ void PWM_Timer_Init(void)
 
     /* Set values from customizer to CTRL */
     #if (PWM_Timer__QUAD == PWM_Timer_CONFIG)
-        PWM_Timer_CONTROL_REG =
-        (((uint32)(PWM_Timer_QUAD_ENCODING_MODES     << PWM_Timer_QUAD_MODE_SHIFT))       |
-         ((uint32)(PWM_Timer_CONFIG                  << PWM_Timer_MODE_SHIFT)));
-    #endif  /* (PWM_Timer__QUAD == PWM_Timer_CONFIG) */
+        PWM_Timer_CONTROL_REG = PWM_Timer_CTRL_QUAD_BASE_CONFIG;
+        
+        /* Set values from customizer to CTRL1 */
+        PWM_Timer_TRIG_CONTROL1_REG  = PWM_Timer_QUAD_SIGNALS_MODES;
 
-    #if (PWM_Timer__PWM_SEL == PWM_Timer_CONFIG)
-        PWM_Timer_CONTROL_REG =
-        (((uint32)(PWM_Timer_PWM_STOP_EVENT          << PWM_Timer_PWM_STOP_KILL_SHIFT))    |
-         ((uint32)(PWM_Timer_PWM_OUT_INVERT          << PWM_Timer_INV_OUT_SHIFT))         |
-         ((uint32)(PWM_Timer_PWM_OUT_N_INVERT        << PWM_Timer_INV_COMPL_OUT_SHIFT))     |
-         ((uint32)(PWM_Timer_PWM_MODE                << PWM_Timer_MODE_SHIFT)));
-
-        #if (PWM_Timer__PWM_PR == PWM_Timer_PWM_MODE)
-            PWM_Timer_CONTROL_REG |=
-            ((uint32)(PWM_Timer_PWM_RUN_MODE         << PWM_Timer_ONESHOT_SHIFT));
-
-            PWM_Timer_WriteCounter(PWM_Timer_PWM_PR_INIT_VALUE);
-        #else
-            PWM_Timer_CONTROL_REG |=
-            (((uint32)(PWM_Timer_PWM_ALIGN           << PWM_Timer_UPDOWN_SHIFT))          |
-             ((uint32)(PWM_Timer_PWM_KILL_EVENT      << PWM_Timer_PWM_SYNC_KILL_SHIFT)));
-        #endif  /* (PWM_Timer__PWM_PR == PWM_Timer_PWM_MODE) */
-
-        #if (PWM_Timer__PWM_DT == PWM_Timer_PWM_MODE)
-            PWM_Timer_CONTROL_REG |=
-            ((uint32)(PWM_Timer_PWM_DEAD_TIME_CYCLE  << PWM_Timer_PRESCALER_SHIFT));
-        #endif  /* (PWM_Timer__PWM_DT == PWM_Timer_PWM_MODE) */
-
-        #if (PWM_Timer__PWM == PWM_Timer_PWM_MODE)
-            PWM_Timer_CONTROL_REG |=
-            ((uint32)PWM_Timer_PWM_PRESCALER         << PWM_Timer_PRESCALER_SHIFT);
-        #endif  /* (PWM_Timer__PWM == PWM_Timer_PWM_MODE) */
-    #endif  /* (PWM_Timer__PWM_SEL == PWM_Timer_CONFIG) */
-
-    #if (PWM_Timer__TIMER == PWM_Timer_CONFIG)
-        PWM_Timer_CONTROL_REG =
-        (((uint32)(PWM_Timer_TC_PRESCALER            << PWM_Timer_PRESCALER_SHIFT))   |
-         ((uint32)(PWM_Timer_TC_COUNTER_MODE         << PWM_Timer_UPDOWN_SHIFT))      |
-         ((uint32)(PWM_Timer_TC_RUN_MODE             << PWM_Timer_ONESHOT_SHIFT))     |
-         ((uint32)(PWM_Timer_TC_COMP_CAP_MODE        << PWM_Timer_MODE_SHIFT)));
-    #endif  /* (PWM_Timer__TIMER == PWM_Timer_CONFIG) */
-
-    /* Set values from customizer to CTRL1 */
-    #if (PWM_Timer__QUAD == PWM_Timer_CONFIG)
-        PWM_Timer_TRIG_CONTROL1_REG  =
-        (((uint32)(PWM_Timer_QUAD_PHIA_SIGNAL_MODE   << PWM_Timer_COUNT_SHIFT))       |
-         ((uint32)(PWM_Timer_QUAD_INDEX_SIGNAL_MODE  << PWM_Timer_RELOAD_SHIFT))      |
-         ((uint32)(PWM_Timer_QUAD_STOP_SIGNAL_MODE   << PWM_Timer_STOP_SHIFT))        |
-         ((uint32)(PWM_Timer_QUAD_PHIB_SIGNAL_MODE   << PWM_Timer_START_SHIFT)));
-    #endif  /* (PWM_Timer__QUAD == PWM_Timer_CONFIG) */
-
-    #if (PWM_Timer__PWM_SEL == PWM_Timer_CONFIG)
-        PWM_Timer_TRIG_CONTROL1_REG  =
-        (((uint32)(PWM_Timer_PWM_SWITCH_SIGNAL_MODE  << PWM_Timer_CAPTURE_SHIFT))     |
-         ((uint32)(PWM_Timer_PWM_COUNT_SIGNAL_MODE   << PWM_Timer_COUNT_SHIFT))       |
-         ((uint32)(PWM_Timer_PWM_RELOAD_SIGNAL_MODE  << PWM_Timer_RELOAD_SHIFT))      |
-         ((uint32)(PWM_Timer_PWM_STOP_SIGNAL_MODE    << PWM_Timer_STOP_SHIFT))        |
-         ((uint32)(PWM_Timer_PWM_START_SIGNAL_MODE   << PWM_Timer_START_SHIFT)));
-    #endif  /* (PWM_Timer__PWM_SEL == PWM_Timer_CONFIG) */
-
-    #if (PWM_Timer__TIMER == PWM_Timer_CONFIG)
-        PWM_Timer_TRIG_CONTROL1_REG  =
-        (((uint32)(PWM_Timer_TC_CAPTURE_SIGNAL_MODE  << PWM_Timer_CAPTURE_SHIFT))     |
-         ((uint32)(PWM_Timer_TC_COUNT_SIGNAL_MODE    << PWM_Timer_COUNT_SHIFT))       |
-         ((uint32)(PWM_Timer_TC_RELOAD_SIGNAL_MODE   << PWM_Timer_RELOAD_SHIFT))      |
-         ((uint32)(PWM_Timer_TC_STOP_SIGNAL_MODE     << PWM_Timer_STOP_SHIFT))        |
-         ((uint32)(PWM_Timer_TC_START_SIGNAL_MODE    << PWM_Timer_START_SHIFT)));
-    #endif  /* (PWM_Timer__TIMER == PWM_Timer_CONFIG) */
-
-    /* Set values from customizer to INTR */
-    #if (PWM_Timer__QUAD == PWM_Timer_CONFIG)
+        /* Set values from customizer to INTR */
         PWM_Timer_SetInterruptMode(PWM_Timer_QUAD_INTERRUPT_MASK);
+        
+         /* Set other values */
+        PWM_Timer_SetCounterMode(PWM_Timer_COUNT_DOWN);
+        PWM_Timer_WritePeriod(PWM_Timer_QUAD_PERIOD_INIT_VALUE);
+        PWM_Timer_WriteCounter(PWM_Timer_QUAD_PERIOD_INIT_VALUE);
     #endif  /* (PWM_Timer__QUAD == PWM_Timer_CONFIG) */
 
-    #if (PWM_Timer__PWM_SEL == PWM_Timer_CONFIG)
-        PWM_Timer_SetInterruptMode(PWM_Timer_PWM_INTERRUPT_MASK);
-    #endif  /* (PWM_Timer__PWM_SEL == PWM_Timer_CONFIG) */
-
     #if (PWM_Timer__TIMER == PWM_Timer_CONFIG)
+        PWM_Timer_CONTROL_REG = PWM_Timer_CTRL_TIMER_BASE_CONFIG;
+        
+        /* Set values from customizer to CTRL1 */
+        PWM_Timer_TRIG_CONTROL1_REG  = PWM_Timer_TIMER_SIGNALS_MODES;
+    
+        /* Set values from customizer to INTR */
         PWM_Timer_SetInterruptMode(PWM_Timer_TC_INTERRUPT_MASK);
-    #endif  /* (PWM_Timer__TIMER == PWM_Timer_CONFIG) */
-
-    /* Set other values from customizer */
-    #if (PWM_Timer__TIMER == PWM_Timer_CONFIG)
+        
+        /* Set other values from customizer */
         PWM_Timer_WritePeriod(PWM_Timer_TC_PERIOD_VALUE );
-
-        #if (PWM_Timer__COUNT_DOWN == PWM_Timer_TC_COUNTER_MODE)
-            PWM_Timer_WriteCounter(PWM_Timer_TC_PERIOD_VALUE );
-        #endif  /* (PWM_Timer__COUNT_DOWN == PWM_Timer_TC_COUNTER_MODE) */
 
         #if (PWM_Timer__COMPARE == PWM_Timer_TC_COMP_CAP_MODE)
             PWM_Timer_WriteCompare(PWM_Timer_TC_COMPARE_VALUE);
@@ -139,21 +74,49 @@ void PWM_Timer_Init(void)
                 PWM_Timer_WriteCompareBuf(PWM_Timer_TC_COMPARE_BUF_VALUE);
             #endif  /* (1u == PWM_Timer_TC_COMPARE_SWAP) */
         #endif  /* (PWM_Timer__COMPARE == PWM_Timer_TC_COMP_CAP_MODE) */
+
+        /* Initialize counter value */
+        #if (PWM_Timer_CY_TCPWM_V2 && PWM_Timer_TIMER_UPDOWN_CNT_USED && !PWM_Timer_CY_TCPWM_4000)
+            PWM_Timer_WriteCounter(1u);
+        #elif(PWM_Timer__COUNT_DOWN == PWM_Timer_TC_COUNTER_MODE)
+            PWM_Timer_WriteCounter(PWM_Timer_TC_PERIOD_VALUE);
+        #else
+            PWM_Timer_WriteCounter(0u);
+        #endif /* (PWM_Timer_CY_TCPWM_V2 && PWM_Timer_TIMER_UPDOWN_CNT_USED && !PWM_Timer_CY_TCPWM_4000) */
     #endif  /* (PWM_Timer__TIMER == PWM_Timer_CONFIG) */
 
     #if (PWM_Timer__PWM_SEL == PWM_Timer_CONFIG)
-        PWM_Timer_WritePeriod(PWM_Timer_PWM_PERIOD_VALUE );
-        PWM_Timer_WriteCompare(PWM_Timer_PWM_COMPARE_VALUE);
+        PWM_Timer_CONTROL_REG = PWM_Timer_CTRL_PWM_BASE_CONFIG;
 
-        #if (1u == PWM_Timer_PWM_COMPARE_SWAP)
-            PWM_Timer_SetCompareSwap(1u);
-            PWM_Timer_WriteCompareBuf(PWM_Timer_PWM_COMPARE_BUF_VALUE);
-        #endif  /* (1u == PWM_Timer_PWM_COMPARE_SWAP) */
+        #if (PWM_Timer__PWM_PR == PWM_Timer_PWM_MODE)
+            PWM_Timer_CONTROL_REG |= PWM_Timer_CTRL_PWM_RUN_MODE;
+            PWM_Timer_WriteCounter(PWM_Timer_PWM_PR_INIT_VALUE);
+        #else
+            PWM_Timer_CONTROL_REG |= PWM_Timer_CTRL_PWM_ALIGN | PWM_Timer_CTRL_PWM_KILL_EVENT;
+            
+            /* Initialize counter value */
+            #if (PWM_Timer_CY_TCPWM_V2 && PWM_Timer_PWM_UPDOWN_CNT_USED && !PWM_Timer_CY_TCPWM_4000)
+                PWM_Timer_WriteCounter(1u);
+            #elif (PWM_Timer__RIGHT == PWM_Timer_PWM_ALIGN)
+                PWM_Timer_WriteCounter(PWM_Timer_PWM_PERIOD_VALUE);
+            #else 
+                PWM_Timer_WriteCounter(0u);
+            #endif  /* (PWM_Timer_CY_TCPWM_V2 && PWM_Timer_PWM_UPDOWN_CNT_USED && !PWM_Timer_CY_TCPWM_4000) */
+        #endif  /* (PWM_Timer__PWM_PR == PWM_Timer_PWM_MODE) */
 
-        #if (1u == PWM_Timer_PWM_PERIOD_SWAP)
-            PWM_Timer_SetPeriodSwap(1u);
-            PWM_Timer_WritePeriodBuf(PWM_Timer_PWM_PERIOD_BUF_VALUE);
-        #endif  /* (1u == PWM_Timer_PWM_PERIOD_SWAP) */
+        #if (PWM_Timer__PWM_DT == PWM_Timer_PWM_MODE)
+            PWM_Timer_CONTROL_REG |= PWM_Timer_CTRL_PWM_DEAD_TIME_CYCLE;
+        #endif  /* (PWM_Timer__PWM_DT == PWM_Timer_PWM_MODE) */
+
+        #if (PWM_Timer__PWM == PWM_Timer_PWM_MODE)
+            PWM_Timer_CONTROL_REG |= PWM_Timer_CTRL_PWM_PRESCALER;
+        #endif  /* (PWM_Timer__PWM == PWM_Timer_PWM_MODE) */
+
+        /* Set values from customizer to CTRL1 */
+        PWM_Timer_TRIG_CONTROL1_REG  = PWM_Timer_PWM_SIGNALS_MODES;
+    
+        /* Set values from customizer to INTR */
+        PWM_Timer_SetInterruptMode(PWM_Timer_PWM_INTERRUPT_MASK);
 
         /* Set values from customizer to CTRL2 */
         #if (PWM_Timer__PWM_PR == PWM_Timer_PWM_MODE)
@@ -167,7 +130,6 @@ void PWM_Timer_Init(void)
             #endif  /* ( PWM_Timer_PWM_LEFT == PWM_Timer_PWM_ALIGN) */
 
             #if (PWM_Timer__RIGHT == PWM_Timer_PWM_ALIGN)
-                PWM_Timer_WriteCounter(PWM_Timer_PWM_PERIOD_VALUE);
                 PWM_Timer_TRIG_CONTROL2_REG = PWM_Timer_PWM_MODE_RIGHT;
             #endif  /* ( PWM_Timer_PWM_RIGHT == PWM_Timer_PWM_ALIGN) */
 
@@ -179,7 +141,22 @@ void PWM_Timer_Init(void)
                 PWM_Timer_TRIG_CONTROL2_REG = PWM_Timer_PWM_MODE_ASYM;
             #endif  /* (PWM_Timer__ASYMMETRIC == PWM_Timer_PWM_ALIGN) */
         #endif  /* (PWM_Timer__PWM_PR == PWM_Timer_PWM_MODE) */
+
+        /* Set other values from customizer */
+        PWM_Timer_WritePeriod(PWM_Timer_PWM_PERIOD_VALUE );
+        PWM_Timer_WriteCompare(PWM_Timer_PWM_COMPARE_VALUE);
+
+        #if (1u == PWM_Timer_PWM_COMPARE_SWAP)
+            PWM_Timer_SetCompareSwap(1u);
+            PWM_Timer_WriteCompareBuf(PWM_Timer_PWM_COMPARE_BUF_VALUE);
+        #endif  /* (1u == PWM_Timer_PWM_COMPARE_SWAP) */
+
+        #if (1u == PWM_Timer_PWM_PERIOD_SWAP)
+            PWM_Timer_SetPeriodSwap(1u);
+            PWM_Timer_WritePeriodBuf(PWM_Timer_PWM_PERIOD_BUF_VALUE);
+        #endif  /* (1u == PWM_Timer_PWM_PERIOD_SWAP) */
     #endif  /* (PWM_Timer__PWM_SEL == PWM_Timer_CONFIG) */
+    
 }
 
 
@@ -857,28 +834,29 @@ void PWM_Timer_SetPeriodSwap(uint32 swapEnable)
 *******************************************************************************/
 void PWM_Timer_WriteCompare(uint32 compare)
 {
-    #if (PWM_Timer_CY_TCPWM_V2)
+    #if (PWM_Timer_CY_TCPWM_4000)
         uint32 currentMode;
-    #endif /* (PWM_Timer_CY_TCPWM_V2) */
+    #endif /* (PWM_Timer_CY_TCPWM_4000) */
 
-    #if (PWM_Timer_CY_TCPWM_V2)
+    #if (PWM_Timer_CY_TCPWM_4000)
         currentMode = ((PWM_Timer_CONTROL_REG & PWM_Timer_UPDOWN_MASK) >> PWM_Timer_UPDOWN_SHIFT);
 
-        if (PWM_Timer__COUNT_DOWN == currentMode)
+        if (((uint32)PWM_Timer__COUNT_DOWN == currentMode) && (0xFFFFu != compare))
         {
-            PWM_Timer_COMP_CAP_REG = ((compare + 1u) & PWM_Timer_16BIT_MASK);
+            compare++;
         }
-        else if (PWM_Timer__COUNT_UP == currentMode)
+        else if (((uint32)PWM_Timer__COUNT_UP == currentMode) && (0u != compare))
         {
-            PWM_Timer_COMP_CAP_REG = ((compare - 1u) & PWM_Timer_16BIT_MASK);
+            compare--;
         }
         else
         {
-            PWM_Timer_COMP_CAP_REG = (compare & PWM_Timer_16BIT_MASK);
         }
-    #else
-        PWM_Timer_COMP_CAP_REG = (compare & PWM_Timer_16BIT_MASK);
-    #endif /* (PWM_Timer_CY_TCPWM_V2) */
+        
+    
+    #endif /* (PWM_Timer_CY_TCPWM_4000) */
+    
+    PWM_Timer_COMP_CAP_REG = (compare & PWM_Timer_16BIT_MASK);
 }
 
 
@@ -899,30 +877,32 @@ void PWM_Timer_WriteCompare(uint32 compare)
 *******************************************************************************/
 uint32 PWM_Timer_ReadCompare(void)
 {
-    #if (PWM_Timer_CY_TCPWM_V2)
+    #if (PWM_Timer_CY_TCPWM_4000)
         uint32 currentMode;
         uint32 regVal;
-    #endif /* (PWM_Timer_CY_TCPWM_V2) */
+    #endif /* (PWM_Timer_CY_TCPWM_4000) */
 
-    #if (PWM_Timer_CY_TCPWM_V2)
+    #if (PWM_Timer_CY_TCPWM_4000)
         currentMode = ((PWM_Timer_CONTROL_REG & PWM_Timer_UPDOWN_MASK) >> PWM_Timer_UPDOWN_SHIFT);
-
-        if (PWM_Timer__COUNT_DOWN == currentMode)
+        
+        regVal = PWM_Timer_COMP_CAP_REG;
+        
+        if (((uint32)PWM_Timer__COUNT_DOWN == currentMode) && (0u != regVal))
         {
-            regVal = ((PWM_Timer_COMP_CAP_REG - 1u) & PWM_Timer_16BIT_MASK);
+            regVal--;
         }
-        else if (PWM_Timer__COUNT_UP == currentMode)
+        else if (((uint32)PWM_Timer__COUNT_UP == currentMode) && (0xFFFFu != regVal))
         {
-            regVal = ((PWM_Timer_COMP_CAP_REG + 1u) & PWM_Timer_16BIT_MASK);
+            regVal++;
         }
         else
         {
-            regVal = (PWM_Timer_COMP_CAP_REG & PWM_Timer_16BIT_MASK);
         }
-        return (regVal);
+
+        return (regVal & PWM_Timer_16BIT_MASK);
     #else
         return (PWM_Timer_COMP_CAP_REG & PWM_Timer_16BIT_MASK);
-    #endif /* (PWM_Timer_CY_TCPWM_V2) */
+    #endif /* (PWM_Timer_CY_TCPWM_4000) */
 }
 
 
@@ -943,28 +923,27 @@ uint32 PWM_Timer_ReadCompare(void)
 *******************************************************************************/
 void PWM_Timer_WriteCompareBuf(uint32 compareBuf)
 {
-    #if (PWM_Timer_CY_TCPWM_V2)
+    #if (PWM_Timer_CY_TCPWM_4000)
         uint32 currentMode;
-    #endif /* (PWM_Timer_CY_TCPWM_V2) */
+    #endif /* (PWM_Timer_CY_TCPWM_4000) */
 
-    #if (PWM_Timer_CY_TCPWM_V2)
+    #if (PWM_Timer_CY_TCPWM_4000)
         currentMode = ((PWM_Timer_CONTROL_REG & PWM_Timer_UPDOWN_MASK) >> PWM_Timer_UPDOWN_SHIFT);
 
-        if (PWM_Timer__COUNT_DOWN == currentMode)
+        if (((uint32)PWM_Timer__COUNT_DOWN == currentMode) && (0xFFFFu != compareBuf))
         {
-            PWM_Timer_COMP_CAP_BUF_REG = ((compareBuf + 1u) & PWM_Timer_16BIT_MASK);
+            compareBuf++;
         }
-        else if (PWM_Timer__COUNT_UP == currentMode)
+        else if (((uint32)PWM_Timer__COUNT_UP == currentMode) && (0u != compareBuf))
         {
-            PWM_Timer_COMP_CAP_BUF_REG = ((compareBuf - 1u) & PWM_Timer_16BIT_MASK);
+            compareBuf --;
         }
         else
         {
-            PWM_Timer_COMP_CAP_BUF_REG = (compareBuf & PWM_Timer_16BIT_MASK);
         }
-    #else
-        PWM_Timer_COMP_CAP_BUF_REG = (compareBuf & PWM_Timer_16BIT_MASK);
-    #endif /* (PWM_Timer_CY_TCPWM_V2) */
+    #endif /* (PWM_Timer_CY_TCPWM_4000) */
+    
+    PWM_Timer_COMP_CAP_BUF_REG = (compareBuf & PWM_Timer_16BIT_MASK);
 }
 
 
@@ -985,30 +964,32 @@ void PWM_Timer_WriteCompareBuf(uint32 compareBuf)
 *******************************************************************************/
 uint32 PWM_Timer_ReadCompareBuf(void)
 {
-    #if (PWM_Timer_CY_TCPWM_V2)
+    #if (PWM_Timer_CY_TCPWM_4000)
         uint32 currentMode;
         uint32 regVal;
-    #endif /* (PWM_Timer_CY_TCPWM_V2) */
+    #endif /* (PWM_Timer_CY_TCPWM_4000) */
 
-    #if (PWM_Timer_CY_TCPWM_V2)
+    #if (PWM_Timer_CY_TCPWM_4000)
         currentMode = ((PWM_Timer_CONTROL_REG & PWM_Timer_UPDOWN_MASK) >> PWM_Timer_UPDOWN_SHIFT);
 
-        if (PWM_Timer__COUNT_DOWN == currentMode)
+        regVal = PWM_Timer_COMP_CAP_BUF_REG;
+        
+        if (((uint32)PWM_Timer__COUNT_DOWN == currentMode) && (0u != regVal))
         {
-            regVal = ((PWM_Timer_COMP_CAP_BUF_REG - 1u) & PWM_Timer_16BIT_MASK);
+            regVal--;
         }
-        else if (PWM_Timer__COUNT_UP == currentMode)
+        else if (((uint32)PWM_Timer__COUNT_UP == currentMode) && (0xFFFFu != regVal))
         {
-            regVal = ((PWM_Timer_COMP_CAP_BUF_REG + 1u) & PWM_Timer_16BIT_MASK);
+            regVal++;
         }
         else
         {
-            regVal = (PWM_Timer_COMP_CAP_BUF_REG & PWM_Timer_16BIT_MASK);
         }
-        return (regVal);
+
+        return (regVal & PWM_Timer_16BIT_MASK);
     #else
         return (PWM_Timer_COMP_CAP_BUF_REG & PWM_Timer_16BIT_MASK);
-    #endif /* (PWM_Timer_CY_TCPWM_V2) */
+    #endif /* (PWM_Timer_CY_TCPWM_4000) */
 }
 
 

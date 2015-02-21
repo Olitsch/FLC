@@ -1,6 +1,6 @@
 /*******************************************************************************
 * File Name: NavLight.h  
-* Version 2.5
+* Version 2.10
 *
 * Description:
 *  This file containts Control Register function prototypes and register defines
@@ -40,17 +40,15 @@ uint8   NavLight_ClearInterrupt(void) ;
 /* Drive Modes */
 #define NavLight_DRIVE_MODE_BITS        (3)
 #define NavLight_DRIVE_MODE_IND_MASK    (0xFFFFFFFFu >> (32 - NavLight_DRIVE_MODE_BITS))
-#define NavLight_DRIVE_MODE_SHIFT       (0x00u)
-#define NavLight_DRIVE_MODE_MASK        (0x07u << NavLight_DRIVE_MODE_SHIFT)
 
-#define NavLight_DM_ALG_HIZ         (0x00u << NavLight_DRIVE_MODE_SHIFT)
-#define NavLight_DM_DIG_HIZ         (0x01u << NavLight_DRIVE_MODE_SHIFT)
-#define NavLight_DM_RES_UP          (0x02u << NavLight_DRIVE_MODE_SHIFT)
-#define NavLight_DM_RES_DWN         (0x03u << NavLight_DRIVE_MODE_SHIFT)
-#define NavLight_DM_OD_LO           (0x04u << NavLight_DRIVE_MODE_SHIFT)
-#define NavLight_DM_OD_HI           (0x05u << NavLight_DRIVE_MODE_SHIFT)
-#define NavLight_DM_STRONG          (0x06u << NavLight_DRIVE_MODE_SHIFT)
-#define NavLight_DM_RES_UPDWN       (0x07u << NavLight_DRIVE_MODE_SHIFT)
+#define NavLight_DM_ALG_HIZ         (0x00u)
+#define NavLight_DM_DIG_HIZ         (0x01u)
+#define NavLight_DM_RES_UP          (0x02u)
+#define NavLight_DM_RES_DWN         (0x03u)
+#define NavLight_DM_OD_LO           (0x04u)
+#define NavLight_DM_OD_HI           (0x05u)
+#define NavLight_DM_STRONG          (0x06u)
+#define NavLight_DM_RES_UPDWN       (0x07u)
 
 /* Digital Port Constants */
 #define NavLight_MASK               NavLight__MASK
@@ -78,6 +76,16 @@ uint8   NavLight_ClearInterrupt(void) ;
     #define NavLight_INTSTAT                (* (reg32 *) NavLight__INTSTAT)
 
 #endif /* Interrupt Registers */
+
+
+/***************************************
+* The following code is DEPRECATED and 
+* must not be used.
+***************************************/
+
+#define NavLight_DRIVE_MODE_SHIFT       (0x00u)
+#define NavLight_DRIVE_MODE_MASK        (0x07u << NavLight_DRIVE_MODE_SHIFT)
+
 
 #endif /* End Pins NavLight_H */
 

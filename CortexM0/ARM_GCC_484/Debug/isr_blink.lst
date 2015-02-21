@@ -1,0 +1,2284 @@
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccZJuTj2.s 			page 1
+
+
+   1              		.cpu cortex-m0
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 0
+  11              		.eabi_attribute 18, 4
+  12              		.code	16
+  13              		.file	"isr_blink.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.global	counter_blink
+  18              		.bss
+  19              		.align	1
+  20              		.type	counter_blink, %object
+  21              		.size	counter_blink, 2
+  22              	counter_blink:
+  23 0000 0000     		.space	2
+  24              		.section	.text.isr_blink_Start,"ax",%progbits
+  25              		.align	2
+  26              		.global	isr_blink_Start
+  27              		.code	16
+  28              		.thumb_func
+  29              		.type	isr_blink_Start, %function
+  30              	isr_blink_Start:
+  31              	.LFB0:
+  32              		.file 1 ".\\Generated_Source\\PSoC4\\isr_blink.c"
+   1:.\Generated_Source\PSoC4/isr_blink.c **** /*******************************************************************************
+   2:.\Generated_Source\PSoC4/isr_blink.c **** * File Name: isr_blink.c  
+   3:.\Generated_Source\PSoC4/isr_blink.c **** * Version 1.70
+   4:.\Generated_Source\PSoC4/isr_blink.c **** *
+   5:.\Generated_Source\PSoC4/isr_blink.c **** *  Description:
+   6:.\Generated_Source\PSoC4/isr_blink.c **** *   API for controlling the state of an interrupt.
+   7:.\Generated_Source\PSoC4/isr_blink.c **** *
+   8:.\Generated_Source\PSoC4/isr_blink.c **** *
+   9:.\Generated_Source\PSoC4/isr_blink.c **** *  Note:
+  10:.\Generated_Source\PSoC4/isr_blink.c **** *
+  11:.\Generated_Source\PSoC4/isr_blink.c **** ********************************************************************************
+  12:.\Generated_Source\PSoC4/isr_blink.c **** * Copyright 2008-2012, Cypress Semiconductor Corporation.  All rights reserved.
+  13:.\Generated_Source\PSoC4/isr_blink.c **** * You may use this file only in accordance with the license, terms, conditions, 
+  14:.\Generated_Source\PSoC4/isr_blink.c **** * disclaimers, and limitations in the end user license agreement accompanying 
+  15:.\Generated_Source\PSoC4/isr_blink.c **** * the software package with which this file was provided.
+  16:.\Generated_Source\PSoC4/isr_blink.c **** *******************************************************************************/
+  17:.\Generated_Source\PSoC4/isr_blink.c **** 
+  18:.\Generated_Source\PSoC4/isr_blink.c **** 
+  19:.\Generated_Source\PSoC4/isr_blink.c **** #include <cydevice_trm.h>
+  20:.\Generated_Source\PSoC4/isr_blink.c **** #include <CyLib.h>
+  21:.\Generated_Source\PSoC4/isr_blink.c **** #include <isr_blink.h>
+  22:.\Generated_Source\PSoC4/isr_blink.c **** 
+  23:.\Generated_Source\PSoC4/isr_blink.c **** #if !defined(isr_blink__REMOVED) /* Check for removal by optimization */
+  24:.\Generated_Source\PSoC4/isr_blink.c **** 
+  25:.\Generated_Source\PSoC4/isr_blink.c **** /*******************************************************************************
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccZJuTj2.s 			page 2
+
+
+  26:.\Generated_Source\PSoC4/isr_blink.c **** *  Place your includes, defines and code here 
+  27:.\Generated_Source\PSoC4/isr_blink.c **** ********************************************************************************/
+  28:.\Generated_Source\PSoC4/isr_blink.c **** /* `#START isr_blink_intc` */
+  29:.\Generated_Source\PSoC4/isr_blink.c **** #include <uart_2_spi_uart.h>
+  30:.\Generated_Source\PSoC4/isr_blink.c **** #include <blink_timer.h>
+  31:.\Generated_Source\PSoC4/isr_blink.c ****     
+  32:.\Generated_Source\PSoC4/isr_blink.c **** enum lights {strobe = 0, collision, navigation, landing};
+  33:.\Generated_Source\PSoC4/isr_blink.c **** 
+  34:.\Generated_Source\PSoC4/isr_blink.c **** extern uint8_t pwm_light[4];
+  35:.\Generated_Source\PSoC4/isr_blink.c **** extern uint8_t pwm_light_adj[4];
+  36:.\Generated_Source\PSoC4/isr_blink.c ****     
+  37:.\Generated_Source\PSoC4/isr_blink.c **** extern uint16_t flashTime_StrobeLight;
+  38:.\Generated_Source\PSoC4/isr_blink.c **** extern uint16_t pauseTime_StrobeLight;
+  39:.\Generated_Source\PSoC4/isr_blink.c **** extern uint16_t flashTime_CollisionLight;
+  40:.\Generated_Source\PSoC4/isr_blink.c **** 
+  41:.\Generated_Source\PSoC4/isr_blink.c ****     
+  42:.\Generated_Source\PSoC4/isr_blink.c ****     
+  43:.\Generated_Source\PSoC4/isr_blink.c **** uint16_t counter_blink = 0;
+  44:.\Generated_Source\PSoC4/isr_blink.c ****     
+  45:.\Generated_Source\PSoC4/isr_blink.c **** /* `#END` */
+  46:.\Generated_Source\PSoC4/isr_blink.c **** 
+  47:.\Generated_Source\PSoC4/isr_blink.c **** extern cyisraddress CyRamVectors[CYINT_IRQ_BASE + CY_NUM_INTERRUPTS];
+  48:.\Generated_Source\PSoC4/isr_blink.c **** 
+  49:.\Generated_Source\PSoC4/isr_blink.c **** /* Declared in startup, used to set unused interrupts to. */
+  50:.\Generated_Source\PSoC4/isr_blink.c **** CY_ISR_PROTO(IntDefaultHandler);
+  51:.\Generated_Source\PSoC4/isr_blink.c **** 
+  52:.\Generated_Source\PSoC4/isr_blink.c **** 
+  53:.\Generated_Source\PSoC4/isr_blink.c **** /*******************************************************************************
+  54:.\Generated_Source\PSoC4/isr_blink.c **** * Function Name: isr_blink_Start
+  55:.\Generated_Source\PSoC4/isr_blink.c **** ********************************************************************************
+  56:.\Generated_Source\PSoC4/isr_blink.c **** *
+  57:.\Generated_Source\PSoC4/isr_blink.c **** * Summary:
+  58:.\Generated_Source\PSoC4/isr_blink.c **** *  Set up the interrupt and enable it.
+  59:.\Generated_Source\PSoC4/isr_blink.c **** *
+  60:.\Generated_Source\PSoC4/isr_blink.c **** * Parameters:  
+  61:.\Generated_Source\PSoC4/isr_blink.c **** *   None
+  62:.\Generated_Source\PSoC4/isr_blink.c **** *
+  63:.\Generated_Source\PSoC4/isr_blink.c **** * Return:
+  64:.\Generated_Source\PSoC4/isr_blink.c **** *   None
+  65:.\Generated_Source\PSoC4/isr_blink.c **** *
+  66:.\Generated_Source\PSoC4/isr_blink.c **** *******************************************************************************/
+  67:.\Generated_Source\PSoC4/isr_blink.c **** void isr_blink_Start(void)
+  68:.\Generated_Source\PSoC4/isr_blink.c **** {
+  33              		.loc 1 68 0
+  34              		.cfi_startproc
+  35 0000 80B5     		push	{r7, lr}
+  36              		.cfi_def_cfa_offset 8
+  37              		.cfi_offset 7, -8
+  38              		.cfi_offset 14, -4
+  39 0002 00AF     		add	r7, sp, #0
+  40              		.cfi_def_cfa_register 7
+  69:.\Generated_Source\PSoC4/isr_blink.c ****     /* For all we know the interrupt is active. */
+  70:.\Generated_Source\PSoC4/isr_blink.c ****     isr_blink_Disable();
+  41              		.loc 1 70 0
+  42 0004 FFF7FEFF 		bl	isr_blink_Disable
+  71:.\Generated_Source\PSoC4/isr_blink.c **** 
+  72:.\Generated_Source\PSoC4/isr_blink.c ****     /* Set the ISR to point to the isr_blink Interrupt. */
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccZJuTj2.s 			page 3
+
+
+  73:.\Generated_Source\PSoC4/isr_blink.c ****     isr_blink_SetVector(&isr_blink_Interrupt);
+  43              		.loc 1 73 0
+  44 0008 054B     		ldr	r3, .L2
+  45 000a 181C     		mov	r0, r3
+  46 000c FFF7FEFF 		bl	isr_blink_SetVector
+  74:.\Generated_Source\PSoC4/isr_blink.c **** 
+  75:.\Generated_Source\PSoC4/isr_blink.c ****     /* Set the priority. */
+  76:.\Generated_Source\PSoC4/isr_blink.c ****     isr_blink_SetPriority((uint8)isr_blink_INTC_PRIOR_NUMBER);
+  47              		.loc 1 76 0
+  48 0010 0320     		mov	r0, #3
+  49 0012 FFF7FEFF 		bl	isr_blink_SetPriority
+  77:.\Generated_Source\PSoC4/isr_blink.c **** 
+  78:.\Generated_Source\PSoC4/isr_blink.c ****     /* Enable it. */
+  79:.\Generated_Source\PSoC4/isr_blink.c ****     isr_blink_Enable();
+  50              		.loc 1 79 0
+  51 0016 FFF7FEFF 		bl	isr_blink_Enable
+  80:.\Generated_Source\PSoC4/isr_blink.c **** }
+  52              		.loc 1 80 0
+  53 001a BD46     		mov	sp, r7
+  54              		@ sp needed
+  55 001c 80BD     		pop	{r7, pc}
+  56              	.L3:
+  57 001e C046     		.align	2
+  58              	.L2:
+  59 0020 00000000 		.word	isr_blink_Interrupt
+  60              		.cfi_endproc
+  61              	.LFE0:
+  62              		.size	isr_blink_Start, .-isr_blink_Start
+  63              		.section	.text.isr_blink_StartEx,"ax",%progbits
+  64              		.align	2
+  65              		.global	isr_blink_StartEx
+  66              		.code	16
+  67              		.thumb_func
+  68              		.type	isr_blink_StartEx, %function
+  69              	isr_blink_StartEx:
+  70              	.LFB1:
+  81:.\Generated_Source\PSoC4/isr_blink.c **** 
+  82:.\Generated_Source\PSoC4/isr_blink.c **** 
+  83:.\Generated_Source\PSoC4/isr_blink.c **** /*******************************************************************************
+  84:.\Generated_Source\PSoC4/isr_blink.c **** * Function Name: isr_blink_StartEx
+  85:.\Generated_Source\PSoC4/isr_blink.c **** ********************************************************************************
+  86:.\Generated_Source\PSoC4/isr_blink.c **** *
+  87:.\Generated_Source\PSoC4/isr_blink.c **** * Summary:
+  88:.\Generated_Source\PSoC4/isr_blink.c **** *  Set up the interrupt and enable it.
+  89:.\Generated_Source\PSoC4/isr_blink.c **** *
+  90:.\Generated_Source\PSoC4/isr_blink.c **** * Parameters:  
+  91:.\Generated_Source\PSoC4/isr_blink.c **** *   address: Address of the ISR to set in the interrupt vector table.
+  92:.\Generated_Source\PSoC4/isr_blink.c **** *
+  93:.\Generated_Source\PSoC4/isr_blink.c **** * Return:
+  94:.\Generated_Source\PSoC4/isr_blink.c **** *   None
+  95:.\Generated_Source\PSoC4/isr_blink.c **** *
+  96:.\Generated_Source\PSoC4/isr_blink.c **** *******************************************************************************/
+  97:.\Generated_Source\PSoC4/isr_blink.c **** void isr_blink_StartEx(cyisraddress address)
+  98:.\Generated_Source\PSoC4/isr_blink.c **** {
+  71              		.loc 1 98 0
+  72              		.cfi_startproc
+  73 0000 80B5     		push	{r7, lr}
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccZJuTj2.s 			page 4
+
+
+  74              		.cfi_def_cfa_offset 8
+  75              		.cfi_offset 7, -8
+  76              		.cfi_offset 14, -4
+  77 0002 82B0     		sub	sp, sp, #8
+  78              		.cfi_def_cfa_offset 16
+  79 0004 00AF     		add	r7, sp, #0
+  80              		.cfi_def_cfa_register 7
+  81 0006 7860     		str	r0, [r7, #4]
+  99:.\Generated_Source\PSoC4/isr_blink.c ****     /* For all we know the interrupt is active. */
+ 100:.\Generated_Source\PSoC4/isr_blink.c ****     isr_blink_Disable();
+  82              		.loc 1 100 0
+  83 0008 FFF7FEFF 		bl	isr_blink_Disable
+ 101:.\Generated_Source\PSoC4/isr_blink.c **** 
+ 102:.\Generated_Source\PSoC4/isr_blink.c ****     /* Set the ISR to point to the isr_blink Interrupt. */
+ 103:.\Generated_Source\PSoC4/isr_blink.c ****     isr_blink_SetVector(address);
+  84              		.loc 1 103 0
+  85 000c 7B68     		ldr	r3, [r7, #4]
+  86 000e 181C     		mov	r0, r3
+  87 0010 FFF7FEFF 		bl	isr_blink_SetVector
+ 104:.\Generated_Source\PSoC4/isr_blink.c **** 
+ 105:.\Generated_Source\PSoC4/isr_blink.c ****     /* Set the priority. */
+ 106:.\Generated_Source\PSoC4/isr_blink.c ****     isr_blink_SetPriority((uint8)isr_blink_INTC_PRIOR_NUMBER);
+  88              		.loc 1 106 0
+  89 0014 0320     		mov	r0, #3
+  90 0016 FFF7FEFF 		bl	isr_blink_SetPriority
+ 107:.\Generated_Source\PSoC4/isr_blink.c **** 
+ 108:.\Generated_Source\PSoC4/isr_blink.c ****     /* Enable it. */
+ 109:.\Generated_Source\PSoC4/isr_blink.c ****     isr_blink_Enable();
+  91              		.loc 1 109 0
+  92 001a FFF7FEFF 		bl	isr_blink_Enable
+ 110:.\Generated_Source\PSoC4/isr_blink.c **** }
+  93              		.loc 1 110 0
+  94 001e BD46     		mov	sp, r7
+  95 0020 02B0     		add	sp, sp, #8
+  96              		@ sp needed
+  97 0022 80BD     		pop	{r7, pc}
+  98              		.cfi_endproc
+  99              	.LFE1:
+ 100              		.size	isr_blink_StartEx, .-isr_blink_StartEx
+ 101              		.section	.text.isr_blink_Stop,"ax",%progbits
+ 102              		.align	2
+ 103              		.global	isr_blink_Stop
+ 104              		.code	16
+ 105              		.thumb_func
+ 106              		.type	isr_blink_Stop, %function
+ 107              	isr_blink_Stop:
+ 108              	.LFB2:
+ 111:.\Generated_Source\PSoC4/isr_blink.c **** 
+ 112:.\Generated_Source\PSoC4/isr_blink.c **** 
+ 113:.\Generated_Source\PSoC4/isr_blink.c **** /*******************************************************************************
+ 114:.\Generated_Source\PSoC4/isr_blink.c **** * Function Name: isr_blink_Stop
+ 115:.\Generated_Source\PSoC4/isr_blink.c **** ********************************************************************************
+ 116:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 117:.\Generated_Source\PSoC4/isr_blink.c **** * Summary:
+ 118:.\Generated_Source\PSoC4/isr_blink.c **** *   Disables and removes the interrupt.
+ 119:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 120:.\Generated_Source\PSoC4/isr_blink.c **** * Parameters:  
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccZJuTj2.s 			page 5
+
+
+ 121:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 122:.\Generated_Source\PSoC4/isr_blink.c **** * Return:
+ 123:.\Generated_Source\PSoC4/isr_blink.c **** *   None
+ 124:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 125:.\Generated_Source\PSoC4/isr_blink.c **** *******************************************************************************/
+ 126:.\Generated_Source\PSoC4/isr_blink.c **** void isr_blink_Stop(void)
+ 127:.\Generated_Source\PSoC4/isr_blink.c **** {
+ 109              		.loc 1 127 0
+ 110              		.cfi_startproc
+ 111 0000 80B5     		push	{r7, lr}
+ 112              		.cfi_def_cfa_offset 8
+ 113              		.cfi_offset 7, -8
+ 114              		.cfi_offset 14, -4
+ 115 0002 00AF     		add	r7, sp, #0
+ 116              		.cfi_def_cfa_register 7
+ 128:.\Generated_Source\PSoC4/isr_blink.c ****     /* Disable this interrupt. */
+ 129:.\Generated_Source\PSoC4/isr_blink.c ****     isr_blink_Disable();
+ 117              		.loc 1 129 0
+ 118 0004 FFF7FEFF 		bl	isr_blink_Disable
+ 130:.\Generated_Source\PSoC4/isr_blink.c **** 
+ 131:.\Generated_Source\PSoC4/isr_blink.c ****     /* Set the ISR to point to the passive one. */
+ 132:.\Generated_Source\PSoC4/isr_blink.c ****     isr_blink_SetVector(&IntDefaultHandler);
+ 119              		.loc 1 132 0
+ 120 0008 024B     		ldr	r3, .L6
+ 121 000a 181C     		mov	r0, r3
+ 122 000c FFF7FEFF 		bl	isr_blink_SetVector
+ 133:.\Generated_Source\PSoC4/isr_blink.c **** }
+ 123              		.loc 1 133 0
+ 124 0010 BD46     		mov	sp, r7
+ 125              		@ sp needed
+ 126 0012 80BD     		pop	{r7, pc}
+ 127              	.L7:
+ 128              		.align	2
+ 129              	.L6:
+ 130 0014 00000000 		.word	IntDefaultHandler
+ 131              		.cfi_endproc
+ 132              	.LFE2:
+ 133              		.size	isr_blink_Stop, .-isr_blink_Stop
+ 134              		.section	.text.isr_blink_Interrupt,"ax",%progbits
+ 135              		.align	2
+ 136              		.global	isr_blink_Interrupt
+ 137              		.code	16
+ 138              		.thumb_func
+ 139              		.type	isr_blink_Interrupt, %function
+ 140              	isr_blink_Interrupt:
+ 141              	.LFB3:
+ 134:.\Generated_Source\PSoC4/isr_blink.c **** 
+ 135:.\Generated_Source\PSoC4/isr_blink.c **** 
+ 136:.\Generated_Source\PSoC4/isr_blink.c **** /*******************************************************************************
+ 137:.\Generated_Source\PSoC4/isr_blink.c **** * Function Name: isr_blink_Interrupt
+ 138:.\Generated_Source\PSoC4/isr_blink.c **** ********************************************************************************
+ 139:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 140:.\Generated_Source\PSoC4/isr_blink.c **** * Summary:
+ 141:.\Generated_Source\PSoC4/isr_blink.c **** *   The default Interrupt Service Routine for isr_blink.
+ 142:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 143:.\Generated_Source\PSoC4/isr_blink.c **** *   Add custom code between the coments to keep the next version of this file
+ 144:.\Generated_Source\PSoC4/isr_blink.c **** *   from over writting your code.
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccZJuTj2.s 			page 6
+
+
+ 145:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 146:.\Generated_Source\PSoC4/isr_blink.c **** * Parameters:  
+ 147:.\Generated_Source\PSoC4/isr_blink.c **** *   None
+ 148:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 149:.\Generated_Source\PSoC4/isr_blink.c **** * Return:
+ 150:.\Generated_Source\PSoC4/isr_blink.c **** *   None
+ 151:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 152:.\Generated_Source\PSoC4/isr_blink.c **** *******************************************************************************/
+ 153:.\Generated_Source\PSoC4/isr_blink.c **** CY_ISR(isr_blink_Interrupt)
+ 154:.\Generated_Source\PSoC4/isr_blink.c **** {
+ 142              		.loc 1 154 0
+ 143              		.cfi_startproc
+ 144 0000 80B5     		push	{r7, lr}
+ 145              		.cfi_def_cfa_offset 8
+ 146              		.cfi_offset 7, -8
+ 147              		.cfi_offset 14, -4
+ 148 0002 00AF     		add	r7, sp, #0
+ 149              		.cfi_def_cfa_register 7
+ 155:.\Generated_Source\PSoC4/isr_blink.c ****     /*  Place your Interrupt code here. */
+ 156:.\Generated_Source\PSoC4/isr_blink.c ****     /* `#START isr_blink_Interrupt` */
+ 157:.\Generated_Source\PSoC4/isr_blink.c **** 
+ 158:.\Generated_Source\PSoC4/isr_blink.c ****     
+ 159:.\Generated_Source\PSoC4/isr_blink.c ****     isr_blink_ClearPending();
+ 150              		.loc 1 159 0
+ 151 0004 FFF7FEFF 		bl	isr_blink_ClearPending
+ 160:.\Generated_Source\PSoC4/isr_blink.c ****     Blink_Timer_ClearInterrupt(Blink_Timer_INTR_MASK_TC);
+ 152              		.loc 1 160 0
+ 153 0008 0120     		mov	r0, #1
+ 154 000a FFF7FEFF 		bl	Blink_Timer_ClearInterrupt
+ 161:.\Generated_Source\PSoC4/isr_blink.c ****     //UART_2_UartPutChar('I');
+ 162:.\Generated_Source\PSoC4/isr_blink.c ****     pwm_light[landing] = pwm_light_adj[landing];
+ 155              		.loc 1 162 0
+ 156 000e 364B     		ldr	r3, .L16
+ 157 0010 DA78     		ldrb	r2, [r3, #3]
+ 158 0012 364B     		ldr	r3, .L16+4
+ 159 0014 DA70     		strb	r2, [r3, #3]
+ 163:.\Generated_Source\PSoC4/isr_blink.c ****     pwm_light[navigation] = pwm_light_adj[navigation];
+ 160              		.loc 1 163 0
+ 161 0016 344B     		ldr	r3, .L16
+ 162 0018 9A78     		ldrb	r2, [r3, #2]
+ 163 001a 344B     		ldr	r3, .L16+4
+ 164 001c 9A70     		strb	r2, [r3, #2]
+ 164:.\Generated_Source\PSoC4/isr_blink.c ****     
+ 165:.\Generated_Source\PSoC4/isr_blink.c ****     if (counter_blink == 0)
+ 165              		.loc 1 165 0
+ 166 001e 344B     		ldr	r3, .L16+8
+ 167 0020 1B88     		ldrh	r3, [r3]
+ 168 0022 002B     		cmp	r3, #0
+ 169 0024 05D1     		bne	.L9
+ 166:.\Generated_Source\PSoC4/isr_blink.c ****     {
+ 167:.\Generated_Source\PSoC4/isr_blink.c ****         pwm_light[collision] = 0x00;
+ 170              		.loc 1 167 0
+ 171 0026 314B     		ldr	r3, .L16+4
+ 172 0028 0022     		mov	r2, #0
+ 173 002a 5A70     		strb	r2, [r3, #1]
+ 168:.\Generated_Source\PSoC4/isr_blink.c ****         pwm_light[strobe] = 0x00;
+ 174              		.loc 1 168 0
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccZJuTj2.s 			page 7
+
+
+ 175 002c 2F4B     		ldr	r3, .L16+4
+ 176 002e 0022     		mov	r2, #0
+ 177 0030 1A70     		strb	r2, [r3]
+ 178              	.L9:
+ 169:.\Generated_Source\PSoC4/isr_blink.c ****     }
+ 170:.\Generated_Source\PSoC4/isr_blink.c ****     
+ 171:.\Generated_Source\PSoC4/isr_blink.c ****     if (counter_blink == 600)
+ 179              		.loc 1 171 0
+ 180 0032 2F4B     		ldr	r3, .L16+8
+ 181 0034 1A88     		ldrh	r2, [r3]
+ 182 0036 9623     		mov	r3, #150
+ 183 0038 9B00     		lsl	r3, r3, #2
+ 184 003a 9A42     		cmp	r2, r3
+ 185 003c 03D1     		bne	.L10
+ 172:.\Generated_Source\PSoC4/isr_blink.c ****     {
+ 173:.\Generated_Source\PSoC4/isr_blink.c ****         pwm_light[collision] = pwm_light_adj[collision];
+ 186              		.loc 1 173 0
+ 187 003e 2A4B     		ldr	r3, .L16
+ 188 0040 5A78     		ldrb	r2, [r3, #1]
+ 189 0042 2A4B     		ldr	r3, .L16+4
+ 190 0044 5A70     		strb	r2, [r3, #1]
+ 191              	.L10:
+ 174:.\Generated_Source\PSoC4/isr_blink.c ****     }
+ 175:.\Generated_Source\PSoC4/isr_blink.c ****     if (counter_blink == 600 + flashTime_CollisionLight)
+ 192              		.loc 1 175 0
+ 193 0046 2A4B     		ldr	r3, .L16+8
+ 194 0048 1B88     		ldrh	r3, [r3]
+ 195 004a 1A1C     		mov	r2, r3
+ 196 004c 294B     		ldr	r3, .L16+12
+ 197 004e 1B88     		ldrh	r3, [r3]
+ 198 0050 9620     		mov	r0, #150
+ 199 0052 8000     		lsl	r0, r0, #2
+ 200 0054 1B18     		add	r3, r3, r0
+ 201 0056 9A42     		cmp	r2, r3
+ 202 0058 02D1     		bne	.L11
+ 176:.\Generated_Source\PSoC4/isr_blink.c ****     {
+ 177:.\Generated_Source\PSoC4/isr_blink.c ****         pwm_light[collision] = 0x00;
+ 203              		.loc 1 177 0
+ 204 005a 244B     		ldr	r3, .L16+4
+ 205 005c 0022     		mov	r2, #0
+ 206 005e 5A70     		strb	r2, [r3, #1]
+ 207              	.L11:
+ 178:.\Generated_Source\PSoC4/isr_blink.c ****     }
+ 179:.\Generated_Source\PSoC4/isr_blink.c ****     
+ 180:.\Generated_Source\PSoC4/isr_blink.c ****     if (counter_blink == 1020)
+ 208              		.loc 1 180 0
+ 209 0060 234B     		ldr	r3, .L16+8
+ 210 0062 1A88     		ldrh	r2, [r3]
+ 211 0064 FF23     		mov	r3, #255
+ 212 0066 9B00     		lsl	r3, r3, #2
+ 213 0068 9A42     		cmp	r2, r3
+ 214 006a 03D1     		bne	.L12
+ 181:.\Generated_Source\PSoC4/isr_blink.c ****     {
+ 182:.\Generated_Source\PSoC4/isr_blink.c ****          pwm_light[strobe] =  pwm_light_adj[strobe];
+ 215              		.loc 1 182 0
+ 216 006c 1E4B     		ldr	r3, .L16
+ 217 006e 1A78     		ldrb	r2, [r3]
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccZJuTj2.s 			page 8
+
+
+ 218 0070 1E4B     		ldr	r3, .L16+4
+ 219 0072 1A70     		strb	r2, [r3]
+ 220              	.L12:
+ 183:.\Generated_Source\PSoC4/isr_blink.c ****     }
+ 184:.\Generated_Source\PSoC4/isr_blink.c ****     if (counter_blink == 1020 + flashTime_StrobeLight)
+ 221              		.loc 1 184 0
+ 222 0074 1E4B     		ldr	r3, .L16+8
+ 223 0076 1B88     		ldrh	r3, [r3]
+ 224 0078 1A1C     		mov	r2, r3
+ 225 007a 1F4B     		ldr	r3, .L16+16
+ 226 007c 1B88     		ldrh	r3, [r3]
+ 227 007e FF21     		mov	r1, #255
+ 228 0080 8900     		lsl	r1, r1, #2
+ 229 0082 5B18     		add	r3, r3, r1
+ 230 0084 9A42     		cmp	r2, r3
+ 231 0086 02D1     		bne	.L13
+ 185:.\Generated_Source\PSoC4/isr_blink.c ****     {
+ 186:.\Generated_Source\PSoC4/isr_blink.c ****          pwm_light[strobe] = 0x00;
+ 232              		.loc 1 186 0
+ 233 0088 184B     		ldr	r3, .L16+4
+ 234 008a 0022     		mov	r2, #0
+ 235 008c 1A70     		strb	r2, [r3]
+ 236              	.L13:
+ 187:.\Generated_Source\PSoC4/isr_blink.c ****     }
+ 188:.\Generated_Source\PSoC4/isr_blink.c ****     if (counter_blink == 1020 + flashTime_StrobeLight + 60)
+ 237              		.loc 1 188 0
+ 238 008e 184B     		ldr	r3, .L16+8
+ 239 0090 1B88     		ldrh	r3, [r3]
+ 240 0092 1A1C     		mov	r2, r3
+ 241 0094 184B     		ldr	r3, .L16+16
+ 242 0096 1B88     		ldrh	r3, [r3]
+ 243 0098 8720     		mov	r0, #135
+ 244 009a C000     		lsl	r0, r0, #3
+ 245 009c 1B18     		add	r3, r3, r0
+ 246 009e 9A42     		cmp	r2, r3
+ 247 00a0 03D1     		bne	.L14
+ 189:.\Generated_Source\PSoC4/isr_blink.c ****     {
+ 190:.\Generated_Source\PSoC4/isr_blink.c ****          pwm_light[strobe] =  pwm_light_adj[strobe];
+ 248              		.loc 1 190 0
+ 249 00a2 114B     		ldr	r3, .L16
+ 250 00a4 1A78     		ldrb	r2, [r3]
+ 251 00a6 114B     		ldr	r3, .L16+4
+ 252 00a8 1A70     		strb	r2, [r3]
+ 253              	.L14:
+ 191:.\Generated_Source\PSoC4/isr_blink.c ****     }
+ 192:.\Generated_Source\PSoC4/isr_blink.c ****     if (counter_blink == 1020 + flashTime_StrobeLight + pauseTime_StrobeLight + flashTime_StrobeLig
+ 254              		.loc 1 192 0
+ 255 00aa 114B     		ldr	r3, .L16+8
+ 256 00ac 1B88     		ldrh	r3, [r3]
+ 257 00ae 1A1C     		mov	r2, r3
+ 258 00b0 114B     		ldr	r3, .L16+16
+ 259 00b2 1B88     		ldrh	r3, [r3]
+ 260 00b4 FF20     		mov	r0, #255
+ 261 00b6 8000     		lsl	r0, r0, #2
+ 262 00b8 1918     		add	r1, r3, r0
+ 263 00ba 104B     		ldr	r3, .L16+20
+ 264 00bc 1B88     		ldrh	r3, [r3]
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccZJuTj2.s 			page 9
+
+
+ 265 00be C918     		add	r1, r1, r3
+ 266 00c0 0D4B     		ldr	r3, .L16+16
+ 267 00c2 1B88     		ldrh	r3, [r3]
+ 268 00c4 CB18     		add	r3, r1, r3
+ 269 00c6 9A42     		cmp	r2, r3
+ 270 00c8 05D1     		bne	.L15
+ 193:.\Generated_Source\PSoC4/isr_blink.c ****     {
+ 194:.\Generated_Source\PSoC4/isr_blink.c ****          pwm_light[strobe] = 0x00;
+ 271              		.loc 1 194 0
+ 272 00ca 084B     		ldr	r3, .L16+4
+ 273 00cc 0022     		mov	r2, #0
+ 274 00ce 1A70     		strb	r2, [r3]
+ 195:.\Generated_Source\PSoC4/isr_blink.c ****         counter_blink = 0;
+ 275              		.loc 1 195 0
+ 276 00d0 074B     		ldr	r3, .L16+8
+ 277 00d2 0022     		mov	r2, #0
+ 278 00d4 1A80     		strh	r2, [r3]
+ 279              	.L15:
+ 196:.\Generated_Source\PSoC4/isr_blink.c ****     }
+ 197:.\Generated_Source\PSoC4/isr_blink.c ****     counter_blink++;
+ 280              		.loc 1 197 0
+ 281 00d6 064B     		ldr	r3, .L16+8
+ 282 00d8 1B88     		ldrh	r3, [r3]
+ 283 00da 0133     		add	r3, r3, #1
+ 284 00dc 9AB2     		uxth	r2, r3
+ 285 00de 044B     		ldr	r3, .L16+8
+ 286 00e0 1A80     		strh	r2, [r3]
+ 198:.\Generated_Source\PSoC4/isr_blink.c ****     /* `#END` */
+ 199:.\Generated_Source\PSoC4/isr_blink.c **** }
+ 287              		.loc 1 199 0
+ 288 00e2 BD46     		mov	sp, r7
+ 289              		@ sp needed
+ 290 00e4 80BD     		pop	{r7, pc}
+ 291              	.L17:
+ 292 00e6 C046     		.align	2
+ 293              	.L16:
+ 294 00e8 00000000 		.word	pwm_light_adj
+ 295 00ec 00000000 		.word	pwm_light
+ 296 00f0 00000000 		.word	counter_blink
+ 297 00f4 00000000 		.word	flashTime_CollisionLight
+ 298 00f8 00000000 		.word	flashTime_StrobeLight
+ 299 00fc 00000000 		.word	pauseTime_StrobeLight
+ 300              		.cfi_endproc
+ 301              	.LFE3:
+ 302              		.size	isr_blink_Interrupt, .-isr_blink_Interrupt
+ 303              		.section	.text.isr_blink_SetVector,"ax",%progbits
+ 304              		.align	2
+ 305              		.global	isr_blink_SetVector
+ 306              		.code	16
+ 307              		.thumb_func
+ 308              		.type	isr_blink_SetVector, %function
+ 309              	isr_blink_SetVector:
+ 310              	.LFB4:
+ 200:.\Generated_Source\PSoC4/isr_blink.c **** 
+ 201:.\Generated_Source\PSoC4/isr_blink.c **** 
+ 202:.\Generated_Source\PSoC4/isr_blink.c **** /*******************************************************************************
+ 203:.\Generated_Source\PSoC4/isr_blink.c **** * Function Name: isr_blink_SetVector
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccZJuTj2.s 			page 10
+
+
+ 204:.\Generated_Source\PSoC4/isr_blink.c **** ********************************************************************************
+ 205:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 206:.\Generated_Source\PSoC4/isr_blink.c **** * Summary:
+ 207:.\Generated_Source\PSoC4/isr_blink.c **** *   Change the ISR vector for the Interrupt. Note calling isr_blink_Start
+ 208:.\Generated_Source\PSoC4/isr_blink.c **** *   will override any effect this method would have had. To set the vector 
+ 209:.\Generated_Source\PSoC4/isr_blink.c **** *   before the component has been started use isr_blink_StartEx instead.
+ 210:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 211:.\Generated_Source\PSoC4/isr_blink.c **** * Parameters:
+ 212:.\Generated_Source\PSoC4/isr_blink.c **** *   address: Address of the ISR to set in the interrupt vector table.
+ 213:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 214:.\Generated_Source\PSoC4/isr_blink.c **** * Return:
+ 215:.\Generated_Source\PSoC4/isr_blink.c **** *   None
+ 216:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 217:.\Generated_Source\PSoC4/isr_blink.c **** *******************************************************************************/
+ 218:.\Generated_Source\PSoC4/isr_blink.c **** void isr_blink_SetVector(cyisraddress address)
+ 219:.\Generated_Source\PSoC4/isr_blink.c **** {
+ 311              		.loc 1 219 0
+ 312              		.cfi_startproc
+ 313 0000 80B5     		push	{r7, lr}
+ 314              		.cfi_def_cfa_offset 8
+ 315              		.cfi_offset 7, -8
+ 316              		.cfi_offset 14, -4
+ 317 0002 82B0     		sub	sp, sp, #8
+ 318              		.cfi_def_cfa_offset 16
+ 319 0004 00AF     		add	r7, sp, #0
+ 320              		.cfi_def_cfa_register 7
+ 321 0006 7860     		str	r0, [r7, #4]
+ 220:.\Generated_Source\PSoC4/isr_blink.c ****     CyRamVectors[CYINT_IRQ_BASE + isr_blink__INTC_NUMBER] = address;
+ 322              		.loc 1 220 0
+ 323 0008 034A     		ldr	r2, .L19
+ 324 000a 8423     		mov	r3, #132
+ 325 000c 7968     		ldr	r1, [r7, #4]
+ 326 000e D150     		str	r1, [r2, r3]
+ 221:.\Generated_Source\PSoC4/isr_blink.c **** }
+ 327              		.loc 1 221 0
+ 328 0010 BD46     		mov	sp, r7
+ 329 0012 02B0     		add	sp, sp, #8
+ 330              		@ sp needed
+ 331 0014 80BD     		pop	{r7, pc}
+ 332              	.L20:
+ 333 0016 C046     		.align	2
+ 334              	.L19:
+ 335 0018 00000000 		.word	CyRamVectors
+ 336              		.cfi_endproc
+ 337              	.LFE4:
+ 338              		.size	isr_blink_SetVector, .-isr_blink_SetVector
+ 339              		.section	.text.isr_blink_GetVector,"ax",%progbits
+ 340              		.align	2
+ 341              		.global	isr_blink_GetVector
+ 342              		.code	16
+ 343              		.thumb_func
+ 344              		.type	isr_blink_GetVector, %function
+ 345              	isr_blink_GetVector:
+ 346              	.LFB5:
+ 222:.\Generated_Source\PSoC4/isr_blink.c **** 
+ 223:.\Generated_Source\PSoC4/isr_blink.c **** 
+ 224:.\Generated_Source\PSoC4/isr_blink.c **** /*******************************************************************************
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccZJuTj2.s 			page 11
+
+
+ 225:.\Generated_Source\PSoC4/isr_blink.c **** * Function Name: isr_blink_GetVector
+ 226:.\Generated_Source\PSoC4/isr_blink.c **** ********************************************************************************
+ 227:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 228:.\Generated_Source\PSoC4/isr_blink.c **** * Summary:
+ 229:.\Generated_Source\PSoC4/isr_blink.c **** *   Gets the "address" of the current ISR vector for the Interrupt.
+ 230:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 231:.\Generated_Source\PSoC4/isr_blink.c **** * Parameters:
+ 232:.\Generated_Source\PSoC4/isr_blink.c **** *   None
+ 233:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 234:.\Generated_Source\PSoC4/isr_blink.c **** * Return:
+ 235:.\Generated_Source\PSoC4/isr_blink.c **** *   Address of the ISR in the interrupt vector table.
+ 236:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 237:.\Generated_Source\PSoC4/isr_blink.c **** *******************************************************************************/
+ 238:.\Generated_Source\PSoC4/isr_blink.c **** cyisraddress isr_blink_GetVector(void)
+ 239:.\Generated_Source\PSoC4/isr_blink.c **** {
+ 347              		.loc 1 239 0
+ 348              		.cfi_startproc
+ 349 0000 80B5     		push	{r7, lr}
+ 350              		.cfi_def_cfa_offset 8
+ 351              		.cfi_offset 7, -8
+ 352              		.cfi_offset 14, -4
+ 353 0002 00AF     		add	r7, sp, #0
+ 354              		.cfi_def_cfa_register 7
+ 240:.\Generated_Source\PSoC4/isr_blink.c ****     return CyRamVectors[CYINT_IRQ_BASE + isr_blink__INTC_NUMBER];
+ 355              		.loc 1 240 0
+ 356 0004 024A     		ldr	r2, .L23
+ 357 0006 8423     		mov	r3, #132
+ 358 0008 D358     		ldr	r3, [r2, r3]
+ 241:.\Generated_Source\PSoC4/isr_blink.c **** }
+ 359              		.loc 1 241 0
+ 360 000a 181C     		mov	r0, r3
+ 361 000c BD46     		mov	sp, r7
+ 362              		@ sp needed
+ 363 000e 80BD     		pop	{r7, pc}
+ 364              	.L24:
+ 365              		.align	2
+ 366              	.L23:
+ 367 0010 00000000 		.word	CyRamVectors
+ 368              		.cfi_endproc
+ 369              	.LFE5:
+ 370              		.size	isr_blink_GetVector, .-isr_blink_GetVector
+ 371              		.section	.text.isr_blink_SetPriority,"ax",%progbits
+ 372              		.align	2
+ 373              		.global	isr_blink_SetPriority
+ 374              		.code	16
+ 375              		.thumb_func
+ 376              		.type	isr_blink_SetPriority, %function
+ 377              	isr_blink_SetPriority:
+ 378              	.LFB6:
+ 242:.\Generated_Source\PSoC4/isr_blink.c **** 
+ 243:.\Generated_Source\PSoC4/isr_blink.c **** 
+ 244:.\Generated_Source\PSoC4/isr_blink.c **** /*******************************************************************************
+ 245:.\Generated_Source\PSoC4/isr_blink.c **** * Function Name: isr_blink_SetPriority
+ 246:.\Generated_Source\PSoC4/isr_blink.c **** ********************************************************************************
+ 247:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 248:.\Generated_Source\PSoC4/isr_blink.c **** * Summary:
+ 249:.\Generated_Source\PSoC4/isr_blink.c **** *   Sets the Priority of the Interrupt. Note calling isr_blink_Start
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccZJuTj2.s 			page 12
+
+
+ 250:.\Generated_Source\PSoC4/isr_blink.c **** *   or isr_blink_StartEx will override any effect this method would 
+ 251:.\Generated_Source\PSoC4/isr_blink.c **** *   have had. This method should only be called after isr_blink_Start or 
+ 252:.\Generated_Source\PSoC4/isr_blink.c **** *   isr_blink_StartEx has been called. To set the initial
+ 253:.\Generated_Source\PSoC4/isr_blink.c **** *   priority for the component use the cydwr file in the tool.
+ 254:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 255:.\Generated_Source\PSoC4/isr_blink.c **** * Parameters:
+ 256:.\Generated_Source\PSoC4/isr_blink.c **** *   priority: Priority of the interrupt. 0 - 3, 0 being the highest.
+ 257:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 258:.\Generated_Source\PSoC4/isr_blink.c **** * Return:
+ 259:.\Generated_Source\PSoC4/isr_blink.c **** *   None
+ 260:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 261:.\Generated_Source\PSoC4/isr_blink.c **** *******************************************************************************/
+ 262:.\Generated_Source\PSoC4/isr_blink.c **** void isr_blink_SetPriority(uint8 priority)
+ 263:.\Generated_Source\PSoC4/isr_blink.c **** {
+ 379              		.loc 1 263 0
+ 380              		.cfi_startproc
+ 381 0000 90B5     		push	{r4, r7, lr}
+ 382              		.cfi_def_cfa_offset 12
+ 383              		.cfi_offset 4, -12
+ 384              		.cfi_offset 7, -8
+ 385              		.cfi_offset 14, -4
+ 386 0002 85B0     		sub	sp, sp, #20
+ 387              		.cfi_def_cfa_offset 32
+ 388 0004 00AF     		add	r7, sp, #0
+ 389              		.cfi_def_cfa_register 7
+ 390 0006 021C     		mov	r2, r0
+ 391 0008 FB1D     		add	r3, r7, #7
+ 392 000a 1A70     		strb	r2, [r3]
+ 264:.\Generated_Source\PSoC4/isr_blink.c **** 	uint8 interruptState;
+ 265:.\Generated_Source\PSoC4/isr_blink.c ****     uint32 priorityOffset = ((isr_blink__INTC_NUMBER % 4u) * 8u) + 6u;
+ 393              		.loc 1 265 0
+ 394 000c 0E23     		mov	r3, #14
+ 395 000e FB60     		str	r3, [r7, #12]
+ 266:.\Generated_Source\PSoC4/isr_blink.c ****     
+ 267:.\Generated_Source\PSoC4/isr_blink.c **** 	interruptState = CyEnterCriticalSection();
+ 396              		.loc 1 267 0
+ 397 0010 3C1C     		mov	r4, r7
+ 398 0012 0B34     		add	r4, r4, #11
+ 399 0014 FFF7FEFF 		bl	CyEnterCriticalSection
+ 400 0018 031C     		mov	r3, r0
+ 401 001a 2370     		strb	r3, [r4]
+ 268:.\Generated_Source\PSoC4/isr_blink.c ****     *isr_blink_INTC_PRIOR = (*isr_blink_INTC_PRIOR & (uint32)(~isr_blink__INTC_PRIOR_MASK)) |
+ 402              		.loc 1 268 0
+ 403 001c 0A4B     		ldr	r3, .L26
+ 404 001e 0A4A     		ldr	r2, .L26
+ 405 0020 1168     		ldr	r1, [r2]
+ 406 0022 0A4A     		ldr	r2, .L26+4
+ 407 0024 1140     		and	r1, r2
+ 269:.\Generated_Source\PSoC4/isr_blink.c ****                                     ((uint32)priority << priorityOffset);
+ 408              		.loc 1 269 0
+ 409 0026 FA1D     		add	r2, r7, #7
+ 410 0028 1078     		ldrb	r0, [r2]
+ 411 002a FA68     		ldr	r2, [r7, #12]
+ 412 002c 041C     		mov	r4, r0
+ 413 002e 9440     		lsl	r4, r4, r2
+ 414 0030 221C     		mov	r2, r4
+ 268:.\Generated_Source\PSoC4/isr_blink.c ****     *isr_blink_INTC_PRIOR = (*isr_blink_INTC_PRIOR & (uint32)(~isr_blink__INTC_PRIOR_MASK)) |
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccZJuTj2.s 			page 13
+
+
+ 415              		.loc 1 268 0
+ 416 0032 0A43     		orr	r2, r1
+ 417 0034 1A60     		str	r2, [r3]
+ 270:.\Generated_Source\PSoC4/isr_blink.c **** 	CyExitCriticalSection(interruptState);
+ 418              		.loc 1 270 0
+ 419 0036 3B1C     		mov	r3, r7
+ 420 0038 0B33     		add	r3, r3, #11
+ 421 003a 1B78     		ldrb	r3, [r3]
+ 422 003c 181C     		mov	r0, r3
+ 423 003e FFF7FEFF 		bl	CyExitCriticalSection
+ 271:.\Generated_Source\PSoC4/isr_blink.c **** }
+ 424              		.loc 1 271 0
+ 425 0042 BD46     		mov	sp, r7
+ 426 0044 05B0     		add	sp, sp, #20
+ 427              		@ sp needed
+ 428 0046 90BD     		pop	{r4, r7, pc}
+ 429              	.L27:
+ 430              		.align	2
+ 431              	.L26:
+ 432 0048 10E400E0 		.word	-536812528
+ 433 004c FF3FFFFF 		.word	-49153
+ 434              		.cfi_endproc
+ 435              	.LFE6:
+ 436              		.size	isr_blink_SetPriority, .-isr_blink_SetPriority
+ 437              		.section	.text.isr_blink_GetPriority,"ax",%progbits
+ 438              		.align	2
+ 439              		.global	isr_blink_GetPriority
+ 440              		.code	16
+ 441              		.thumb_func
+ 442              		.type	isr_blink_GetPriority, %function
+ 443              	isr_blink_GetPriority:
+ 444              	.LFB7:
+ 272:.\Generated_Source\PSoC4/isr_blink.c **** 
+ 273:.\Generated_Source\PSoC4/isr_blink.c **** 
+ 274:.\Generated_Source\PSoC4/isr_blink.c **** /*******************************************************************************
+ 275:.\Generated_Source\PSoC4/isr_blink.c **** * Function Name: isr_blink_GetPriority
+ 276:.\Generated_Source\PSoC4/isr_blink.c **** ********************************************************************************
+ 277:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 278:.\Generated_Source\PSoC4/isr_blink.c **** * Summary:
+ 279:.\Generated_Source\PSoC4/isr_blink.c **** *   Gets the Priority of the Interrupt.
+ 280:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 281:.\Generated_Source\PSoC4/isr_blink.c **** * Parameters:
+ 282:.\Generated_Source\PSoC4/isr_blink.c **** *   None
+ 283:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 284:.\Generated_Source\PSoC4/isr_blink.c **** * Return:
+ 285:.\Generated_Source\PSoC4/isr_blink.c **** *   Priority of the interrupt. 0 - 3, 0 being the highest.
+ 286:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 287:.\Generated_Source\PSoC4/isr_blink.c **** *******************************************************************************/
+ 288:.\Generated_Source\PSoC4/isr_blink.c **** uint8 isr_blink_GetPriority(void)
+ 289:.\Generated_Source\PSoC4/isr_blink.c **** {
+ 445              		.loc 1 289 0
+ 446              		.cfi_startproc
+ 447 0000 80B5     		push	{r7, lr}
+ 448              		.cfi_def_cfa_offset 8
+ 449              		.cfi_offset 7, -8
+ 450              		.cfi_offset 14, -4
+ 451 0002 82B0     		sub	sp, sp, #8
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccZJuTj2.s 			page 14
+
+
+ 452              		.cfi_def_cfa_offset 16
+ 453 0004 00AF     		add	r7, sp, #0
+ 454              		.cfi_def_cfa_register 7
+ 290:.\Generated_Source\PSoC4/isr_blink.c ****     uint32 priority;
+ 291:.\Generated_Source\PSoC4/isr_blink.c **** 	uint32 priorityOffset = ((isr_blink__INTC_NUMBER % 4u) * 8u) + 6u;
+ 455              		.loc 1 291 0
+ 456 0006 0E23     		mov	r3, #14
+ 457 0008 7B60     		str	r3, [r7, #4]
+ 292:.\Generated_Source\PSoC4/isr_blink.c **** 
+ 293:.\Generated_Source\PSoC4/isr_blink.c ****     priority = (*isr_blink_INTC_PRIOR & isr_blink__INTC_PRIOR_MASK) >> priorityOffset;
+ 458              		.loc 1 293 0
+ 459 000a 084B     		ldr	r3, .L30
+ 460 000c 1A68     		ldr	r2, [r3]
+ 461 000e C023     		mov	r3, #192
+ 462 0010 1B02     		lsl	r3, r3, #8
+ 463 0012 1A40     		and	r2, r3
+ 464 0014 7B68     		ldr	r3, [r7, #4]
+ 465 0016 111C     		mov	r1, r2
+ 466 0018 D940     		lsr	r1, r1, r3
+ 467 001a 0B1C     		mov	r3, r1
+ 468 001c 3B60     		str	r3, [r7]
+ 294:.\Generated_Source\PSoC4/isr_blink.c **** 
+ 295:.\Generated_Source\PSoC4/isr_blink.c ****     return (uint8)priority;
+ 469              		.loc 1 295 0
+ 470 001e 3B68     		ldr	r3, [r7]
+ 471 0020 DBB2     		uxtb	r3, r3
+ 296:.\Generated_Source\PSoC4/isr_blink.c **** }
+ 472              		.loc 1 296 0
+ 473 0022 181C     		mov	r0, r3
+ 474 0024 BD46     		mov	sp, r7
+ 475 0026 02B0     		add	sp, sp, #8
+ 476              		@ sp needed
+ 477 0028 80BD     		pop	{r7, pc}
+ 478              	.L31:
+ 479 002a C046     		.align	2
+ 480              	.L30:
+ 481 002c 10E400E0 		.word	-536812528
+ 482              		.cfi_endproc
+ 483              	.LFE7:
+ 484              		.size	isr_blink_GetPriority, .-isr_blink_GetPriority
+ 485              		.section	.text.isr_blink_Enable,"ax",%progbits
+ 486              		.align	2
+ 487              		.global	isr_blink_Enable
+ 488              		.code	16
+ 489              		.thumb_func
+ 490              		.type	isr_blink_Enable, %function
+ 491              	isr_blink_Enable:
+ 492              	.LFB8:
+ 297:.\Generated_Source\PSoC4/isr_blink.c **** 
+ 298:.\Generated_Source\PSoC4/isr_blink.c **** 
+ 299:.\Generated_Source\PSoC4/isr_blink.c **** /*******************************************************************************
+ 300:.\Generated_Source\PSoC4/isr_blink.c **** * Function Name: isr_blink_Enable
+ 301:.\Generated_Source\PSoC4/isr_blink.c **** ********************************************************************************
+ 302:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 303:.\Generated_Source\PSoC4/isr_blink.c **** * Summary:
+ 304:.\Generated_Source\PSoC4/isr_blink.c **** *   Enables the interrupt.
+ 305:.\Generated_Source\PSoC4/isr_blink.c **** *
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccZJuTj2.s 			page 15
+
+
+ 306:.\Generated_Source\PSoC4/isr_blink.c **** * Parameters:
+ 307:.\Generated_Source\PSoC4/isr_blink.c **** *   None
+ 308:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 309:.\Generated_Source\PSoC4/isr_blink.c **** * Return:
+ 310:.\Generated_Source\PSoC4/isr_blink.c **** *   None
+ 311:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 312:.\Generated_Source\PSoC4/isr_blink.c **** *******************************************************************************/
+ 313:.\Generated_Source\PSoC4/isr_blink.c **** void isr_blink_Enable(void)
+ 314:.\Generated_Source\PSoC4/isr_blink.c **** {
+ 493              		.loc 1 314 0
+ 494              		.cfi_startproc
+ 495 0000 80B5     		push	{r7, lr}
+ 496              		.cfi_def_cfa_offset 8
+ 497              		.cfi_offset 7, -8
+ 498              		.cfi_offset 14, -4
+ 499 0002 00AF     		add	r7, sp, #0
+ 500              		.cfi_def_cfa_register 7
+ 315:.\Generated_Source\PSoC4/isr_blink.c ****     /* Enable the general interrupt. */
+ 316:.\Generated_Source\PSoC4/isr_blink.c ****     *isr_blink_INTC_SET_EN = isr_blink__INTC_MASK;
+ 501              		.loc 1 316 0
+ 502 0004 024B     		ldr	r3, .L33
+ 503 0006 8022     		mov	r2, #128
+ 504 0008 9202     		lsl	r2, r2, #10
+ 505 000a 1A60     		str	r2, [r3]
+ 317:.\Generated_Source\PSoC4/isr_blink.c **** }
+ 506              		.loc 1 317 0
+ 507 000c BD46     		mov	sp, r7
+ 508              		@ sp needed
+ 509 000e 80BD     		pop	{r7, pc}
+ 510              	.L34:
+ 511              		.align	2
+ 512              	.L33:
+ 513 0010 00E100E0 		.word	-536813312
+ 514              		.cfi_endproc
+ 515              	.LFE8:
+ 516              		.size	isr_blink_Enable, .-isr_blink_Enable
+ 517              		.section	.text.isr_blink_GetState,"ax",%progbits
+ 518              		.align	2
+ 519              		.global	isr_blink_GetState
+ 520              		.code	16
+ 521              		.thumb_func
+ 522              		.type	isr_blink_GetState, %function
+ 523              	isr_blink_GetState:
+ 524              	.LFB9:
+ 318:.\Generated_Source\PSoC4/isr_blink.c **** 
+ 319:.\Generated_Source\PSoC4/isr_blink.c **** 
+ 320:.\Generated_Source\PSoC4/isr_blink.c **** /*******************************************************************************
+ 321:.\Generated_Source\PSoC4/isr_blink.c **** * Function Name: isr_blink_GetState
+ 322:.\Generated_Source\PSoC4/isr_blink.c **** ********************************************************************************
+ 323:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 324:.\Generated_Source\PSoC4/isr_blink.c **** * Summary:
+ 325:.\Generated_Source\PSoC4/isr_blink.c **** *   Gets the state (enabled, disabled) of the Interrupt.
+ 326:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 327:.\Generated_Source\PSoC4/isr_blink.c **** * Parameters:
+ 328:.\Generated_Source\PSoC4/isr_blink.c **** *   None
+ 329:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 330:.\Generated_Source\PSoC4/isr_blink.c **** * Return:
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccZJuTj2.s 			page 16
+
+
+ 331:.\Generated_Source\PSoC4/isr_blink.c **** *   1 if enabled, 0 if disabled.
+ 332:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 333:.\Generated_Source\PSoC4/isr_blink.c **** *******************************************************************************/
+ 334:.\Generated_Source\PSoC4/isr_blink.c **** uint8 isr_blink_GetState(void)
+ 335:.\Generated_Source\PSoC4/isr_blink.c **** {
+ 525              		.loc 1 335 0
+ 526              		.cfi_startproc
+ 527 0000 80B5     		push	{r7, lr}
+ 528              		.cfi_def_cfa_offset 8
+ 529              		.cfi_offset 7, -8
+ 530              		.cfi_offset 14, -4
+ 531 0002 00AF     		add	r7, sp, #0
+ 532              		.cfi_def_cfa_register 7
+ 336:.\Generated_Source\PSoC4/isr_blink.c ****     /* Get the state of the general interrupt. */
+ 337:.\Generated_Source\PSoC4/isr_blink.c ****     return ((*isr_blink_INTC_SET_EN & (uint32)isr_blink__INTC_MASK) != 0u) ? 1u:0u;
+ 533              		.loc 1 337 0
+ 534 0004 054B     		ldr	r3, .L39
+ 535 0006 1A68     		ldr	r2, [r3]
+ 536 0008 8023     		mov	r3, #128
+ 537 000a 9B02     		lsl	r3, r3, #10
+ 538 000c 1340     		and	r3, r2
+ 539 000e 01D0     		beq	.L36
+ 540              		.loc 1 337 0 is_stmt 0 discriminator 1
+ 541 0010 0123     		mov	r3, #1
+ 542 0012 00E0     		b	.L37
+ 543              	.L36:
+ 544              		.loc 1 337 0 discriminator 2
+ 545 0014 0023     		mov	r3, #0
+ 546              	.L37:
+ 338:.\Generated_Source\PSoC4/isr_blink.c **** }
+ 547              		.loc 1 338 0 is_stmt 1 discriminator 3
+ 548 0016 181C     		mov	r0, r3
+ 549 0018 BD46     		mov	sp, r7
+ 550              		@ sp needed
+ 551 001a 80BD     		pop	{r7, pc}
+ 552              	.L40:
+ 553              		.align	2
+ 554              	.L39:
+ 555 001c 00E100E0 		.word	-536813312
+ 556              		.cfi_endproc
+ 557              	.LFE9:
+ 558              		.size	isr_blink_GetState, .-isr_blink_GetState
+ 559              		.section	.text.isr_blink_Disable,"ax",%progbits
+ 560              		.align	2
+ 561              		.global	isr_blink_Disable
+ 562              		.code	16
+ 563              		.thumb_func
+ 564              		.type	isr_blink_Disable, %function
+ 565              	isr_blink_Disable:
+ 566              	.LFB10:
+ 339:.\Generated_Source\PSoC4/isr_blink.c **** 
+ 340:.\Generated_Source\PSoC4/isr_blink.c **** 
+ 341:.\Generated_Source\PSoC4/isr_blink.c **** /*******************************************************************************
+ 342:.\Generated_Source\PSoC4/isr_blink.c **** * Function Name: isr_blink_Disable
+ 343:.\Generated_Source\PSoC4/isr_blink.c **** ********************************************************************************
+ 344:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 345:.\Generated_Source\PSoC4/isr_blink.c **** * Summary:
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccZJuTj2.s 			page 17
+
+
+ 346:.\Generated_Source\PSoC4/isr_blink.c **** *   Disables the Interrupt.
+ 347:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 348:.\Generated_Source\PSoC4/isr_blink.c **** * Parameters:
+ 349:.\Generated_Source\PSoC4/isr_blink.c **** *   None
+ 350:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 351:.\Generated_Source\PSoC4/isr_blink.c **** * Return:
+ 352:.\Generated_Source\PSoC4/isr_blink.c **** *   None
+ 353:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 354:.\Generated_Source\PSoC4/isr_blink.c **** *******************************************************************************/
+ 355:.\Generated_Source\PSoC4/isr_blink.c **** void isr_blink_Disable(void)
+ 356:.\Generated_Source\PSoC4/isr_blink.c **** {
+ 567              		.loc 1 356 0
+ 568              		.cfi_startproc
+ 569 0000 80B5     		push	{r7, lr}
+ 570              		.cfi_def_cfa_offset 8
+ 571              		.cfi_offset 7, -8
+ 572              		.cfi_offset 14, -4
+ 573 0002 00AF     		add	r7, sp, #0
+ 574              		.cfi_def_cfa_register 7
+ 357:.\Generated_Source\PSoC4/isr_blink.c ****     /* Disable the general interrupt. */
+ 358:.\Generated_Source\PSoC4/isr_blink.c ****     *isr_blink_INTC_CLR_EN = isr_blink__INTC_MASK;
+ 575              		.loc 1 358 0
+ 576 0004 024B     		ldr	r3, .L42
+ 577 0006 8022     		mov	r2, #128
+ 578 0008 9202     		lsl	r2, r2, #10
+ 579 000a 1A60     		str	r2, [r3]
+ 359:.\Generated_Source\PSoC4/isr_blink.c **** }
+ 580              		.loc 1 359 0
+ 581 000c BD46     		mov	sp, r7
+ 582              		@ sp needed
+ 583 000e 80BD     		pop	{r7, pc}
+ 584              	.L43:
+ 585              		.align	2
+ 586              	.L42:
+ 587 0010 80E100E0 		.word	-536813184
+ 588              		.cfi_endproc
+ 589              	.LFE10:
+ 590              		.size	isr_blink_Disable, .-isr_blink_Disable
+ 591              		.section	.text.isr_blink_SetPending,"ax",%progbits
+ 592              		.align	2
+ 593              		.global	isr_blink_SetPending
+ 594              		.code	16
+ 595              		.thumb_func
+ 596              		.type	isr_blink_SetPending, %function
+ 597              	isr_blink_SetPending:
+ 598              	.LFB11:
+ 360:.\Generated_Source\PSoC4/isr_blink.c **** 
+ 361:.\Generated_Source\PSoC4/isr_blink.c **** 
+ 362:.\Generated_Source\PSoC4/isr_blink.c **** /*******************************************************************************
+ 363:.\Generated_Source\PSoC4/isr_blink.c **** * Function Name: isr_blink_SetPending
+ 364:.\Generated_Source\PSoC4/isr_blink.c **** ********************************************************************************
+ 365:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 366:.\Generated_Source\PSoC4/isr_blink.c **** * Summary:
+ 367:.\Generated_Source\PSoC4/isr_blink.c **** *   Causes the Interrupt to enter the pending state, a software method of
+ 368:.\Generated_Source\PSoC4/isr_blink.c **** *   generating the interrupt.
+ 369:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 370:.\Generated_Source\PSoC4/isr_blink.c **** * Parameters:
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccZJuTj2.s 			page 18
+
+
+ 371:.\Generated_Source\PSoC4/isr_blink.c **** *   None
+ 372:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 373:.\Generated_Source\PSoC4/isr_blink.c **** * Return:
+ 374:.\Generated_Source\PSoC4/isr_blink.c **** *   None
+ 375:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 376:.\Generated_Source\PSoC4/isr_blink.c **** *******************************************************************************/
+ 377:.\Generated_Source\PSoC4/isr_blink.c **** void isr_blink_SetPending(void)
+ 378:.\Generated_Source\PSoC4/isr_blink.c **** {
+ 599              		.loc 1 378 0
+ 600              		.cfi_startproc
+ 601 0000 80B5     		push	{r7, lr}
+ 602              		.cfi_def_cfa_offset 8
+ 603              		.cfi_offset 7, -8
+ 604              		.cfi_offset 14, -4
+ 605 0002 00AF     		add	r7, sp, #0
+ 606              		.cfi_def_cfa_register 7
+ 379:.\Generated_Source\PSoC4/isr_blink.c ****     *isr_blink_INTC_SET_PD = isr_blink__INTC_MASK;
+ 607              		.loc 1 379 0
+ 608 0004 024B     		ldr	r3, .L45
+ 609 0006 8022     		mov	r2, #128
+ 610 0008 9202     		lsl	r2, r2, #10
+ 611 000a 1A60     		str	r2, [r3]
+ 380:.\Generated_Source\PSoC4/isr_blink.c **** }
+ 612              		.loc 1 380 0
+ 613 000c BD46     		mov	sp, r7
+ 614              		@ sp needed
+ 615 000e 80BD     		pop	{r7, pc}
+ 616              	.L46:
+ 617              		.align	2
+ 618              	.L45:
+ 619 0010 00E200E0 		.word	-536813056
+ 620              		.cfi_endproc
+ 621              	.LFE11:
+ 622              		.size	isr_blink_SetPending, .-isr_blink_SetPending
+ 623              		.section	.text.isr_blink_ClearPending,"ax",%progbits
+ 624              		.align	2
+ 625              		.global	isr_blink_ClearPending
+ 626              		.code	16
+ 627              		.thumb_func
+ 628              		.type	isr_blink_ClearPending, %function
+ 629              	isr_blink_ClearPending:
+ 630              	.LFB12:
+ 381:.\Generated_Source\PSoC4/isr_blink.c **** 
+ 382:.\Generated_Source\PSoC4/isr_blink.c **** 
+ 383:.\Generated_Source\PSoC4/isr_blink.c **** /*******************************************************************************
+ 384:.\Generated_Source\PSoC4/isr_blink.c **** * Function Name: isr_blink_ClearPending
+ 385:.\Generated_Source\PSoC4/isr_blink.c **** ********************************************************************************
+ 386:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 387:.\Generated_Source\PSoC4/isr_blink.c **** * Summary:
+ 388:.\Generated_Source\PSoC4/isr_blink.c **** *   Clears a pending interrupt.
+ 389:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 390:.\Generated_Source\PSoC4/isr_blink.c **** * Parameters:
+ 391:.\Generated_Source\PSoC4/isr_blink.c **** *   None
+ 392:.\Generated_Source\PSoC4/isr_blink.c **** *
+ 393:.\Generated_Source\PSoC4/isr_blink.c **** * Return:
+ 394:.\Generated_Source\PSoC4/isr_blink.c **** *   None
+ 395:.\Generated_Source\PSoC4/isr_blink.c **** *
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccZJuTj2.s 			page 19
+
+
+ 396:.\Generated_Source\PSoC4/isr_blink.c **** *******************************************************************************/
+ 397:.\Generated_Source\PSoC4/isr_blink.c **** void isr_blink_ClearPending(void)
+ 398:.\Generated_Source\PSoC4/isr_blink.c **** {
+ 631              		.loc 1 398 0
+ 632              		.cfi_startproc
+ 633 0000 80B5     		push	{r7, lr}
+ 634              		.cfi_def_cfa_offset 8
+ 635              		.cfi_offset 7, -8
+ 636              		.cfi_offset 14, -4
+ 637 0002 00AF     		add	r7, sp, #0
+ 638              		.cfi_def_cfa_register 7
+ 399:.\Generated_Source\PSoC4/isr_blink.c ****     *isr_blink_INTC_CLR_PD = isr_blink__INTC_MASK;
+ 639              		.loc 1 399 0
+ 640 0004 024B     		ldr	r3, .L48
+ 641 0006 8022     		mov	r2, #128
+ 642 0008 9202     		lsl	r2, r2, #10
+ 643 000a 1A60     		str	r2, [r3]
+ 400:.\Generated_Source\PSoC4/isr_blink.c **** }
+ 644              		.loc 1 400 0
+ 645 000c BD46     		mov	sp, r7
+ 646              		@ sp needed
+ 647 000e 80BD     		pop	{r7, pc}
+ 648              	.L49:
+ 649              		.align	2
+ 650              	.L48:
+ 651 0010 80E200E0 		.word	-536812928
+ 652              		.cfi_endproc
+ 653              	.LFE12:
+ 654              		.size	isr_blink_ClearPending, .-isr_blink_ClearPending
+ 655              		.text
+ 656              	.Letext0:
+ 657              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\3.1\\psoc creator\\import\\gnu_cs\\arm\\4
+ 658              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\3.1\\psoc creator\\import\\gnu_cs\\arm\\4
+ 659              		.file 4 ".\\Generated_Source\\PSoC4/cytypes.h"
+ 660              		.section	.debug_info,"",%progbits
+ 661              	.Ldebug_info0:
+ 662 0000 ED020000 		.4byte	0x2ed
+ 663 0004 0400     		.2byte	0x4
+ 664 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 665 000a 04       		.byte	0x4
+ 666 000b 01       		.uleb128 0x1
+ 667 000c D2000000 		.4byte	.LASF48
+ 668 0010 01       		.byte	0x1
+ 669 0011 66000000 		.4byte	.LASF49
+ 670 0015 AE020000 		.4byte	.LASF50
+ 671 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 672 001d 00000000 		.4byte	0
+ 673 0021 00000000 		.4byte	.Ldebug_line0
+ 674 0025 02       		.uleb128 0x2
+ 675 0026 01       		.byte	0x1
+ 676 0027 06       		.byte	0x6
+ 677 0028 5F030000 		.4byte	.LASF0
+ 678 002c 03       		.uleb128 0x3
+ 679 002d 2B000000 		.4byte	.LASF3
+ 680 0031 02       		.byte	0x2
+ 681 0032 1C       		.byte	0x1c
+ 682 0033 37000000 		.4byte	0x37
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccZJuTj2.s 			page 20
+
+
+ 683 0037 02       		.uleb128 0x2
+ 684 0038 01       		.byte	0x1
+ 685 0039 08       		.byte	0x8
+ 686 003a BC010000 		.4byte	.LASF1
+ 687 003e 02       		.uleb128 0x2
+ 688 003f 02       		.byte	0x2
+ 689 0040 05       		.byte	0x5
+ 690 0041 14030000 		.4byte	.LASF2
+ 691 0045 03       		.uleb128 0x3
+ 692 0046 CA010000 		.4byte	.LASF4
+ 693 004a 02       		.byte	0x2
+ 694 004b 26       		.byte	0x26
+ 695 004c 50000000 		.4byte	0x50
+ 696 0050 02       		.uleb128 0x2
+ 697 0051 02       		.byte	0x2
+ 698 0052 07       		.byte	0x7
+ 699 0053 8B000000 		.4byte	.LASF5
+ 700 0057 02       		.uleb128 0x2
+ 701 0058 04       		.byte	0x4
+ 702 0059 05       		.byte	0x5
+ 703 005a 4F030000 		.4byte	.LASF6
+ 704 005e 02       		.uleb128 0x2
+ 705 005f 04       		.byte	0x4
+ 706 0060 07       		.byte	0x7
+ 707 0061 9B010000 		.4byte	.LASF7
+ 708 0065 02       		.uleb128 0x2
+ 709 0066 08       		.byte	0x8
+ 710 0067 05       		.byte	0x5
+ 711 0068 A0020000 		.4byte	.LASF8
+ 712 006c 02       		.uleb128 0x2
+ 713 006d 08       		.byte	0x8
+ 714 006e 07       		.byte	0x7
+ 715 006f 0F020000 		.4byte	.LASF9
+ 716 0073 04       		.uleb128 0x4
+ 717 0074 04       		.byte	0x4
+ 718 0075 05       		.byte	0x5
+ 719 0076 696E7400 		.ascii	"int\000"
+ 720 007a 02       		.uleb128 0x2
+ 721 007b 04       		.byte	0x4
+ 722 007c 07       		.byte	0x7
+ 723 007d FA010000 		.4byte	.LASF10
+ 724 0081 03       		.uleb128 0x3
+ 725 0082 9E000000 		.4byte	.LASF11
+ 726 0086 03       		.byte	0x3
+ 727 0087 2A       		.byte	0x2a
+ 728 0088 2C000000 		.4byte	0x2c
+ 729 008c 03       		.uleb128 0x3
+ 730 008d 1E030000 		.4byte	.LASF12
+ 731 0091 03       		.byte	0x3
+ 732 0092 36       		.byte	0x36
+ 733 0093 45000000 		.4byte	0x45
+ 734 0097 03       		.uleb128 0x3
+ 735 0098 AD010000 		.4byte	.LASF13
+ 736 009c 04       		.byte	0x4
+ 737 009d A1       		.byte	0xa1
+ 738 009e 37000000 		.4byte	0x37
+ 739 00a2 03       		.uleb128 0x3
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccZJuTj2.s 			page 21
+
+
+ 740 00a3 F3010000 		.4byte	.LASF14
+ 741 00a7 04       		.byte	0x4
+ 742 00a8 A3       		.byte	0xa3
+ 743 00a9 5E000000 		.4byte	0x5e
+ 744 00ad 02       		.uleb128 0x2
+ 745 00ae 04       		.byte	0x4
+ 746 00af 04       		.byte	0x4
+ 747 00b0 CC000000 		.4byte	.LASF15
+ 748 00b4 02       		.uleb128 0x2
+ 749 00b5 08       		.byte	0x8
+ 750 00b6 04       		.byte	0x4
+ 751 00b7 D5010000 		.4byte	.LASF16
+ 752 00bb 02       		.uleb128 0x2
+ 753 00bc 01       		.byte	0x1
+ 754 00bd 08       		.byte	0x8
+ 755 00be CD020000 		.4byte	.LASF17
+ 756 00c2 05       		.uleb128 0x5
+ 757 00c3 25000000 		.4byte	.LASF18
+ 758 00c7 04       		.byte	0x4
+ 759 00c8 4D01     		.2byte	0x14d
+ 760 00ca CE000000 		.4byte	0xce
+ 761 00ce 06       		.uleb128 0x6
+ 762 00cf A2000000 		.4byte	0xa2
+ 763 00d3 05       		.uleb128 0x5
+ 764 00d4 66020000 		.4byte	.LASF19
+ 765 00d8 04       		.byte	0x4
+ 766 00d9 5D01     		.2byte	0x15d
+ 767 00db DF000000 		.4byte	0xdf
+ 768 00df 07       		.uleb128 0x7
+ 769 00e0 04       		.byte	0x4
+ 770 00e1 E5000000 		.4byte	0xe5
+ 771 00e5 08       		.uleb128 0x8
+ 772 00e6 02       		.uleb128 0x2
+ 773 00e7 04       		.byte	0x4
+ 774 00e8 07       		.byte	0x7
+ 775 00e9 8D020000 		.4byte	.LASF20
+ 776 00ed 09       		.uleb128 0x9
+ 777 00ee 58030000 		.4byte	.LASF51
+ 778 00f2 01       		.byte	0x1
+ 779 00f3 01       		.byte	0x1
+ 780 00f4 20       		.byte	0x20
+ 781 00f5 12010000 		.4byte	0x112
+ 782 00f9 0A       		.uleb128 0xa
+ 783 00fa 6B030000 		.4byte	.LASF21
+ 784 00fe 00       		.sleb128 0
+ 785 00ff 0A       		.uleb128 0xa
+ 786 0100 96020000 		.4byte	.LASF22
+ 787 0104 01       		.sleb128 1
+ 788 0105 0A       		.uleb128 0xa
+ 789 0106 09030000 		.4byte	.LASF23
+ 790 010a 02       		.sleb128 2
+ 791 010b 0A       		.uleb128 0xa
+ 792 010c 85020000 		.4byte	.LASF24
+ 793 0110 03       		.sleb128 3
+ 794 0111 00       		.byte	0
+ 795 0112 0B       		.uleb128 0xb
+ 796 0113 D2020000 		.4byte	.LASF25
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccZJuTj2.s 			page 22
+
+
+ 797 0117 01       		.byte	0x1
+ 798 0118 43       		.byte	0x43
+ 799 0119 00000000 		.4byte	.LFB0
+ 800 011d 24000000 		.4byte	.LFE0-.LFB0
+ 801 0121 01       		.uleb128 0x1
+ 802 0122 9C       		.byte	0x9c
+ 803 0123 0C       		.uleb128 0xc
+ 804 0124 4A020000 		.4byte	.LASF28
+ 805 0128 01       		.byte	0x1
+ 806 0129 61       		.byte	0x61
+ 807 012a 00000000 		.4byte	.LFB1
+ 808 012e 24000000 		.4byte	.LFE1-.LFB1
+ 809 0132 01       		.uleb128 0x1
+ 810 0133 9C       		.byte	0x9c
+ 811 0134 47010000 		.4byte	0x147
+ 812 0138 0D       		.uleb128 0xd
+ 813 0139 07020000 		.4byte	.LASF30
+ 814 013d 01       		.byte	0x1
+ 815 013e 61       		.byte	0x61
+ 816 013f D3000000 		.4byte	0xd3
+ 817 0143 02       		.uleb128 0x2
+ 818 0144 91       		.byte	0x91
+ 819 0145 74       		.sleb128 -12
+ 820 0146 00       		.byte	0
+ 821 0147 0B       		.uleb128 0xb
+ 822 0148 16000000 		.4byte	.LASF26
+ 823 014c 01       		.byte	0x1
+ 824 014d 7E       		.byte	0x7e
+ 825 014e 00000000 		.4byte	.LFB2
+ 826 0152 18000000 		.4byte	.LFE2-.LFB2
+ 827 0156 01       		.uleb128 0x1
+ 828 0157 9C       		.byte	0x9c
+ 829 0158 0B       		.uleb128 0xb
+ 830 0159 62010000 		.4byte	.LASF27
+ 831 015d 01       		.byte	0x1
+ 832 015e 99       		.byte	0x99
+ 833 015f 00000000 		.4byte	.LFB3
+ 834 0163 00010000 		.4byte	.LFE3-.LFB3
+ 835 0167 01       		.uleb128 0x1
+ 836 0168 9C       		.byte	0x9c
+ 837 0169 0E       		.uleb128 0xe
+ 838 016a F5020000 		.4byte	.LASF29
+ 839 016e 01       		.byte	0x1
+ 840 016f DA       		.byte	0xda
+ 841 0170 00000000 		.4byte	.LFB4
+ 842 0174 1C000000 		.4byte	.LFE4-.LFB4
+ 843 0178 01       		.uleb128 0x1
+ 844 0179 9C       		.byte	0x9c
+ 845 017a 8D010000 		.4byte	0x18d
+ 846 017e 0D       		.uleb128 0xd
+ 847 017f 07020000 		.4byte	.LASF30
+ 848 0183 01       		.byte	0x1
+ 849 0184 DA       		.byte	0xda
+ 850 0185 D3000000 		.4byte	0xd3
+ 851 0189 02       		.uleb128 0x2
+ 852 018a 91       		.byte	0x91
+ 853 018b 74       		.sleb128 -12
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccZJuTj2.s 			page 23
+
+
+ 854 018c 00       		.byte	0
+ 855 018d 0F       		.uleb128 0xf
+ 856 018e 4E010000 		.4byte	.LASF36
+ 857 0192 01       		.byte	0x1
+ 858 0193 EE       		.byte	0xee
+ 859 0194 D3000000 		.4byte	0xd3
+ 860 0198 00000000 		.4byte	.LFB5
+ 861 019c 14000000 		.4byte	.LFE5-.LFB5
+ 862 01a0 01       		.uleb128 0x1
+ 863 01a1 9C       		.byte	0x9c
+ 864 01a2 10       		.uleb128 0x10
+ 865 01a3 26020000 		.4byte	.LASF31
+ 866 01a7 01       		.byte	0x1
+ 867 01a8 0601     		.2byte	0x106
+ 868 01aa 00000000 		.4byte	.LFB6
+ 869 01ae 50000000 		.4byte	.LFE6-.LFB6
+ 870 01b2 01       		.uleb128 0x1
+ 871 01b3 9C       		.byte	0x9c
+ 872 01b4 E6010000 		.4byte	0x1e6
+ 873 01b8 11       		.uleb128 0x11
+ 874 01b9 B3010000 		.4byte	.LASF32
+ 875 01bd 01       		.byte	0x1
+ 876 01be 0601     		.2byte	0x106
+ 877 01c0 97000000 		.4byte	0x97
+ 878 01c4 02       		.uleb128 0x2
+ 879 01c5 91       		.byte	0x91
+ 880 01c6 67       		.sleb128 -25
+ 881 01c7 12       		.uleb128 0x12
+ 882 01c8 8C010000 		.4byte	.LASF33
+ 883 01cc 01       		.byte	0x1
+ 884 01cd 0801     		.2byte	0x108
+ 885 01cf 97000000 		.4byte	0x97
+ 886 01d3 02       		.uleb128 0x2
+ 887 01d4 91       		.byte	0x91
+ 888 01d5 6B       		.sleb128 -21
+ 889 01d6 12       		.uleb128 0x12
+ 890 01d7 40030000 		.4byte	.LASF34
+ 891 01db 01       		.byte	0x1
+ 892 01dc 0901     		.2byte	0x109
+ 893 01de A2000000 		.4byte	0xa2
+ 894 01e2 02       		.uleb128 0x2
+ 895 01e3 91       		.byte	0x91
+ 896 01e4 6C       		.sleb128 -20
+ 897 01e5 00       		.byte	0
+ 898 01e6 13       		.uleb128 0x13
+ 899 01e7 76010000 		.4byte	.LASF52
+ 900 01eb 01       		.byte	0x1
+ 901 01ec 2001     		.2byte	0x120
+ 902 01ee 97000000 		.4byte	0x97
+ 903 01f2 00000000 		.4byte	.LFB7
+ 904 01f6 30000000 		.4byte	.LFE7-.LFB7
+ 905 01fa 01       		.uleb128 0x1
+ 906 01fb 9C       		.byte	0x9c
+ 907 01fc 1F020000 		.4byte	0x21f
+ 908 0200 12       		.uleb128 0x12
+ 909 0201 B3010000 		.4byte	.LASF32
+ 910 0205 01       		.byte	0x1
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccZJuTj2.s 			page 24
+
+
+ 911 0206 2201     		.2byte	0x122
+ 912 0208 A2000000 		.4byte	0xa2
+ 913 020c 02       		.uleb128 0x2
+ 914 020d 91       		.byte	0x91
+ 915 020e 70       		.sleb128 -16
+ 916 020f 12       		.uleb128 0x12
+ 917 0210 40030000 		.4byte	.LASF34
+ 918 0214 01       		.byte	0x1
+ 919 0215 2301     		.2byte	0x123
+ 920 0217 A2000000 		.4byte	0xa2
+ 921 021b 02       		.uleb128 0x2
+ 922 021c 91       		.byte	0x91
+ 923 021d 74       		.sleb128 -12
+ 924 021e 00       		.byte	0
+ 925 021f 14       		.uleb128 0x14
+ 926 0220 BB000000 		.4byte	.LASF35
+ 927 0224 01       		.byte	0x1
+ 928 0225 3901     		.2byte	0x139
+ 929 0227 00000000 		.4byte	.LFB8
+ 930 022b 14000000 		.4byte	.LFE8-.LFB8
+ 931 022f 01       		.uleb128 0x1
+ 932 0230 9C       		.byte	0x9c
+ 933 0231 15       		.uleb128 0x15
+ 934 0232 E2020000 		.4byte	.LASF37
+ 935 0236 01       		.byte	0x1
+ 936 0237 4E01     		.2byte	0x14e
+ 937 0239 97000000 		.4byte	0x97
+ 938 023d 00000000 		.4byte	.LFB9
+ 939 0241 20000000 		.4byte	.LFE9-.LFB9
+ 940 0245 01       		.uleb128 0x1
+ 941 0246 9C       		.byte	0x9c
+ 942 0247 14       		.uleb128 0x14
+ 943 0248 73020000 		.4byte	.LASF38
+ 944 024c 01       		.byte	0x1
+ 945 024d 6301     		.2byte	0x163
+ 946 024f 00000000 		.4byte	.LFB10
+ 947 0253 14000000 		.4byte	.LFE10-.LFB10
+ 948 0257 01       		.uleb128 0x1
+ 949 0258 9C       		.byte	0x9c
+ 950 0259 14       		.uleb128 0x14
+ 951 025a A6000000 		.4byte	.LASF39
+ 952 025e 01       		.byte	0x1
+ 953 025f 7901     		.2byte	0x179
+ 954 0261 00000000 		.4byte	.LFB11
+ 955 0265 14000000 		.4byte	.LFE11-.LFB11
+ 956 0269 01       		.uleb128 0x1
+ 957 026a 9C       		.byte	0x9c
+ 958 026b 14       		.uleb128 0x14
+ 959 026c DC010000 		.4byte	.LASF40
+ 960 0270 01       		.byte	0x1
+ 961 0271 8D01     		.2byte	0x18d
+ 962 0273 00000000 		.4byte	.LFB12
+ 963 0277 14000000 		.4byte	.LFE12-.LFB12
+ 964 027b 01       		.uleb128 0x1
+ 965 027c 9C       		.byte	0x9c
+ 966 027d 16       		.uleb128 0x16
+ 967 027e 81000000 		.4byte	0x81
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccZJuTj2.s 			page 25
+
+
+ 968 0282 8D020000 		.4byte	0x28d
+ 969 0286 17       		.uleb128 0x17
+ 970 0287 E6000000 		.4byte	0xe6
+ 971 028b 03       		.byte	0x3
+ 972 028c 00       		.byte	0
+ 973 028d 18       		.uleb128 0x18
+ 974 028e 5C020000 		.4byte	.LASF41
+ 975 0292 01       		.byte	0x1
+ 976 0293 22       		.byte	0x22
+ 977 0294 7D020000 		.4byte	0x27d
+ 978 0298 18       		.uleb128 0x18
+ 979 0299 4B000000 		.4byte	.LASF42
+ 980 029d 01       		.byte	0x1
+ 981 029e 23       		.byte	0x23
+ 982 029f 7D020000 		.4byte	0x27d
+ 983 02a3 18       		.uleb128 0x18
+ 984 02a4 35000000 		.4byte	.LASF43
+ 985 02a8 01       		.byte	0x1
+ 986 02a9 25       		.byte	0x25
+ 987 02aa 8C000000 		.4byte	0x8c
+ 988 02ae 18       		.uleb128 0x18
+ 989 02af 00000000 		.4byte	.LASF44
+ 990 02b3 01       		.byte	0x1
+ 991 02b4 26       		.byte	0x26
+ 992 02b5 8C000000 		.4byte	0x8c
+ 993 02b9 18       		.uleb128 0x18
+ 994 02ba 27030000 		.4byte	.LASF45
+ 995 02be 01       		.byte	0x1
+ 996 02bf 27       		.byte	0x27
+ 997 02c0 8C000000 		.4byte	0x8c
+ 998 02c4 19       		.uleb128 0x19
+ 999 02c5 3C020000 		.4byte	.LASF46
+ 1000 02c9 01       		.byte	0x1
+ 1001 02ca 2B       		.byte	0x2b
+ 1002 02cb 8C000000 		.4byte	0x8c
+ 1003 02cf 05       		.uleb128 0x5
+ 1004 02d0 03       		.byte	0x3
+ 1005 02d1 00000000 		.4byte	counter_blink
+ 1006 02d5 16       		.uleb128 0x16
+ 1007 02d6 D3000000 		.4byte	0xd3
+ 1008 02da E5020000 		.4byte	0x2e5
+ 1009 02de 17       		.uleb128 0x17
+ 1010 02df E6000000 		.4byte	0xe6
+ 1011 02e3 2F       		.byte	0x2f
+ 1012 02e4 00       		.byte	0
+ 1013 02e5 18       		.uleb128 0x18
+ 1014 02e6 59000000 		.4byte	.LASF47
+ 1015 02ea 01       		.byte	0x1
+ 1016 02eb 2F       		.byte	0x2f
+ 1017 02ec D5020000 		.4byte	0x2d5
+ 1018 02f0 00       		.byte	0
+ 1019              		.section	.debug_abbrev,"",%progbits
+ 1020              	.Ldebug_abbrev0:
+ 1021 0000 01       		.uleb128 0x1
+ 1022 0001 11       		.uleb128 0x11
+ 1023 0002 01       		.byte	0x1
+ 1024 0003 25       		.uleb128 0x25
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccZJuTj2.s 			page 26
+
+
+ 1025 0004 0E       		.uleb128 0xe
+ 1026 0005 13       		.uleb128 0x13
+ 1027 0006 0B       		.uleb128 0xb
+ 1028 0007 03       		.uleb128 0x3
+ 1029 0008 0E       		.uleb128 0xe
+ 1030 0009 1B       		.uleb128 0x1b
+ 1031 000a 0E       		.uleb128 0xe
+ 1032 000b 55       		.uleb128 0x55
+ 1033 000c 17       		.uleb128 0x17
+ 1034 000d 11       		.uleb128 0x11
+ 1035 000e 01       		.uleb128 0x1
+ 1036 000f 10       		.uleb128 0x10
+ 1037 0010 17       		.uleb128 0x17
+ 1038 0011 00       		.byte	0
+ 1039 0012 00       		.byte	0
+ 1040 0013 02       		.uleb128 0x2
+ 1041 0014 24       		.uleb128 0x24
+ 1042 0015 00       		.byte	0
+ 1043 0016 0B       		.uleb128 0xb
+ 1044 0017 0B       		.uleb128 0xb
+ 1045 0018 3E       		.uleb128 0x3e
+ 1046 0019 0B       		.uleb128 0xb
+ 1047 001a 03       		.uleb128 0x3
+ 1048 001b 0E       		.uleb128 0xe
+ 1049 001c 00       		.byte	0
+ 1050 001d 00       		.byte	0
+ 1051 001e 03       		.uleb128 0x3
+ 1052 001f 16       		.uleb128 0x16
+ 1053 0020 00       		.byte	0
+ 1054 0021 03       		.uleb128 0x3
+ 1055 0022 0E       		.uleb128 0xe
+ 1056 0023 3A       		.uleb128 0x3a
+ 1057 0024 0B       		.uleb128 0xb
+ 1058 0025 3B       		.uleb128 0x3b
+ 1059 0026 0B       		.uleb128 0xb
+ 1060 0027 49       		.uleb128 0x49
+ 1061 0028 13       		.uleb128 0x13
+ 1062 0029 00       		.byte	0
+ 1063 002a 00       		.byte	0
+ 1064 002b 04       		.uleb128 0x4
+ 1065 002c 24       		.uleb128 0x24
+ 1066 002d 00       		.byte	0
+ 1067 002e 0B       		.uleb128 0xb
+ 1068 002f 0B       		.uleb128 0xb
+ 1069 0030 3E       		.uleb128 0x3e
+ 1070 0031 0B       		.uleb128 0xb
+ 1071 0032 03       		.uleb128 0x3
+ 1072 0033 08       		.uleb128 0x8
+ 1073 0034 00       		.byte	0
+ 1074 0035 00       		.byte	0
+ 1075 0036 05       		.uleb128 0x5
+ 1076 0037 16       		.uleb128 0x16
+ 1077 0038 00       		.byte	0
+ 1078 0039 03       		.uleb128 0x3
+ 1079 003a 0E       		.uleb128 0xe
+ 1080 003b 3A       		.uleb128 0x3a
+ 1081 003c 0B       		.uleb128 0xb
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccZJuTj2.s 			page 27
+
+
+ 1082 003d 3B       		.uleb128 0x3b
+ 1083 003e 05       		.uleb128 0x5
+ 1084 003f 49       		.uleb128 0x49
+ 1085 0040 13       		.uleb128 0x13
+ 1086 0041 00       		.byte	0
+ 1087 0042 00       		.byte	0
+ 1088 0043 06       		.uleb128 0x6
+ 1089 0044 35       		.uleb128 0x35
+ 1090 0045 00       		.byte	0
+ 1091 0046 49       		.uleb128 0x49
+ 1092 0047 13       		.uleb128 0x13
+ 1093 0048 00       		.byte	0
+ 1094 0049 00       		.byte	0
+ 1095 004a 07       		.uleb128 0x7
+ 1096 004b 0F       		.uleb128 0xf
+ 1097 004c 00       		.byte	0
+ 1098 004d 0B       		.uleb128 0xb
+ 1099 004e 0B       		.uleb128 0xb
+ 1100 004f 49       		.uleb128 0x49
+ 1101 0050 13       		.uleb128 0x13
+ 1102 0051 00       		.byte	0
+ 1103 0052 00       		.byte	0
+ 1104 0053 08       		.uleb128 0x8
+ 1105 0054 15       		.uleb128 0x15
+ 1106 0055 00       		.byte	0
+ 1107 0056 27       		.uleb128 0x27
+ 1108 0057 19       		.uleb128 0x19
+ 1109 0058 00       		.byte	0
+ 1110 0059 00       		.byte	0
+ 1111 005a 09       		.uleb128 0x9
+ 1112 005b 04       		.uleb128 0x4
+ 1113 005c 01       		.byte	0x1
+ 1114 005d 03       		.uleb128 0x3
+ 1115 005e 0E       		.uleb128 0xe
+ 1116 005f 0B       		.uleb128 0xb
+ 1117 0060 0B       		.uleb128 0xb
+ 1118 0061 3A       		.uleb128 0x3a
+ 1119 0062 0B       		.uleb128 0xb
+ 1120 0063 3B       		.uleb128 0x3b
+ 1121 0064 0B       		.uleb128 0xb
+ 1122 0065 01       		.uleb128 0x1
+ 1123 0066 13       		.uleb128 0x13
+ 1124 0067 00       		.byte	0
+ 1125 0068 00       		.byte	0
+ 1126 0069 0A       		.uleb128 0xa
+ 1127 006a 28       		.uleb128 0x28
+ 1128 006b 00       		.byte	0
+ 1129 006c 03       		.uleb128 0x3
+ 1130 006d 0E       		.uleb128 0xe
+ 1131 006e 1C       		.uleb128 0x1c
+ 1132 006f 0D       		.uleb128 0xd
+ 1133 0070 00       		.byte	0
+ 1134 0071 00       		.byte	0
+ 1135 0072 0B       		.uleb128 0xb
+ 1136 0073 2E       		.uleb128 0x2e
+ 1137 0074 00       		.byte	0
+ 1138 0075 3F       		.uleb128 0x3f
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccZJuTj2.s 			page 28
+
+
+ 1139 0076 19       		.uleb128 0x19
+ 1140 0077 03       		.uleb128 0x3
+ 1141 0078 0E       		.uleb128 0xe
+ 1142 0079 3A       		.uleb128 0x3a
+ 1143 007a 0B       		.uleb128 0xb
+ 1144 007b 3B       		.uleb128 0x3b
+ 1145 007c 0B       		.uleb128 0xb
+ 1146 007d 27       		.uleb128 0x27
+ 1147 007e 19       		.uleb128 0x19
+ 1148 007f 11       		.uleb128 0x11
+ 1149 0080 01       		.uleb128 0x1
+ 1150 0081 12       		.uleb128 0x12
+ 1151 0082 06       		.uleb128 0x6
+ 1152 0083 40       		.uleb128 0x40
+ 1153 0084 18       		.uleb128 0x18
+ 1154 0085 9642     		.uleb128 0x2116
+ 1155 0087 19       		.uleb128 0x19
+ 1156 0088 00       		.byte	0
+ 1157 0089 00       		.byte	0
+ 1158 008a 0C       		.uleb128 0xc
+ 1159 008b 2E       		.uleb128 0x2e
+ 1160 008c 01       		.byte	0x1
+ 1161 008d 3F       		.uleb128 0x3f
+ 1162 008e 19       		.uleb128 0x19
+ 1163 008f 03       		.uleb128 0x3
+ 1164 0090 0E       		.uleb128 0xe
+ 1165 0091 3A       		.uleb128 0x3a
+ 1166 0092 0B       		.uleb128 0xb
+ 1167 0093 3B       		.uleb128 0x3b
+ 1168 0094 0B       		.uleb128 0xb
+ 1169 0095 27       		.uleb128 0x27
+ 1170 0096 19       		.uleb128 0x19
+ 1171 0097 11       		.uleb128 0x11
+ 1172 0098 01       		.uleb128 0x1
+ 1173 0099 12       		.uleb128 0x12
+ 1174 009a 06       		.uleb128 0x6
+ 1175 009b 40       		.uleb128 0x40
+ 1176 009c 18       		.uleb128 0x18
+ 1177 009d 9642     		.uleb128 0x2116
+ 1178 009f 19       		.uleb128 0x19
+ 1179 00a0 01       		.uleb128 0x1
+ 1180 00a1 13       		.uleb128 0x13
+ 1181 00a2 00       		.byte	0
+ 1182 00a3 00       		.byte	0
+ 1183 00a4 0D       		.uleb128 0xd
+ 1184 00a5 05       		.uleb128 0x5
+ 1185 00a6 00       		.byte	0
+ 1186 00a7 03       		.uleb128 0x3
+ 1187 00a8 0E       		.uleb128 0xe
+ 1188 00a9 3A       		.uleb128 0x3a
+ 1189 00aa 0B       		.uleb128 0xb
+ 1190 00ab 3B       		.uleb128 0x3b
+ 1191 00ac 0B       		.uleb128 0xb
+ 1192 00ad 49       		.uleb128 0x49
+ 1193 00ae 13       		.uleb128 0x13
+ 1194 00af 02       		.uleb128 0x2
+ 1195 00b0 18       		.uleb128 0x18
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccZJuTj2.s 			page 29
+
+
+ 1196 00b1 00       		.byte	0
+ 1197 00b2 00       		.byte	0
+ 1198 00b3 0E       		.uleb128 0xe
+ 1199 00b4 2E       		.uleb128 0x2e
+ 1200 00b5 01       		.byte	0x1
+ 1201 00b6 3F       		.uleb128 0x3f
+ 1202 00b7 19       		.uleb128 0x19
+ 1203 00b8 03       		.uleb128 0x3
+ 1204 00b9 0E       		.uleb128 0xe
+ 1205 00ba 3A       		.uleb128 0x3a
+ 1206 00bb 0B       		.uleb128 0xb
+ 1207 00bc 3B       		.uleb128 0x3b
+ 1208 00bd 0B       		.uleb128 0xb
+ 1209 00be 27       		.uleb128 0x27
+ 1210 00bf 19       		.uleb128 0x19
+ 1211 00c0 11       		.uleb128 0x11
+ 1212 00c1 01       		.uleb128 0x1
+ 1213 00c2 12       		.uleb128 0x12
+ 1214 00c3 06       		.uleb128 0x6
+ 1215 00c4 40       		.uleb128 0x40
+ 1216 00c5 18       		.uleb128 0x18
+ 1217 00c6 9742     		.uleb128 0x2117
+ 1218 00c8 19       		.uleb128 0x19
+ 1219 00c9 01       		.uleb128 0x1
+ 1220 00ca 13       		.uleb128 0x13
+ 1221 00cb 00       		.byte	0
+ 1222 00cc 00       		.byte	0
+ 1223 00cd 0F       		.uleb128 0xf
+ 1224 00ce 2E       		.uleb128 0x2e
+ 1225 00cf 00       		.byte	0
+ 1226 00d0 3F       		.uleb128 0x3f
+ 1227 00d1 19       		.uleb128 0x19
+ 1228 00d2 03       		.uleb128 0x3
+ 1229 00d3 0E       		.uleb128 0xe
+ 1230 00d4 3A       		.uleb128 0x3a
+ 1231 00d5 0B       		.uleb128 0xb
+ 1232 00d6 3B       		.uleb128 0x3b
+ 1233 00d7 0B       		.uleb128 0xb
+ 1234 00d8 27       		.uleb128 0x27
+ 1235 00d9 19       		.uleb128 0x19
+ 1236 00da 49       		.uleb128 0x49
+ 1237 00db 13       		.uleb128 0x13
+ 1238 00dc 11       		.uleb128 0x11
+ 1239 00dd 01       		.uleb128 0x1
+ 1240 00de 12       		.uleb128 0x12
+ 1241 00df 06       		.uleb128 0x6
+ 1242 00e0 40       		.uleb128 0x40
+ 1243 00e1 18       		.uleb128 0x18
+ 1244 00e2 9742     		.uleb128 0x2117
+ 1245 00e4 19       		.uleb128 0x19
+ 1246 00e5 00       		.byte	0
+ 1247 00e6 00       		.byte	0
+ 1248 00e7 10       		.uleb128 0x10
+ 1249 00e8 2E       		.uleb128 0x2e
+ 1250 00e9 01       		.byte	0x1
+ 1251 00ea 3F       		.uleb128 0x3f
+ 1252 00eb 19       		.uleb128 0x19
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccZJuTj2.s 			page 30
+
+
+ 1253 00ec 03       		.uleb128 0x3
+ 1254 00ed 0E       		.uleb128 0xe
+ 1255 00ee 3A       		.uleb128 0x3a
+ 1256 00ef 0B       		.uleb128 0xb
+ 1257 00f0 3B       		.uleb128 0x3b
+ 1258 00f1 05       		.uleb128 0x5
+ 1259 00f2 27       		.uleb128 0x27
+ 1260 00f3 19       		.uleb128 0x19
+ 1261 00f4 11       		.uleb128 0x11
+ 1262 00f5 01       		.uleb128 0x1
+ 1263 00f6 12       		.uleb128 0x12
+ 1264 00f7 06       		.uleb128 0x6
+ 1265 00f8 40       		.uleb128 0x40
+ 1266 00f9 18       		.uleb128 0x18
+ 1267 00fa 9642     		.uleb128 0x2116
+ 1268 00fc 19       		.uleb128 0x19
+ 1269 00fd 01       		.uleb128 0x1
+ 1270 00fe 13       		.uleb128 0x13
+ 1271 00ff 00       		.byte	0
+ 1272 0100 00       		.byte	0
+ 1273 0101 11       		.uleb128 0x11
+ 1274 0102 05       		.uleb128 0x5
+ 1275 0103 00       		.byte	0
+ 1276 0104 03       		.uleb128 0x3
+ 1277 0105 0E       		.uleb128 0xe
+ 1278 0106 3A       		.uleb128 0x3a
+ 1279 0107 0B       		.uleb128 0xb
+ 1280 0108 3B       		.uleb128 0x3b
+ 1281 0109 05       		.uleb128 0x5
+ 1282 010a 49       		.uleb128 0x49
+ 1283 010b 13       		.uleb128 0x13
+ 1284 010c 02       		.uleb128 0x2
+ 1285 010d 18       		.uleb128 0x18
+ 1286 010e 00       		.byte	0
+ 1287 010f 00       		.byte	0
+ 1288 0110 12       		.uleb128 0x12
+ 1289 0111 34       		.uleb128 0x34
+ 1290 0112 00       		.byte	0
+ 1291 0113 03       		.uleb128 0x3
+ 1292 0114 0E       		.uleb128 0xe
+ 1293 0115 3A       		.uleb128 0x3a
+ 1294 0116 0B       		.uleb128 0xb
+ 1295 0117 3B       		.uleb128 0x3b
+ 1296 0118 05       		.uleb128 0x5
+ 1297 0119 49       		.uleb128 0x49
+ 1298 011a 13       		.uleb128 0x13
+ 1299 011b 02       		.uleb128 0x2
+ 1300 011c 18       		.uleb128 0x18
+ 1301 011d 00       		.byte	0
+ 1302 011e 00       		.byte	0
+ 1303 011f 13       		.uleb128 0x13
+ 1304 0120 2E       		.uleb128 0x2e
+ 1305 0121 01       		.byte	0x1
+ 1306 0122 3F       		.uleb128 0x3f
+ 1307 0123 19       		.uleb128 0x19
+ 1308 0124 03       		.uleb128 0x3
+ 1309 0125 0E       		.uleb128 0xe
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccZJuTj2.s 			page 31
+
+
+ 1310 0126 3A       		.uleb128 0x3a
+ 1311 0127 0B       		.uleb128 0xb
+ 1312 0128 3B       		.uleb128 0x3b
+ 1313 0129 05       		.uleb128 0x5
+ 1314 012a 27       		.uleb128 0x27
+ 1315 012b 19       		.uleb128 0x19
+ 1316 012c 49       		.uleb128 0x49
+ 1317 012d 13       		.uleb128 0x13
+ 1318 012e 11       		.uleb128 0x11
+ 1319 012f 01       		.uleb128 0x1
+ 1320 0130 12       		.uleb128 0x12
+ 1321 0131 06       		.uleb128 0x6
+ 1322 0132 40       		.uleb128 0x40
+ 1323 0133 18       		.uleb128 0x18
+ 1324 0134 9742     		.uleb128 0x2117
+ 1325 0136 19       		.uleb128 0x19
+ 1326 0137 01       		.uleb128 0x1
+ 1327 0138 13       		.uleb128 0x13
+ 1328 0139 00       		.byte	0
+ 1329 013a 00       		.byte	0
+ 1330 013b 14       		.uleb128 0x14
+ 1331 013c 2E       		.uleb128 0x2e
+ 1332 013d 00       		.byte	0
+ 1333 013e 3F       		.uleb128 0x3f
+ 1334 013f 19       		.uleb128 0x19
+ 1335 0140 03       		.uleb128 0x3
+ 1336 0141 0E       		.uleb128 0xe
+ 1337 0142 3A       		.uleb128 0x3a
+ 1338 0143 0B       		.uleb128 0xb
+ 1339 0144 3B       		.uleb128 0x3b
+ 1340 0145 05       		.uleb128 0x5
+ 1341 0146 27       		.uleb128 0x27
+ 1342 0147 19       		.uleb128 0x19
+ 1343 0148 11       		.uleb128 0x11
+ 1344 0149 01       		.uleb128 0x1
+ 1345 014a 12       		.uleb128 0x12
+ 1346 014b 06       		.uleb128 0x6
+ 1347 014c 40       		.uleb128 0x40
+ 1348 014d 18       		.uleb128 0x18
+ 1349 014e 9742     		.uleb128 0x2117
+ 1350 0150 19       		.uleb128 0x19
+ 1351 0151 00       		.byte	0
+ 1352 0152 00       		.byte	0
+ 1353 0153 15       		.uleb128 0x15
+ 1354 0154 2E       		.uleb128 0x2e
+ 1355 0155 00       		.byte	0
+ 1356 0156 3F       		.uleb128 0x3f
+ 1357 0157 19       		.uleb128 0x19
+ 1358 0158 03       		.uleb128 0x3
+ 1359 0159 0E       		.uleb128 0xe
+ 1360 015a 3A       		.uleb128 0x3a
+ 1361 015b 0B       		.uleb128 0xb
+ 1362 015c 3B       		.uleb128 0x3b
+ 1363 015d 05       		.uleb128 0x5
+ 1364 015e 27       		.uleb128 0x27
+ 1365 015f 19       		.uleb128 0x19
+ 1366 0160 49       		.uleb128 0x49
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccZJuTj2.s 			page 32
+
+
+ 1367 0161 13       		.uleb128 0x13
+ 1368 0162 11       		.uleb128 0x11
+ 1369 0163 01       		.uleb128 0x1
+ 1370 0164 12       		.uleb128 0x12
+ 1371 0165 06       		.uleb128 0x6
+ 1372 0166 40       		.uleb128 0x40
+ 1373 0167 18       		.uleb128 0x18
+ 1374 0168 9742     		.uleb128 0x2117
+ 1375 016a 19       		.uleb128 0x19
+ 1376 016b 00       		.byte	0
+ 1377 016c 00       		.byte	0
+ 1378 016d 16       		.uleb128 0x16
+ 1379 016e 01       		.uleb128 0x1
+ 1380 016f 01       		.byte	0x1
+ 1381 0170 49       		.uleb128 0x49
+ 1382 0171 13       		.uleb128 0x13
+ 1383 0172 01       		.uleb128 0x1
+ 1384 0173 13       		.uleb128 0x13
+ 1385 0174 00       		.byte	0
+ 1386 0175 00       		.byte	0
+ 1387 0176 17       		.uleb128 0x17
+ 1388 0177 21       		.uleb128 0x21
+ 1389 0178 00       		.byte	0
+ 1390 0179 49       		.uleb128 0x49
+ 1391 017a 13       		.uleb128 0x13
+ 1392 017b 2F       		.uleb128 0x2f
+ 1393 017c 0B       		.uleb128 0xb
+ 1394 017d 00       		.byte	0
+ 1395 017e 00       		.byte	0
+ 1396 017f 18       		.uleb128 0x18
+ 1397 0180 34       		.uleb128 0x34
+ 1398 0181 00       		.byte	0
+ 1399 0182 03       		.uleb128 0x3
+ 1400 0183 0E       		.uleb128 0xe
+ 1401 0184 3A       		.uleb128 0x3a
+ 1402 0185 0B       		.uleb128 0xb
+ 1403 0186 3B       		.uleb128 0x3b
+ 1404 0187 0B       		.uleb128 0xb
+ 1405 0188 49       		.uleb128 0x49
+ 1406 0189 13       		.uleb128 0x13
+ 1407 018a 3F       		.uleb128 0x3f
+ 1408 018b 19       		.uleb128 0x19
+ 1409 018c 3C       		.uleb128 0x3c
+ 1410 018d 19       		.uleb128 0x19
+ 1411 018e 00       		.byte	0
+ 1412 018f 00       		.byte	0
+ 1413 0190 19       		.uleb128 0x19
+ 1414 0191 34       		.uleb128 0x34
+ 1415 0192 00       		.byte	0
+ 1416 0193 03       		.uleb128 0x3
+ 1417 0194 0E       		.uleb128 0xe
+ 1418 0195 3A       		.uleb128 0x3a
+ 1419 0196 0B       		.uleb128 0xb
+ 1420 0197 3B       		.uleb128 0x3b
+ 1421 0198 0B       		.uleb128 0xb
+ 1422 0199 49       		.uleb128 0x49
+ 1423 019a 13       		.uleb128 0x13
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccZJuTj2.s 			page 33
+
+
+ 1424 019b 3F       		.uleb128 0x3f
+ 1425 019c 19       		.uleb128 0x19
+ 1426 019d 02       		.uleb128 0x2
+ 1427 019e 18       		.uleb128 0x18
+ 1428 019f 00       		.byte	0
+ 1429 01a0 00       		.byte	0
+ 1430 01a1 00       		.byte	0
+ 1431              		.section	.debug_aranges,"",%progbits
+ 1432 0000 7C000000 		.4byte	0x7c
+ 1433 0004 0200     		.2byte	0x2
+ 1434 0006 00000000 		.4byte	.Ldebug_info0
+ 1435 000a 04       		.byte	0x4
+ 1436 000b 00       		.byte	0
+ 1437 000c 0000     		.2byte	0
+ 1438 000e 0000     		.2byte	0
+ 1439 0010 00000000 		.4byte	.LFB0
+ 1440 0014 24000000 		.4byte	.LFE0-.LFB0
+ 1441 0018 00000000 		.4byte	.LFB1
+ 1442 001c 24000000 		.4byte	.LFE1-.LFB1
+ 1443 0020 00000000 		.4byte	.LFB2
+ 1444 0024 18000000 		.4byte	.LFE2-.LFB2
+ 1445 0028 00000000 		.4byte	.LFB3
+ 1446 002c 00010000 		.4byte	.LFE3-.LFB3
+ 1447 0030 00000000 		.4byte	.LFB4
+ 1448 0034 1C000000 		.4byte	.LFE4-.LFB4
+ 1449 0038 00000000 		.4byte	.LFB5
+ 1450 003c 14000000 		.4byte	.LFE5-.LFB5
+ 1451 0040 00000000 		.4byte	.LFB6
+ 1452 0044 50000000 		.4byte	.LFE6-.LFB6
+ 1453 0048 00000000 		.4byte	.LFB7
+ 1454 004c 30000000 		.4byte	.LFE7-.LFB7
+ 1455 0050 00000000 		.4byte	.LFB8
+ 1456 0054 14000000 		.4byte	.LFE8-.LFB8
+ 1457 0058 00000000 		.4byte	.LFB9
+ 1458 005c 20000000 		.4byte	.LFE9-.LFB9
+ 1459 0060 00000000 		.4byte	.LFB10
+ 1460 0064 14000000 		.4byte	.LFE10-.LFB10
+ 1461 0068 00000000 		.4byte	.LFB11
+ 1462 006c 14000000 		.4byte	.LFE11-.LFB11
+ 1463 0070 00000000 		.4byte	.LFB12
+ 1464 0074 14000000 		.4byte	.LFE12-.LFB12
+ 1465 0078 00000000 		.4byte	0
+ 1466 007c 00000000 		.4byte	0
+ 1467              		.section	.debug_ranges,"",%progbits
+ 1468              	.Ldebug_ranges0:
+ 1469 0000 00000000 		.4byte	.LFB0
+ 1470 0004 24000000 		.4byte	.LFE0
+ 1471 0008 00000000 		.4byte	.LFB1
+ 1472 000c 24000000 		.4byte	.LFE1
+ 1473 0010 00000000 		.4byte	.LFB2
+ 1474 0014 18000000 		.4byte	.LFE2
+ 1475 0018 00000000 		.4byte	.LFB3
+ 1476 001c 00010000 		.4byte	.LFE3
+ 1477 0020 00000000 		.4byte	.LFB4
+ 1478 0024 1C000000 		.4byte	.LFE4
+ 1479 0028 00000000 		.4byte	.LFB5
+ 1480 002c 14000000 		.4byte	.LFE5
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccZJuTj2.s 			page 34
+
+
+ 1481 0030 00000000 		.4byte	.LFB6
+ 1482 0034 50000000 		.4byte	.LFE6
+ 1483 0038 00000000 		.4byte	.LFB7
+ 1484 003c 30000000 		.4byte	.LFE7
+ 1485 0040 00000000 		.4byte	.LFB8
+ 1486 0044 14000000 		.4byte	.LFE8
+ 1487 0048 00000000 		.4byte	.LFB9
+ 1488 004c 20000000 		.4byte	.LFE9
+ 1489 0050 00000000 		.4byte	.LFB10
+ 1490 0054 14000000 		.4byte	.LFE10
+ 1491 0058 00000000 		.4byte	.LFB11
+ 1492 005c 14000000 		.4byte	.LFE11
+ 1493 0060 00000000 		.4byte	.LFB12
+ 1494 0064 14000000 		.4byte	.LFE12
+ 1495 0068 00000000 		.4byte	0
+ 1496 006c 00000000 		.4byte	0
+ 1497              		.section	.debug_line,"",%progbits
+ 1498              	.Ldebug_line0:
+ 1499 0000 68020000 		.section	.debug_str,"MS",%progbits,1
+ 1499      02004601 
+ 1499      00000201 
+ 1499      FB0E0D00 
+ 1499      01010101 
+ 1500              	.LASF44:
+ 1501 0000 70617573 		.ascii	"pauseTime_StrobeLight\000"
+ 1501      6554696D 
+ 1501      655F5374 
+ 1501      726F6265 
+ 1501      4C696768 
+ 1502              	.LASF26:
+ 1503 0016 6973725F 		.ascii	"isr_blink_Stop\000"
+ 1503      626C696E 
+ 1503      6B5F5374 
+ 1503      6F7000
+ 1504              	.LASF18:
+ 1505 0025 72656733 		.ascii	"reg32\000"
+ 1505      3200
+ 1506              	.LASF3:
+ 1507 002b 5F5F7569 		.ascii	"__uint8_t\000"
+ 1507      6E74385F 
+ 1507      7400
+ 1508              	.LASF43:
+ 1509 0035 666C6173 		.ascii	"flashTime_StrobeLight\000"
+ 1509      6854696D 
+ 1509      655F5374 
+ 1509      726F6265 
+ 1509      4C696768 
+ 1510              	.LASF42:
+ 1511 004b 70776D5F 		.ascii	"pwm_light_adj\000"
+ 1511      6C696768 
+ 1511      745F6164 
+ 1511      6A00
+ 1512              	.LASF47:
+ 1513 0059 43795261 		.ascii	"CyRamVectors\000"
+ 1513      6D566563 
+ 1513      746F7273 
+ 1513      00
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccZJuTj2.s 			page 35
+
+
+ 1514              	.LASF49:
+ 1515 0066 2E5C4765 		.ascii	".\\Generated_Source\\PSoC4\\isr_blink.c\000"
+ 1515      6E657261 
+ 1515      7465645F 
+ 1515      536F7572 
+ 1515      63655C50 
+ 1516              	.LASF5:
+ 1517 008b 73686F72 		.ascii	"short unsigned int\000"
+ 1517      7420756E 
+ 1517      7369676E 
+ 1517      65642069 
+ 1517      6E7400
+ 1518              	.LASF11:
+ 1519 009e 75696E74 		.ascii	"uint8_t\000"
+ 1519      385F7400 
+ 1520              	.LASF39:
+ 1521 00a6 6973725F 		.ascii	"isr_blink_SetPending\000"
+ 1521      626C696E 
+ 1521      6B5F5365 
+ 1521      7450656E 
+ 1521      64696E67 
+ 1522              	.LASF35:
+ 1523 00bb 6973725F 		.ascii	"isr_blink_Enable\000"
+ 1523      626C696E 
+ 1523      6B5F456E 
+ 1523      61626C65 
+ 1523      00
+ 1524              	.LASF15:
+ 1525 00cc 666C6F61 		.ascii	"float\000"
+ 1525      7400
+ 1526              	.LASF48:
+ 1527 00d2 474E5520 		.ascii	"GNU C 4.8.4 20140526 (release) [ARM/embedded-4_8-br"
+ 1527      4320342E 
+ 1527      382E3420 
+ 1527      32303134 
+ 1527      30353236 
+ 1528 0105 616E6368 		.ascii	"anch revision 211358] -mcpu=cortex-m0 -mthumb -g -O"
+ 1528      20726576 
+ 1528      6973696F 
+ 1528      6E203231 
+ 1528      31333538 
+ 1529 0138 30202D66 		.ascii	"0 -ffunction-sections\000"
+ 1529      66756E63 
+ 1529      74696F6E 
+ 1529      2D736563 
+ 1529      74696F6E 
+ 1530              	.LASF36:
+ 1531 014e 6973725F 		.ascii	"isr_blink_GetVector\000"
+ 1531      626C696E 
+ 1531      6B5F4765 
+ 1531      74566563 
+ 1531      746F7200 
+ 1532              	.LASF27:
+ 1533 0162 6973725F 		.ascii	"isr_blink_Interrupt\000"
+ 1533      626C696E 
+ 1533      6B5F496E 
+ 1533      74657272 
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccZJuTj2.s 			page 36
+
+
+ 1533      75707400 
+ 1534              	.LASF52:
+ 1535 0176 6973725F 		.ascii	"isr_blink_GetPriority\000"
+ 1535      626C696E 
+ 1535      6B5F4765 
+ 1535      74507269 
+ 1535      6F726974 
+ 1536              	.LASF33:
+ 1537 018c 696E7465 		.ascii	"interruptState\000"
+ 1537      72727570 
+ 1537      74537461 
+ 1537      746500
+ 1538              	.LASF7:
+ 1539 019b 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1539      20756E73 
+ 1539      69676E65 
+ 1539      6420696E 
+ 1539      7400
+ 1540              	.LASF13:
+ 1541 01ad 75696E74 		.ascii	"uint8\000"
+ 1541      3800
+ 1542              	.LASF32:
+ 1543 01b3 7072696F 		.ascii	"priority\000"
+ 1543      72697479 
+ 1543      00
+ 1544              	.LASF1:
+ 1545 01bc 756E7369 		.ascii	"unsigned char\000"
+ 1545      676E6564 
+ 1545      20636861 
+ 1545      7200
+ 1546              	.LASF4:
+ 1547 01ca 5F5F7569 		.ascii	"__uint16_t\000"
+ 1547      6E743136 
+ 1547      5F7400
+ 1548              	.LASF16:
+ 1549 01d5 646F7562 		.ascii	"double\000"
+ 1549      6C6500
+ 1550              	.LASF40:
+ 1551 01dc 6973725F 		.ascii	"isr_blink_ClearPending\000"
+ 1551      626C696E 
+ 1551      6B5F436C 
+ 1551      65617250 
+ 1551      656E6469 
+ 1552              	.LASF14:
+ 1553 01f3 75696E74 		.ascii	"uint32\000"
+ 1553      333200
+ 1554              	.LASF10:
+ 1555 01fa 756E7369 		.ascii	"unsigned int\000"
+ 1555      676E6564 
+ 1555      20696E74 
+ 1555      00
+ 1556              	.LASF30:
+ 1557 0207 61646472 		.ascii	"address\000"
+ 1557      65737300 
+ 1558              	.LASF9:
+ 1559 020f 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1559      206C6F6E 
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccZJuTj2.s 			page 37
+
+
+ 1559      6720756E 
+ 1559      7369676E 
+ 1559      65642069 
+ 1560              	.LASF31:
+ 1561 0226 6973725F 		.ascii	"isr_blink_SetPriority\000"
+ 1561      626C696E 
+ 1561      6B5F5365 
+ 1561      74507269 
+ 1561      6F726974 
+ 1562              	.LASF46:
+ 1563 023c 636F756E 		.ascii	"counter_blink\000"
+ 1563      7465725F 
+ 1563      626C696E 
+ 1563      6B00
+ 1564              	.LASF28:
+ 1565 024a 6973725F 		.ascii	"isr_blink_StartEx\000"
+ 1565      626C696E 
+ 1565      6B5F5374 
+ 1565      61727445 
+ 1565      7800
+ 1566              	.LASF41:
+ 1567 025c 70776D5F 		.ascii	"pwm_light\000"
+ 1567      6C696768 
+ 1567      7400
+ 1568              	.LASF19:
+ 1569 0266 63796973 		.ascii	"cyisraddress\000"
+ 1569      72616464 
+ 1569      72657373 
+ 1569      00
+ 1570              	.LASF38:
+ 1571 0273 6973725F 		.ascii	"isr_blink_Disable\000"
+ 1571      626C696E 
+ 1571      6B5F4469 
+ 1571      7361626C 
+ 1571      6500
+ 1572              	.LASF24:
+ 1573 0285 6C616E64 		.ascii	"landing\000"
+ 1573      696E6700 
+ 1574              	.LASF20:
+ 1575 028d 73697A65 		.ascii	"sizetype\000"
+ 1575      74797065 
+ 1575      00
+ 1576              	.LASF22:
+ 1577 0296 636F6C6C 		.ascii	"collision\000"
+ 1577      6973696F 
+ 1577      6E00
+ 1578              	.LASF8:
+ 1579 02a0 6C6F6E67 		.ascii	"long long int\000"
+ 1579      206C6F6E 
+ 1579      6720696E 
+ 1579      7400
+ 1580              	.LASF50:
+ 1581 02ae 583A5C44 		.ascii	"X:\\Dokumente\\Ole\\FLC\\FLC.cydsn\000"
+ 1581      6F6B756D 
+ 1581      656E7465 
+ 1581      5C4F6C65 
+ 1581      5C464C43 
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccZJuTj2.s 			page 38
+
+
+ 1582              	.LASF17:
+ 1583 02cd 63686172 		.ascii	"char\000"
+ 1583      00
+ 1584              	.LASF25:
+ 1585 02d2 6973725F 		.ascii	"isr_blink_Start\000"
+ 1585      626C696E 
+ 1585      6B5F5374 
+ 1585      61727400 
+ 1586              	.LASF37:
+ 1587 02e2 6973725F 		.ascii	"isr_blink_GetState\000"
+ 1587      626C696E 
+ 1587      6B5F4765 
+ 1587      74537461 
+ 1587      746500
+ 1588              	.LASF29:
+ 1589 02f5 6973725F 		.ascii	"isr_blink_SetVector\000"
+ 1589      626C696E 
+ 1589      6B5F5365 
+ 1589      74566563 
+ 1589      746F7200 
+ 1590              	.LASF23:
+ 1591 0309 6E617669 		.ascii	"navigation\000"
+ 1591      67617469 
+ 1591      6F6E00
+ 1592              	.LASF2:
+ 1593 0314 73686F72 		.ascii	"short int\000"
+ 1593      7420696E 
+ 1593      7400
+ 1594              	.LASF12:
+ 1595 031e 75696E74 		.ascii	"uint16_t\000"
+ 1595      31365F74 
+ 1595      00
+ 1596              	.LASF45:
+ 1597 0327 666C6173 		.ascii	"flashTime_CollisionLight\000"
+ 1597      6854696D 
+ 1597      655F436F 
+ 1597      6C6C6973 
+ 1597      696F6E4C 
+ 1598              	.LASF34:
+ 1599 0340 7072696F 		.ascii	"priorityOffset\000"
+ 1599      72697479 
+ 1599      4F666673 
+ 1599      657400
+ 1600              	.LASF6:
+ 1601 034f 6C6F6E67 		.ascii	"long int\000"
+ 1601      20696E74 
+ 1601      00
+ 1602              	.LASF51:
+ 1603 0358 6C696768 		.ascii	"lights\000"
+ 1603      747300
+ 1604              	.LASF0:
+ 1605 035f 7369676E 		.ascii	"signed char\000"
+ 1605      65642063 
+ 1605      68617200 
+ 1606              	.LASF21:
+ 1607 036b 7374726F 		.ascii	"strobe\000"
+ 1607      626500
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccZJuTj2.s 			page 39
+
+
+ 1608              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.4 20140526 (release) [ARM/embedded-4_8-br

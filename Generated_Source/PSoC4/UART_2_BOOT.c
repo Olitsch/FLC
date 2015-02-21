@@ -1,37 +1,24 @@
 /*******************************************************************************
 * File Name: UART_2_BOOT.c
-* Version 1.20
+* Version 2.0
 *
 * Description:
 *  This file provides the source code to the API for the bootloader
-*  communication support in SCB Component.
+*  communication support in the SCB Component.
 *
 * Note:
 *
 ********************************************************************************
-* Copyright 2013-2013-2014, Cypress Semiconductor Corporation.  All rights reserved.
+* Copyright 2013-2014, Cypress Semiconductor Corporation.  All rights reserved.
 * You may use this file only in accordance with the license, terms, conditions,
 * disclaimers, and limitations in the end user license agreement accompanying
 * the software package with which this file was provided.
 *******************************************************************************/
 
-#include "UART_2.h"
-
-#if(UART_2_SCB_MODE_I2C_INC)
-    #include "UART_2_I2C.h"
-#endif /* (UART_2_SCB_MODE_I2C_INC) */
-
-#if(UART_2_SCB_MODE_EZI2C_INC)
-    #include "UART_2_EZI2C.h"
-#endif /* (UART_2_SCB_MODE_EZI2C_INC) */
-
-#if(UART_2_SCB_MODE_SPI_INC || UART_2_SCB_MODE_UART_INC)
-    #include "UART_2_SPI_UART.h"
-#endif /* (UART_2_SCB_MODE_SPI_INC || UART_2_SCB_MODE_UART_INC) */
+#include "UART_2_BOOT.h"
 
 
-#if defined(CYDEV_BOOTLOADER_IO_COMP) && ((CYDEV_BOOTLOADER_IO_COMP == CyBtldr_UART_2) || \
-                                          (CYDEV_BOOTLOADER_IO_COMP == CyBtldr_Custom_Interface))
+#if defined(CYDEV_BOOTLOADER_IO_COMP) && (UART_2_BTLDR_COMM_MODE_ENABLED)
 
 /*******************************************************************************
 * Function Name: UART_2_CyBtldrCommStart
@@ -69,7 +56,7 @@ void UART_2_CyBtldrCommStart(void)
         }
         else
         {
-            /* Unknown mode: do nothing */
+            /* Unknown mode */
         }
     #elif(UART_2_SCB_MODE_I2C_CONST_CFG)
         UART_2_I2CCyBtldrCommStart();
@@ -84,7 +71,7 @@ void UART_2_CyBtldrCommStart(void)
         UART_2_EzI2CCyBtldrCommStart();
 
     #else
-        /* Do nothing */
+        /* Unknown mode */
 
     #endif /* (UART_2_SCB_MODE_UNCONFIG_CONST_CFG) */
 }
@@ -95,8 +82,8 @@ void UART_2_CyBtldrCommStart(void)
 ********************************************************************************
 *
 * Summary:
-*  Calls CyBtldrCommStop function function of the bootloader communication
-*  component for selected mode.
+*  Calls the CyBtldrCommStop function of the bootloader communication
+*  component for the selected mode.
 *
 * Parameters:
 *  None
@@ -126,7 +113,7 @@ void UART_2_CyBtldrCommStop(void)
         }
         else
         {
-            /* Unknown mode: do nothing */
+            /* Unknown mode */
         }
     #elif(UART_2_SCB_MODE_I2C_CONST_CFG)
         UART_2_I2CCyBtldrCommStop();
@@ -141,7 +128,7 @@ void UART_2_CyBtldrCommStop(void)
         UART_2_EzI2CCyBtldrCommStop();
 
     #else
-        /* Do nothing */
+        /* Unknown mode */
 
     #endif /* (UART_2_SCB_MODE_UNCONFIG_CONST_CFG) */
 }
@@ -183,7 +170,7 @@ void UART_2_CyBtldrCommReset(void)
         }
         else
         {
-            /* Unknown mode: do nothing */
+            /* Unknown mode */
         }
     #elif(UART_2_SCB_MODE_I2C_CONST_CFG)
         UART_2_I2CCyBtldrCommReset();
@@ -198,7 +185,7 @@ void UART_2_CyBtldrCommReset(void)
         UART_2_EzI2CCyBtldrCommReset();
 
     #else
-        /* Do nothing */
+        /* Unknown mode */
 
     #endif /* (UART_2_SCB_MODE_UNCONFIG_CONST_CFG) */
 }
@@ -339,8 +326,7 @@ cystatus UART_2_CyBtldrCommWrite(const uint8 pData[], uint16 size, uint16 * coun
     return(status);
 }
 
-#endif /* defined(CYDEV_BOOTLOADER_IO_COMP) && ((CYDEV_BOOTLOADER_IO_COMP == CyBtldr_UART_2) || \
-                                                    (CYDEV_BOOTLOADER_IO_COMP == CyBtldr_Custom_Interface)) */
+#endif /* defined(CYDEV_BOOTLOADER_IO_COMP) && (UART_2_BTLDR_COMM_MODE_ENABLED) */
 
 
 /* [] END OF FILE */

@@ -1,6 +1,6 @@
 /*******************************************************************************
 * File Name: StrobeLight.h  
-* Version 2.5
+* Version 2.10
 *
 * Description:
 *  This file containts Control Register function prototypes and register defines
@@ -40,17 +40,15 @@ uint8   StrobeLight_ClearInterrupt(void) ;
 /* Drive Modes */
 #define StrobeLight_DRIVE_MODE_BITS        (3)
 #define StrobeLight_DRIVE_MODE_IND_MASK    (0xFFFFFFFFu >> (32 - StrobeLight_DRIVE_MODE_BITS))
-#define StrobeLight_DRIVE_MODE_SHIFT       (0x00u)
-#define StrobeLight_DRIVE_MODE_MASK        (0x07u << StrobeLight_DRIVE_MODE_SHIFT)
 
-#define StrobeLight_DM_ALG_HIZ         (0x00u << StrobeLight_DRIVE_MODE_SHIFT)
-#define StrobeLight_DM_DIG_HIZ         (0x01u << StrobeLight_DRIVE_MODE_SHIFT)
-#define StrobeLight_DM_RES_UP          (0x02u << StrobeLight_DRIVE_MODE_SHIFT)
-#define StrobeLight_DM_RES_DWN         (0x03u << StrobeLight_DRIVE_MODE_SHIFT)
-#define StrobeLight_DM_OD_LO           (0x04u << StrobeLight_DRIVE_MODE_SHIFT)
-#define StrobeLight_DM_OD_HI           (0x05u << StrobeLight_DRIVE_MODE_SHIFT)
-#define StrobeLight_DM_STRONG          (0x06u << StrobeLight_DRIVE_MODE_SHIFT)
-#define StrobeLight_DM_RES_UPDWN       (0x07u << StrobeLight_DRIVE_MODE_SHIFT)
+#define StrobeLight_DM_ALG_HIZ         (0x00u)
+#define StrobeLight_DM_DIG_HIZ         (0x01u)
+#define StrobeLight_DM_RES_UP          (0x02u)
+#define StrobeLight_DM_RES_DWN         (0x03u)
+#define StrobeLight_DM_OD_LO           (0x04u)
+#define StrobeLight_DM_OD_HI           (0x05u)
+#define StrobeLight_DM_STRONG          (0x06u)
+#define StrobeLight_DM_RES_UPDWN       (0x07u)
 
 /* Digital Port Constants */
 #define StrobeLight_MASK               StrobeLight__MASK
@@ -78,6 +76,16 @@ uint8   StrobeLight_ClearInterrupt(void) ;
     #define StrobeLight_INTSTAT                (* (reg32 *) StrobeLight__INTSTAT)
 
 #endif /* Interrupt Registers */
+
+
+/***************************************
+* The following code is DEPRECATED and 
+* must not be used.
+***************************************/
+
+#define StrobeLight_DRIVE_MODE_SHIFT       (0x00u)
+#define StrobeLight_DRIVE_MODE_MASK        (0x07u << StrobeLight_DRIVE_MODE_SHIFT)
+
 
 #endif /* End Pins StrobeLight_H */
 

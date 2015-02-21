@@ -1,6 +1,6 @@
 /*******************************************************************************
 * File Name: Blink_Timer.h
-* Version 1.10
+* Version 2.0
 *
 * Description:
 *  This file provides constants and parameter values for the Blink_Timer
@@ -19,6 +19,8 @@
 #if !defined(CY_TCPWM_Blink_Timer_H)
 #define CY_TCPWM_Blink_Timer_H
 
+
+#include "CyLib.h"
 #include "cytypes.h"
 #include "cyfitter.h"
 
@@ -45,6 +47,7 @@ extern uint8  Blink_Timer_initVar;
 ****************************************/
 
 #define Blink_Timer_CY_TCPWM_V2                    (CYIPBLOCK_m0s8tcpwm_VERSION == 2u)
+#define Blink_Timer_CY_TCPWM_4000                  (CY_PSOC4_4000)
 
 /* TCPWM Configuration */
 #define Blink_Timer_CONFIG                         (1lu)
@@ -262,12 +265,25 @@ extern uint8  Blink_Timer_initVar;
 #define Blink_Timer_PWM_MODE_RIGHT                 (Blink_Timer_CC_MATCH_SET          |   \
                                                          Blink_Timer_OVERLOW_NO_CHANGE     |   \
                                                          Blink_Timer_UNDERFLOW_CLEAR)
-#define Blink_Timer_PWM_MODE_CENTER                (Blink_Timer_CC_MATCH_INVERT       |   \
-                                                         Blink_Timer_OVERLOW_NO_CHANGE     |   \
-                                                         Blink_Timer_UNDERFLOW_CLEAR)
-#define Blink_Timer_PWM_MODE_ASYM                  (Blink_Timer_CC_MATCH_NO_CHANGE    |   \
+#define Blink_Timer_PWM_MODE_ASYM                  (Blink_Timer_CC_MATCH_INVERT       |   \
                                                          Blink_Timer_OVERLOW_SET           |   \
-                                                         Blink_Timer_UNDERFLOW_CLEAR )
+                                                         Blink_Timer_UNDERFLOW_CLEAR)
+
+#if (Blink_Timer_CY_TCPWM_V2)
+    #if(Blink_Timer_CY_TCPWM_4000)
+        #define Blink_Timer_PWM_MODE_CENTER                (Blink_Timer_CC_MATCH_INVERT       |   \
+                                                                 Blink_Timer_OVERLOW_NO_CHANGE     |   \
+                                                                 Blink_Timer_UNDERFLOW_CLEAR)
+    #else
+        #define Blink_Timer_PWM_MODE_CENTER                (Blink_Timer_CC_MATCH_INVERT       |   \
+                                                                 Blink_Timer_OVERLOW_SET           |   \
+                                                                 Blink_Timer_UNDERFLOW_CLEAR)
+    #endif /* (Blink_Timer_CY_TCPWM_4000) */
+#else
+    #define Blink_Timer_PWM_MODE_CENTER                (Blink_Timer_CC_MATCH_INVERT       |   \
+                                                             Blink_Timer_OVERLOW_NO_CHANGE     |   \
+                                                             Blink_Timer_UNDERFLOW_CLEAR)
+#endif /* (Blink_Timer_CY_TCPWM_NEW) */
 
 /* Command operations without condition */
 #define Blink_Timer_CMD_CAPTURE                    (0u)
@@ -458,7 +474,69 @@ void   Blink_Timer_Wakeup(void);
 *    Initial Constants
 ***************************************/
 
+#define Blink_Timer_CTRL_QUAD_BASE_CONFIG                                                          \
+        (((uint32)(Blink_Timer_QUAD_ENCODING_MODES     << Blink_Timer_QUAD_MODE_SHIFT))       |\
+         ((uint32)(Blink_Timer_CONFIG                  << Blink_Timer_MODE_SHIFT)))
+
+#define Blink_Timer_CTRL_PWM_BASE_CONFIG                                                           \
+        (((uint32)(Blink_Timer_PWM_STOP_EVENT          << Blink_Timer_PWM_STOP_KILL_SHIFT))   |\
+         ((uint32)(Blink_Timer_PWM_OUT_INVERT          << Blink_Timer_INV_OUT_SHIFT))         |\
+         ((uint32)(Blink_Timer_PWM_OUT_N_INVERT        << Blink_Timer_INV_COMPL_OUT_SHIFT))   |\
+         ((uint32)(Blink_Timer_PWM_MODE                << Blink_Timer_MODE_SHIFT)))
+
+#define Blink_Timer_CTRL_PWM_RUN_MODE                                                              \
+            ((uint32)(Blink_Timer_PWM_RUN_MODE         << Blink_Timer_ONESHOT_SHIFT))
+            
+#define Blink_Timer_CTRL_PWM_ALIGN                                                                 \
+            ((uint32)(Blink_Timer_PWM_ALIGN            << Blink_Timer_UPDOWN_SHIFT))
+
+#define Blink_Timer_CTRL_PWM_KILL_EVENT                                                            \
+             ((uint32)(Blink_Timer_PWM_KILL_EVENT      << Blink_Timer_PWM_SYNC_KILL_SHIFT))
+
+#define Blink_Timer_CTRL_PWM_DEAD_TIME_CYCLE                                                       \
+            ((uint32)(Blink_Timer_PWM_DEAD_TIME_CYCLE  << Blink_Timer_PRESCALER_SHIFT))
+
+#define Blink_Timer_CTRL_PWM_PRESCALER                                                             \
+            ((uint32)(Blink_Timer_PWM_PRESCALER        << Blink_Timer_PRESCALER_SHIFT))
+
+#define Blink_Timer_CTRL_TIMER_BASE_CONFIG                                                         \
+        (((uint32)(Blink_Timer_TC_PRESCALER            << Blink_Timer_PRESCALER_SHIFT))       |\
+         ((uint32)(Blink_Timer_TC_COUNTER_MODE         << Blink_Timer_UPDOWN_SHIFT))          |\
+         ((uint32)(Blink_Timer_TC_RUN_MODE             << Blink_Timer_ONESHOT_SHIFT))         |\
+         ((uint32)(Blink_Timer_TC_COMP_CAP_MODE        << Blink_Timer_MODE_SHIFT)))
+        
+#define Blink_Timer_QUAD_SIGNALS_MODES                                                             \
+        (((uint32)(Blink_Timer_QUAD_PHIA_SIGNAL_MODE   << Blink_Timer_COUNT_SHIFT))           |\
+         ((uint32)(Blink_Timer_QUAD_INDEX_SIGNAL_MODE  << Blink_Timer_RELOAD_SHIFT))          |\
+         ((uint32)(Blink_Timer_QUAD_STOP_SIGNAL_MODE   << Blink_Timer_STOP_SHIFT))            |\
+         ((uint32)(Blink_Timer_QUAD_PHIB_SIGNAL_MODE   << Blink_Timer_START_SHIFT)))
+
+#define Blink_Timer_PWM_SIGNALS_MODES                                                              \
+        (((uint32)(Blink_Timer_PWM_SWITCH_SIGNAL_MODE  << Blink_Timer_CAPTURE_SHIFT))         |\
+         ((uint32)(Blink_Timer_PWM_COUNT_SIGNAL_MODE   << Blink_Timer_COUNT_SHIFT))           |\
+         ((uint32)(Blink_Timer_PWM_RELOAD_SIGNAL_MODE  << Blink_Timer_RELOAD_SHIFT))          |\
+         ((uint32)(Blink_Timer_PWM_STOP_SIGNAL_MODE    << Blink_Timer_STOP_SHIFT))            |\
+         ((uint32)(Blink_Timer_PWM_START_SIGNAL_MODE   << Blink_Timer_START_SHIFT)))
+
+#define Blink_Timer_TIMER_SIGNALS_MODES                                                            \
+        (((uint32)(Blink_Timer_TC_CAPTURE_SIGNAL_MODE  << Blink_Timer_CAPTURE_SHIFT))         |\
+         ((uint32)(Blink_Timer_TC_COUNT_SIGNAL_MODE    << Blink_Timer_COUNT_SHIFT))           |\
+         ((uint32)(Blink_Timer_TC_RELOAD_SIGNAL_MODE   << Blink_Timer_RELOAD_SHIFT))          |\
+         ((uint32)(Blink_Timer_TC_STOP_SIGNAL_MODE     << Blink_Timer_STOP_SHIFT))            |\
+         ((uint32)(Blink_Timer_TC_START_SIGNAL_MODE    << Blink_Timer_START_SHIFT)))
+        
+#define Blink_Timer_TIMER_UPDOWN_CNT_USED                                                          \
+                ((Blink_Timer__COUNT_UPDOWN0 == Blink_Timer_TC_COUNTER_MODE)                  ||\
+                 (Blink_Timer__COUNT_UPDOWN1 == Blink_Timer_TC_COUNTER_MODE))
+
+#define Blink_Timer_PWM_UPDOWN_CNT_USED                                                            \
+                ((Blink_Timer__CENTER == Blink_Timer_PWM_ALIGN)                               ||\
+                 (Blink_Timer__ASYMMETRIC == Blink_Timer_PWM_ALIGN))               
+        
 #define Blink_Timer_PWM_PR_INIT_VALUE              (1u)
+#define Blink_Timer_QUAD_PERIOD_INIT_VALUE         (0x8000u)
+
+
 
 #endif /* End CY_TCPWM_Blink_Timer_H */
 

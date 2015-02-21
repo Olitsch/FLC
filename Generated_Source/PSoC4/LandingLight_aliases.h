@@ -1,9 +1,10 @@
 /*******************************************************************************
 * File Name: LandingLight.h  
-* Version 2.5
+* Version 2.10
 *
 * Description:
-*  This file containts Control Register function prototypes and register defines
+*  This file contains the Alias definitions for Per-Pin APIs in cypins.h. 
+*  Information on using these APIs can be found in the System Reference Guide.
 *
 * Note:
 *
@@ -19,12 +20,18 @@
 
 #include "cytypes.h"
 #include "cyfitter.h"
+#include "cypins.h"
 
 
 /***************************************
 *              Constants        
 ***************************************/
-#define LandingLight_0		LandingLight__0__PC
+#define LandingLight_0		(LandingLight__0__PC)
+#define LandingLight_0_PS		(LandingLight__0__PS)
+#define LandingLight_0_PC		(LandingLight__0__PC)
+#define LandingLight_0_DR		(LandingLight__0__DR)
+#define LandingLight_0_SHIFT	(LandingLight__0__SHIFT)
+
 
 #endif /* End Pins LandingLight_ALIASES_H */
 

@@ -1,6 +1,6 @@
 /*******************************************************************************
 * File Name: UART_2_UART_BOOT.c
-* Version 1.20
+* Version 2.0
 *
 * Description:
 *  This file provides the source code to the API for the bootloader
@@ -15,6 +15,7 @@
 * the software package with which this file was provided.
 *******************************************************************************/
 
+#include "UART_2_BOOT.h"
 #include "UART_2_SPI_UART.h"
 
 #if defined(CYDEV_BOOTLOADER_IO_COMP) && (UART_2_UART_BTLDR_COMM_ENABLED)
@@ -41,7 +42,7 @@
 *******************************************************************************/
 void UART_2_UartCyBtldrCommStart(void)
 {
-    ; /* Does nothing */
+    /* Does nothing */
 }
 
 
@@ -62,7 +63,7 @@ void UART_2_UartCyBtldrCommStart(void)
 *******************************************************************************/
 void UART_2_UartCyBtldrCommStop(void)
 {
-    ; /* Does nothing */
+    /* Does nothing */
 }
 
 
@@ -83,7 +84,7 @@ void UART_2_UartCyBtldrCommStop(void)
 *******************************************************************************/
 void UART_2_UartCyBtldrCommReset(void)
 {
-    ; /* Does nothing */
+    /* Does nothing */
 }
 
 

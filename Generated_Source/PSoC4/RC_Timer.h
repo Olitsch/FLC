@@ -1,6 +1,6 @@
 /*******************************************************************************
 * File Name: RC_Timer.h
-* Version 1.10
+* Version 2.0
 *
 * Description:
 *  This file provides constants and parameter values for the RC_Timer
@@ -19,6 +19,8 @@
 #if !defined(CY_TCPWM_RC_Timer_H)
 #define CY_TCPWM_RC_Timer_H
 
+
+#include "CyLib.h"
 #include "cytypes.h"
 #include "cyfitter.h"
 
@@ -45,6 +47,7 @@ extern uint8  RC_Timer_initVar;
 ****************************************/
 
 #define RC_Timer_CY_TCPWM_V2                    (CYIPBLOCK_m0s8tcpwm_VERSION == 2u)
+#define RC_Timer_CY_TCPWM_4000                  (CY_PSOC4_4000)
 
 /* TCPWM Configuration */
 #define RC_Timer_CONFIG                         (1lu)
@@ -68,10 +71,10 @@ extern uint8  RC_Timer_initVar;
 
 /* Timer/Counter Mode */
 /* Parameters */
-#define RC_Timer_TC_RUN_MODE                    (1lu)
+#define RC_Timer_TC_RUN_MODE                    (0lu)
 #define RC_Timer_TC_COUNTER_MODE                (0lu)
 #define RC_Timer_TC_COMP_CAP_MODE               (2lu)
-#define RC_Timer_TC_PRESCALER                   (4lu)
+#define RC_Timer_TC_PRESCALER                   (0lu)
 
 /* Signal modes */
 #define RC_Timer_TC_RELOAD_SIGNAL_MODE          (0lu)
@@ -81,7 +84,7 @@ extern uint8  RC_Timer_initVar;
 #define RC_Timer_TC_CAPTURE_SIGNAL_MODE         (1lu)
 
 /* Signal present */
-#define RC_Timer_TC_RELOAD_SIGNAL_PRESENT       (1lu)
+#define RC_Timer_TC_RELOAD_SIGNAL_PRESENT       (0lu)
 #define RC_Timer_TC_COUNT_SIGNAL_PRESENT        (0lu)
 #define RC_Timer_TC_START_SIGNAL_PRESENT        (0lu)
 #define RC_Timer_TC_STOP_SIGNAL_PRESENT         (0lu)
@@ -262,12 +265,25 @@ extern uint8  RC_Timer_initVar;
 #define RC_Timer_PWM_MODE_RIGHT                 (RC_Timer_CC_MATCH_SET          |   \
                                                          RC_Timer_OVERLOW_NO_CHANGE     |   \
                                                          RC_Timer_UNDERFLOW_CLEAR)
-#define RC_Timer_PWM_MODE_CENTER                (RC_Timer_CC_MATCH_INVERT       |   \
-                                                         RC_Timer_OVERLOW_NO_CHANGE     |   \
-                                                         RC_Timer_UNDERFLOW_CLEAR)
-#define RC_Timer_PWM_MODE_ASYM                  (RC_Timer_CC_MATCH_NO_CHANGE    |   \
+#define RC_Timer_PWM_MODE_ASYM                  (RC_Timer_CC_MATCH_INVERT       |   \
                                                          RC_Timer_OVERLOW_SET           |   \
-                                                         RC_Timer_UNDERFLOW_CLEAR )
+                                                         RC_Timer_UNDERFLOW_CLEAR)
+
+#if (RC_Timer_CY_TCPWM_V2)
+    #if(RC_Timer_CY_TCPWM_4000)
+        #define RC_Timer_PWM_MODE_CENTER                (RC_Timer_CC_MATCH_INVERT       |   \
+                                                                 RC_Timer_OVERLOW_NO_CHANGE     |   \
+                                                                 RC_Timer_UNDERFLOW_CLEAR)
+    #else
+        #define RC_Timer_PWM_MODE_CENTER                (RC_Timer_CC_MATCH_INVERT       |   \
+                                                                 RC_Timer_OVERLOW_SET           |   \
+                                                                 RC_Timer_UNDERFLOW_CLEAR)
+    #endif /* (RC_Timer_CY_TCPWM_4000) */
+#else
+    #define RC_Timer_PWM_MODE_CENTER                (RC_Timer_CC_MATCH_INVERT       |   \
+                                                             RC_Timer_OVERLOW_NO_CHANGE     |   \
+                                                             RC_Timer_UNDERFLOW_CLEAR)
+#endif /* (RC_Timer_CY_TCPWM_NEW) */
 
 /* Command operations without condition */
 #define RC_Timer_CMD_CAPTURE                    (0u)
@@ -458,7 +474,69 @@ void   RC_Timer_Wakeup(void);
 *    Initial Constants
 ***************************************/
 
+#define RC_Timer_CTRL_QUAD_BASE_CONFIG                                                          \
+        (((uint32)(RC_Timer_QUAD_ENCODING_MODES     << RC_Timer_QUAD_MODE_SHIFT))       |\
+         ((uint32)(RC_Timer_CONFIG                  << RC_Timer_MODE_SHIFT)))
+
+#define RC_Timer_CTRL_PWM_BASE_CONFIG                                                           \
+        (((uint32)(RC_Timer_PWM_STOP_EVENT          << RC_Timer_PWM_STOP_KILL_SHIFT))   |\
+         ((uint32)(RC_Timer_PWM_OUT_INVERT          << RC_Timer_INV_OUT_SHIFT))         |\
+         ((uint32)(RC_Timer_PWM_OUT_N_INVERT        << RC_Timer_INV_COMPL_OUT_SHIFT))   |\
+         ((uint32)(RC_Timer_PWM_MODE                << RC_Timer_MODE_SHIFT)))
+
+#define RC_Timer_CTRL_PWM_RUN_MODE                                                              \
+            ((uint32)(RC_Timer_PWM_RUN_MODE         << RC_Timer_ONESHOT_SHIFT))
+            
+#define RC_Timer_CTRL_PWM_ALIGN                                                                 \
+            ((uint32)(RC_Timer_PWM_ALIGN            << RC_Timer_UPDOWN_SHIFT))
+
+#define RC_Timer_CTRL_PWM_KILL_EVENT                                                            \
+             ((uint32)(RC_Timer_PWM_KILL_EVENT      << RC_Timer_PWM_SYNC_KILL_SHIFT))
+
+#define RC_Timer_CTRL_PWM_DEAD_TIME_CYCLE                                                       \
+            ((uint32)(RC_Timer_PWM_DEAD_TIME_CYCLE  << RC_Timer_PRESCALER_SHIFT))
+
+#define RC_Timer_CTRL_PWM_PRESCALER                                                             \
+            ((uint32)(RC_Timer_PWM_PRESCALER        << RC_Timer_PRESCALER_SHIFT))
+
+#define RC_Timer_CTRL_TIMER_BASE_CONFIG                                                         \
+        (((uint32)(RC_Timer_TC_PRESCALER            << RC_Timer_PRESCALER_SHIFT))       |\
+         ((uint32)(RC_Timer_TC_COUNTER_MODE         << RC_Timer_UPDOWN_SHIFT))          |\
+         ((uint32)(RC_Timer_TC_RUN_MODE             << RC_Timer_ONESHOT_SHIFT))         |\
+         ((uint32)(RC_Timer_TC_COMP_CAP_MODE        << RC_Timer_MODE_SHIFT)))
+        
+#define RC_Timer_QUAD_SIGNALS_MODES                                                             \
+        (((uint32)(RC_Timer_QUAD_PHIA_SIGNAL_MODE   << RC_Timer_COUNT_SHIFT))           |\
+         ((uint32)(RC_Timer_QUAD_INDEX_SIGNAL_MODE  << RC_Timer_RELOAD_SHIFT))          |\
+         ((uint32)(RC_Timer_QUAD_STOP_SIGNAL_MODE   << RC_Timer_STOP_SHIFT))            |\
+         ((uint32)(RC_Timer_QUAD_PHIB_SIGNAL_MODE   << RC_Timer_START_SHIFT)))
+
+#define RC_Timer_PWM_SIGNALS_MODES                                                              \
+        (((uint32)(RC_Timer_PWM_SWITCH_SIGNAL_MODE  << RC_Timer_CAPTURE_SHIFT))         |\
+         ((uint32)(RC_Timer_PWM_COUNT_SIGNAL_MODE   << RC_Timer_COUNT_SHIFT))           |\
+         ((uint32)(RC_Timer_PWM_RELOAD_SIGNAL_MODE  << RC_Timer_RELOAD_SHIFT))          |\
+         ((uint32)(RC_Timer_PWM_STOP_SIGNAL_MODE    << RC_Timer_STOP_SHIFT))            |\
+         ((uint32)(RC_Timer_PWM_START_SIGNAL_MODE   << RC_Timer_START_SHIFT)))
+
+#define RC_Timer_TIMER_SIGNALS_MODES                                                            \
+        (((uint32)(RC_Timer_TC_CAPTURE_SIGNAL_MODE  << RC_Timer_CAPTURE_SHIFT))         |\
+         ((uint32)(RC_Timer_TC_COUNT_SIGNAL_MODE    << RC_Timer_COUNT_SHIFT))           |\
+         ((uint32)(RC_Timer_TC_RELOAD_SIGNAL_MODE   << RC_Timer_RELOAD_SHIFT))          |\
+         ((uint32)(RC_Timer_TC_STOP_SIGNAL_MODE     << RC_Timer_STOP_SHIFT))            |\
+         ((uint32)(RC_Timer_TC_START_SIGNAL_MODE    << RC_Timer_START_SHIFT)))
+        
+#define RC_Timer_TIMER_UPDOWN_CNT_USED                                                          \
+                ((RC_Timer__COUNT_UPDOWN0 == RC_Timer_TC_COUNTER_MODE)                  ||\
+                 (RC_Timer__COUNT_UPDOWN1 == RC_Timer_TC_COUNTER_MODE))
+
+#define RC_Timer_PWM_UPDOWN_CNT_USED                                                            \
+                ((RC_Timer__CENTER == RC_Timer_PWM_ALIGN)                               ||\
+                 (RC_Timer__ASYMMETRIC == RC_Timer_PWM_ALIGN))               
+        
 #define RC_Timer_PWM_PR_INIT_VALUE              (1u)
+#define RC_Timer_QUAD_PERIOD_INIT_VALUE         (0x8000u)
+
+
 
 #endif /* End CY_TCPWM_RC_Timer_H */
 

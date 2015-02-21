@@ -1,0 +1,1 @@
+'X:\Dokumente\Ole\FLC\FLC.cydsn\main.c' -o .o -T C_FILE -I 'X:\Dokumente\Ole\FLC\FLC.cydsn' -I 'X:\Dokumente\Ole\FLC\FLC.cydsn\Generated_Source\PSoC4' -f 'X:\Dokumente\Ole\FLC\FLC.cydsn\CortexM0\ARM_GCC_484\Debug\.deps\C_FILE.d'

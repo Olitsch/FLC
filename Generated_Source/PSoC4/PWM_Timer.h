@@ -1,6 +1,6 @@
 /*******************************************************************************
 * File Name: PWM_Timer.h
-* Version 1.10
+* Version 2.0
 *
 * Description:
 *  This file provides constants and parameter values for the PWM_Timer
@@ -19,6 +19,8 @@
 #if !defined(CY_TCPWM_PWM_Timer_H)
 #define CY_TCPWM_PWM_Timer_H
 
+
+#include "CyLib.h"
 #include "cytypes.h"
 #include "cyfitter.h"
 
@@ -45,6 +47,7 @@ extern uint8  PWM_Timer_initVar;
 ****************************************/
 
 #define PWM_Timer_CY_TCPWM_V2                    (CYIPBLOCK_m0s8tcpwm_VERSION == 2u)
+#define PWM_Timer_CY_TCPWM_4000                  (CY_PSOC4_4000)
 
 /* TCPWM Configuration */
 #define PWM_Timer_CONFIG                         (1lu)
@@ -262,12 +265,25 @@ extern uint8  PWM_Timer_initVar;
 #define PWM_Timer_PWM_MODE_RIGHT                 (PWM_Timer_CC_MATCH_SET          |   \
                                                          PWM_Timer_OVERLOW_NO_CHANGE     |   \
                                                          PWM_Timer_UNDERFLOW_CLEAR)
-#define PWM_Timer_PWM_MODE_CENTER                (PWM_Timer_CC_MATCH_INVERT       |   \
-                                                         PWM_Timer_OVERLOW_NO_CHANGE     |   \
-                                                         PWM_Timer_UNDERFLOW_CLEAR)
-#define PWM_Timer_PWM_MODE_ASYM                  (PWM_Timer_CC_MATCH_NO_CHANGE    |   \
+#define PWM_Timer_PWM_MODE_ASYM                  (PWM_Timer_CC_MATCH_INVERT       |   \
                                                          PWM_Timer_OVERLOW_SET           |   \
-                                                         PWM_Timer_UNDERFLOW_CLEAR )
+                                                         PWM_Timer_UNDERFLOW_CLEAR)
+
+#if (PWM_Timer_CY_TCPWM_V2)
+    #if(PWM_Timer_CY_TCPWM_4000)
+        #define PWM_Timer_PWM_MODE_CENTER                (PWM_Timer_CC_MATCH_INVERT       |   \
+                                                                 PWM_Timer_OVERLOW_NO_CHANGE     |   \
+                                                                 PWM_Timer_UNDERFLOW_CLEAR)
+    #else
+        #define PWM_Timer_PWM_MODE_CENTER                (PWM_Timer_CC_MATCH_INVERT       |   \
+                                                                 PWM_Timer_OVERLOW_SET           |   \
+                                                                 PWM_Timer_UNDERFLOW_CLEAR)
+    #endif /* (PWM_Timer_CY_TCPWM_4000) */
+#else
+    #define PWM_Timer_PWM_MODE_CENTER                (PWM_Timer_CC_MATCH_INVERT       |   \
+                                                             PWM_Timer_OVERLOW_NO_CHANGE     |   \
+                                                             PWM_Timer_UNDERFLOW_CLEAR)
+#endif /* (PWM_Timer_CY_TCPWM_NEW) */
 
 /* Command operations without condition */
 #define PWM_Timer_CMD_CAPTURE                    (0u)
@@ -458,7 +474,69 @@ void   PWM_Timer_Wakeup(void);
 *    Initial Constants
 ***************************************/
 
+#define PWM_Timer_CTRL_QUAD_BASE_CONFIG                                                          \
+        (((uint32)(PWM_Timer_QUAD_ENCODING_MODES     << PWM_Timer_QUAD_MODE_SHIFT))       |\
+         ((uint32)(PWM_Timer_CONFIG                  << PWM_Timer_MODE_SHIFT)))
+
+#define PWM_Timer_CTRL_PWM_BASE_CONFIG                                                           \
+        (((uint32)(PWM_Timer_PWM_STOP_EVENT          << PWM_Timer_PWM_STOP_KILL_SHIFT))   |\
+         ((uint32)(PWM_Timer_PWM_OUT_INVERT          << PWM_Timer_INV_OUT_SHIFT))         |\
+         ((uint32)(PWM_Timer_PWM_OUT_N_INVERT        << PWM_Timer_INV_COMPL_OUT_SHIFT))   |\
+         ((uint32)(PWM_Timer_PWM_MODE                << PWM_Timer_MODE_SHIFT)))
+
+#define PWM_Timer_CTRL_PWM_RUN_MODE                                                              \
+            ((uint32)(PWM_Timer_PWM_RUN_MODE         << PWM_Timer_ONESHOT_SHIFT))
+            
+#define PWM_Timer_CTRL_PWM_ALIGN                                                                 \
+            ((uint32)(PWM_Timer_PWM_ALIGN            << PWM_Timer_UPDOWN_SHIFT))
+
+#define PWM_Timer_CTRL_PWM_KILL_EVENT                                                            \
+             ((uint32)(PWM_Timer_PWM_KILL_EVENT      << PWM_Timer_PWM_SYNC_KILL_SHIFT))
+
+#define PWM_Timer_CTRL_PWM_DEAD_TIME_CYCLE                                                       \
+            ((uint32)(PWM_Timer_PWM_DEAD_TIME_CYCLE  << PWM_Timer_PRESCALER_SHIFT))
+
+#define PWM_Timer_CTRL_PWM_PRESCALER                                                             \
+            ((uint32)(PWM_Timer_PWM_PRESCALER        << PWM_Timer_PRESCALER_SHIFT))
+
+#define PWM_Timer_CTRL_TIMER_BASE_CONFIG                                                         \
+        (((uint32)(PWM_Timer_TC_PRESCALER            << PWM_Timer_PRESCALER_SHIFT))       |\
+         ((uint32)(PWM_Timer_TC_COUNTER_MODE         << PWM_Timer_UPDOWN_SHIFT))          |\
+         ((uint32)(PWM_Timer_TC_RUN_MODE             << PWM_Timer_ONESHOT_SHIFT))         |\
+         ((uint32)(PWM_Timer_TC_COMP_CAP_MODE        << PWM_Timer_MODE_SHIFT)))
+        
+#define PWM_Timer_QUAD_SIGNALS_MODES                                                             \
+        (((uint32)(PWM_Timer_QUAD_PHIA_SIGNAL_MODE   << PWM_Timer_COUNT_SHIFT))           |\
+         ((uint32)(PWM_Timer_QUAD_INDEX_SIGNAL_MODE  << PWM_Timer_RELOAD_SHIFT))          |\
+         ((uint32)(PWM_Timer_QUAD_STOP_SIGNAL_MODE   << PWM_Timer_STOP_SHIFT))            |\
+         ((uint32)(PWM_Timer_QUAD_PHIB_SIGNAL_MODE   << PWM_Timer_START_SHIFT)))
+
+#define PWM_Timer_PWM_SIGNALS_MODES                                                              \
+        (((uint32)(PWM_Timer_PWM_SWITCH_SIGNAL_MODE  << PWM_Timer_CAPTURE_SHIFT))         |\
+         ((uint32)(PWM_Timer_PWM_COUNT_SIGNAL_MODE   << PWM_Timer_COUNT_SHIFT))           |\
+         ((uint32)(PWM_Timer_PWM_RELOAD_SIGNAL_MODE  << PWM_Timer_RELOAD_SHIFT))          |\
+         ((uint32)(PWM_Timer_PWM_STOP_SIGNAL_MODE    << PWM_Timer_STOP_SHIFT))            |\
+         ((uint32)(PWM_Timer_PWM_START_SIGNAL_MODE   << PWM_Timer_START_SHIFT)))
+
+#define PWM_Timer_TIMER_SIGNALS_MODES                                                            \
+        (((uint32)(PWM_Timer_TC_CAPTURE_SIGNAL_MODE  << PWM_Timer_CAPTURE_SHIFT))         |\
+         ((uint32)(PWM_Timer_TC_COUNT_SIGNAL_MODE    << PWM_Timer_COUNT_SHIFT))           |\
+         ((uint32)(PWM_Timer_TC_RELOAD_SIGNAL_MODE   << PWM_Timer_RELOAD_SHIFT))          |\
+         ((uint32)(PWM_Timer_TC_STOP_SIGNAL_MODE     << PWM_Timer_STOP_SHIFT))            |\
+         ((uint32)(PWM_Timer_TC_START_SIGNAL_MODE    << PWM_Timer_START_SHIFT)))
+        
+#define PWM_Timer_TIMER_UPDOWN_CNT_USED                                                          \
+                ((PWM_Timer__COUNT_UPDOWN0 == PWM_Timer_TC_COUNTER_MODE)                  ||\
+                 (PWM_Timer__COUNT_UPDOWN1 == PWM_Timer_TC_COUNTER_MODE))
+
+#define PWM_Timer_PWM_UPDOWN_CNT_USED                                                            \
+                ((PWM_Timer__CENTER == PWM_Timer_PWM_ALIGN)                               ||\
+                 (PWM_Timer__ASYMMETRIC == PWM_Timer_PWM_ALIGN))               
+        
 #define PWM_Timer_PWM_PR_INIT_VALUE              (1u)
+#define PWM_Timer_QUAD_PERIOD_INIT_VALUE         (0x8000u)
+
+
 
 #endif /* End CY_TCPWM_PWM_Timer_H */
 

@@ -1,6 +1,6 @@
 /*******************************************************************************
 * File Name: UART_2_SPI_UART_PVT.h
-* Version 1.20
+* Version 2.0
 *
 * Description:
 *  This private file provides constants and parameter values for the
@@ -66,6 +66,13 @@
 #if(UART_2_UART_WAKE_ENABLE_CONST)
     void UART_2_UartSaveConfig(void);
     void UART_2_UartRestoreConfig(void);
+    #define UART_2_UartStop() \
+        do{                             \
+            UART_2_UART_RX_CTRL_REG &= ~UART_2_UART_RX_CTRL_SKIP_START; \
+        }while(0)
+#else
+        #define UART_2_UartStop() do{ /* Does nothing */ }while(0)
+
 #endif /* (UART_2_UART_WAKE_ENABLE_CONST) */
 
 /* Interrupt processing */
@@ -73,6 +80,19 @@
 #define UART_2_SpiUartEnableIntTx(intSourceMask)  UART_2_SetTxInterruptMode(intSourceMask)
 uint32  UART_2_SpiUartDisableIntRx(void);
 uint32  UART_2_SpiUartDisableIntTx(void);
+
+
+/***************************************
+*         UART API Constants
+***************************************/
+
+/* UART RX and TX position to be used in UART_2_SetPins() */
+#define UART_2_UART_RX_PIN_ENABLE    (UART_2_UART_RX)
+#define UART_2_UART_TX_PIN_ENABLE    (UART_2_UART_TX)
+
+/* UART RTS and CTS position to be used in  UART_2_SetPins() */
+#define UART_2_UART_RTS_PIN_ENABLE    (0x10u)
+#define UART_2_UART_CTS_PIN_ENABLE    (0x20u)
 
 #endif /* (CY_SCB_SPI_UART_PVT_UART_2_H) */
 

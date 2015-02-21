@@ -1,9 +1,10 @@
 /*******************************************************************************
 * File Name: P2_4.h  
-* Version 2.5
+* Version 2.10
 *
 * Description:
-*  This file containts Control Register function prototypes and register defines
+*  This file contains the Alias definitions for Per-Pin APIs in cypins.h. 
+*  Information on using these APIs can be found in the System Reference Guide.
 *
 * Note:
 *
@@ -19,12 +20,18 @@
 
 #include "cytypes.h"
 #include "cyfitter.h"
+#include "cypins.h"
 
 
 /***************************************
 *              Constants        
 ***************************************/
-#define P2_4_0		P2_4__0__PC
+#define P2_4_0		(P2_4__0__PC)
+#define P2_4_0_PS		(P2_4__0__PS)
+#define P2_4_0_PC		(P2_4__0__PC)
+#define P2_4_0_DR		(P2_4__0__DR)
+#define P2_4_0_SHIFT	(P2_4__0__SHIFT)
+
 
 #endif /* End Pins P2_4_ALIASES_H */
 

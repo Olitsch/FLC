@@ -1,9 +1,10 @@
 /*******************************************************************************
 * File Name: CollisionLight.h  
-* Version 2.5
+* Version 2.10
 *
 * Description:
-*  This file containts Control Register function prototypes and register defines
+*  This file contains the Alias definitions for Per-Pin APIs in cypins.h. 
+*  Information on using these APIs can be found in the System Reference Guide.
 *
 * Note:
 *
@@ -19,12 +20,18 @@
 
 #include "cytypes.h"
 #include "cyfitter.h"
+#include "cypins.h"
 
 
 /***************************************
 *              Constants        
 ***************************************/
-#define CollisionLight_0		CollisionLight__0__PC
+#define CollisionLight_0		(CollisionLight__0__PC)
+#define CollisionLight_0_PS		(CollisionLight__0__PS)
+#define CollisionLight_0_PC		(CollisionLight__0__PC)
+#define CollisionLight_0_DR		(CollisionLight__0__DR)
+#define CollisionLight_0_SHIFT	(CollisionLight__0__SHIFT)
+
 
 #endif /* End Pins CollisionLight_ALIASES_H */
 
