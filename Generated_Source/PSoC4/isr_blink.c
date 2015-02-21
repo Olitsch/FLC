@@ -30,9 +30,11 @@
 #include <blink_timer.h>
     
 enum lights {strobe = 0, collision, navigation, landing};
+enum chanels {ch1 = 0, ch2, ch3, ch4, ch5, ch6, ch7, ch8};
 
 extern uint8_t pwm_light[4];
 extern uint8_t pwm_light_adj[4];
+extern uint8_t channelValue[8];
 
 extern uint8_t lightOff;
 
@@ -45,6 +47,8 @@ extern uint16_t flashTime_CollisionLight;
     
     
 uint16_t counter_blink = 0;
+uint16_t counter_off_millis = 0;
+uint16_t counter_setup_millis = 0;
     
 /* `#END` */
 
@@ -204,12 +208,17 @@ CY_ISR(isr_blink_Interrupt)
     }else if (counter_blink == 1200)
         counter_blink = 0;
     
-    if (counter_blink == 1000)
+    if (channelValue[ch3] == 0 && channelValue[ch2] == 255) // left stick in lower right corner
     {
-        seconds++;
+        counter_setup_millis++;
+    }
+    else
+    {
+        counter_setup_millis = 0;
     }
     
     counter_blink++;
+    counter_off_millis++;
     /* `#END` */
 }
 

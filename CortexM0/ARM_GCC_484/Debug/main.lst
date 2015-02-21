@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\ole\AppData\Local\Temp\ccvp916Y.s 			page 1
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccd6pzET.s 			page 1
 
 
    1              		.cpu cortex-m0
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\ccvp916Y.s 			page 1
   54              		.size	flashTime_StrobeLight, 2
   55              	flashTime_StrobeLight:
   56 0008 3C00     		.short	60
-ARM GAS  C:\Users\ole\AppData\Local\Temp\ccvp916Y.s 			page 2
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccd6pzET.s 			page 2
 
 
   57              		.global	pauseTime_StrobeLight
@@ -109,1165 +109,1073 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\ccvp916Y.s 			page 1
   24:.\main.c      **** extern int16_t channelTime[8];
   25:.\main.c      **** 
   26:.\main.c      **** extern uint32_t seconds;
-  27:.\main.c      **** 
-  28:.\main.c      **** uint16_t flashTime_StrobeLight = 60;
-  29:.\main.c      **** uint16_t pauseTime_StrobeLight = 60;
-  30:.\main.c      **** uint16_t flashTime_CollisionLight = 60;
-  31:.\main.c      **** 
-  32:.\main.c      **** int main()
-  33:.\main.c      **** {
-  79              		.loc 1 33 0
+  27:.\main.c      **** extern uint16_t counter_off_millis;
+  28:.\main.c      **** extern uint16_t counter_setup_millis;
+  29:.\main.c      **** 
+  30:.\main.c      **** uint16_t flashTime_StrobeLight = 60;
+  31:.\main.c      **** uint16_t pauseTime_StrobeLight = 60;
+  32:.\main.c      **** uint16_t flashTime_CollisionLight = 60;
+  33:.\main.c      **** 
+  34:.\main.c      **** int main()
+  35:.\main.c      **** {
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccd6pzET.s 			page 3
+
+
+  79              		.loc 1 35 0
   80              		.cfi_startproc
-ARM GAS  C:\Users\ole\AppData\Local\Temp\ccvp916Y.s 			page 3
-
-
   81 0000 90B5     		push	{r4, r7, lr}
   82              		.cfi_def_cfa_offset 12
   83              		.cfi_offset 4, -12
   84              		.cfi_offset 7, -8
   85              		.cfi_offset 14, -4
-  86 0002 85B0     		sub	sp, sp, #20
-  87              		.cfi_def_cfa_offset 32
+  86 0002 83B0     		sub	sp, sp, #12
+  87              		.cfi_def_cfa_offset 24
   88 0004 00AF     		add	r7, sp, #0
   89              		.cfi_def_cfa_register 7
-  34:.\main.c      ****     uint8_t i;
-  35:.\main.c      ****     uint8_t uartByte;
-  36:.\main.c      ****     uint8_t lightAdj = 0;
-  90              		.loc 1 36 0
-  91 0006 3B1C     		mov	r3, r7
-  92 0008 0E33     		add	r3, r3, #14
-  93 000a 0022     		mov	r2, #0
-  94 000c 1A70     		strb	r2, [r3]
-  37:.\main.c      **** 
-  38:.\main.c      ****     uint32_t secondsTemp = 0;
-  95              		.loc 1 38 0
-  96 000e 0023     		mov	r3, #0
-  97 0010 BB60     		str	r3, [r7, #8]
-  39:.\main.c      ****     /* Place your initialization/startup code here (e.g. MyInst_Start()) */
-  40:.\main.c      ****     CyGlobalIntEnable;
-  98              		.loc 1 40 0
-  99              	@ 40 ".\main.c" 1
- 100 0012 62B6     		CPSIE   i
- 101              	@ 0 "" 2
-  41:.\main.c      ****     PWM_Timer_Start();
- 102              		.loc 1 41 0
- 103              		.code	16
- 104 0014 FFF7FEFF 		bl	PWM_Timer_Start
-  42:.\main.c      ****     Blink_Timer_Start();
- 105              		.loc 1 42 0
- 106 0018 FFF7FEFF 		bl	Blink_Timer_Start
-  43:.\main.c      ****     RC_Timer_Start();
- 107              		.loc 1 43 0
- 108 001c FFF7FEFF 		bl	RC_Timer_Start
-  44:.\main.c      ****     UART_1_Start();
- 109              		.loc 1 44 0
- 110 0020 FFF7FEFF 		bl	UART_1_Start
-  45:.\main.c      ****     UART_2_Start();
- 111              		.loc 1 45 0
- 112 0024 FFF7FEFF 		bl	UART_2_Start
-  46:.\main.c      ****     isr_uart_Start();
- 113              		.loc 1 46 0
- 114 0028 FFF7FEFF 		bl	isr_uart_Start
-  47:.\main.c      ****     isr_pwm_Start();
- 115              		.loc 1 47 0
- 116 002c FFF7FEFF 		bl	isr_pwm_Start
-  48:.\main.c      ****     isr_RC_Start();
- 117              		.loc 1 48 0
- 118 0030 FFF7FEFF 		bl	isr_RC_Start
-  49:.\main.c      ****     isr_blink_Start();
- 119              		.loc 1 49 0
- 120 0034 FFF7FEFF 		bl	isr_blink_Start
- 121              	.L19:
-ARM GAS  C:\Users\ole\AppData\Local\Temp\ccvp916Y.s 			page 4
+  36:.\main.c      ****     uint8_t i;
+  37:.\main.c      ****     uint8_t uartByte;
+  38:.\main.c      ****     uint8_t lightAdj = 0;
+  90              		.loc 1 38 0
+  91 0006 BB1D     		add	r3, r7, #6
+  92 0008 0022     		mov	r2, #0
+  93 000a 1A70     		strb	r2, [r3]
+  39:.\main.c      **** 
+  40:.\main.c      ****     /* Place your initialization/startup code here (e.g. MyInst_Start()) */
+  41:.\main.c      ****     CyGlobalIntEnable;
+  94              		.loc 1 41 0
+  95              	@ 41 ".\main.c" 1
+  96 000c 62B6     		CPSIE   i
+  97              	@ 0 "" 2
+  42:.\main.c      ****     PWM_Timer_Start();
+  98              		.loc 1 42 0
+  99              		.code	16
+ 100 000e FFF7FEFF 		bl	PWM_Timer_Start
+  43:.\main.c      ****     Blink_Timer_Start();
+ 101              		.loc 1 43 0
+ 102 0012 FFF7FEFF 		bl	Blink_Timer_Start
+  44:.\main.c      ****     RC_Timer_Start();
+ 103              		.loc 1 44 0
+ 104 0016 FFF7FEFF 		bl	RC_Timer_Start
+  45:.\main.c      ****     UART_1_Start();
+ 105              		.loc 1 45 0
+ 106 001a FFF7FEFF 		bl	UART_1_Start
+  46:.\main.c      ****     UART_2_Start();
+ 107              		.loc 1 46 0
+ 108 001e FFF7FEFF 		bl	UART_2_Start
+  47:.\main.c      ****     isr_uart_Start();
+ 109              		.loc 1 47 0
+ 110 0022 FFF7FEFF 		bl	isr_uart_Start
+  48:.\main.c      ****     isr_pwm_Start();
+ 111              		.loc 1 48 0
+ 112 0026 FFF7FEFF 		bl	isr_pwm_Start
+  49:.\main.c      ****     isr_RC_Start();
+ 113              		.loc 1 49 0
+ 114 002a FFF7FEFF 		bl	isr_RC_Start
+  50:.\main.c      ****     isr_blink_Start();
+ 115              		.loc 1 50 0
+ 116 002e FFF7FEFF 		bl	isr_blink_Start
+ 117              	.L16:
+  51:.\main.c      ****  
+  52:.\main.c      ****     
+  53:.\main.c      ****     for(;;)
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccd6pzET.s 			page 4
 
 
-  50:.\main.c      ****  
-  51:.\main.c      ****     
-  52:.\main.c      ****     for(;;)
-  53:.\main.c      ****     {
-  54:.\main.c      ****         uartByte = UART_2_UartGetChar();
- 122              		.loc 1 54 0
- 123 0038 FFF7FEFF 		bl	UART_2_UartGetChar
- 124 003c 021C     		mov	r2, r0
- 125 003e FB1D     		add	r3, r7, #7
- 126 0040 1A70     		strb	r2, [r3]
-  55:.\main.c      ****         if (uartByte != 0)
- 127              		.loc 1 55 0
- 128 0042 FB1D     		add	r3, r7, #7
- 129 0044 1B78     		ldrb	r3, [r3]
- 130 0046 002B     		cmp	r3, #0
- 131 0048 18D0     		beq	.L2
-  56:.\main.c      ****         {
-  57:.\main.c      ****             for (i=0;i<4;i++)
- 132              		.loc 1 57 0
- 133 004a 3B1C     		mov	r3, r7
- 134 004c 0F33     		add	r3, r3, #15
- 135 004e 0022     		mov	r2, #0
- 136 0050 1A70     		strb	r2, [r3]
- 137 0052 0DE0     		b	.L3
- 138              	.L4:
-  58:.\main.c      ****              pwm_light_adj[i] = uartByte;
- 139              		.loc 1 58 0 discriminator 2
- 140 0054 3B1C     		mov	r3, r7
- 141 0056 0F33     		add	r3, r3, #15
- 142 0058 1B78     		ldrb	r3, [r3]
- 143 005a 694A     		ldr	r2, .L20
- 144 005c F91D     		add	r1, r7, #7
- 145 005e 0978     		ldrb	r1, [r1]
- 146 0060 D154     		strb	r1, [r2, r3]
-  57:.\main.c      ****             for (i=0;i<4;i++)
- 147              		.loc 1 57 0 discriminator 2
- 148 0062 3B1C     		mov	r3, r7
- 149 0064 0F33     		add	r3, r3, #15
- 150 0066 1A78     		ldrb	r2, [r3]
- 151 0068 3B1C     		mov	r3, r7
- 152 006a 0F33     		add	r3, r3, #15
- 153 006c 0132     		add	r2, r2, #1
- 154 006e 1A70     		strb	r2, [r3]
- 155              	.L3:
-  57:.\main.c      ****             for (i=0;i<4;i++)
- 156              		.loc 1 57 0 is_stmt 0 discriminator 1
- 157 0070 3B1C     		mov	r3, r7
- 158 0072 0F33     		add	r3, r3, #15
- 159 0074 1B78     		ldrb	r3, [r3]
- 160 0076 032B     		cmp	r3, #3
- 161 0078 ECD9     		bls	.L4
-  59:.\main.c      ****         }else
-  60:.\main.c      ****         {
-  61:.\main.c      ****             for (i=0;i<8;i++)
-  62:.\main.c      ****             {
-  63:.\main.c      ****                 if (channelTime[i] < 1000)
-  64:.\main.c      ****                 {
-ARM GAS  C:\Users\ole\AppData\Local\Temp\ccvp916Y.s 			page 5
+  54:.\main.c      ****     {
+  55:.\main.c      ****         uartByte = UART_2_UartGetChar();
+ 118              		.loc 1 55 0
+ 119 0032 FFF7FEFF 		bl	UART_2_UartGetChar
+ 120 0036 021C     		mov	r2, r0
+ 121 0038 7B1D     		add	r3, r7, #5
+ 122 003a 1A70     		strb	r2, [r3]
+  56:.\main.c      ****         if (uartByte != 0)
+ 123              		.loc 1 56 0
+ 124 003c 7B1D     		add	r3, r7, #5
+ 125 003e 1B78     		ldrb	r3, [r3]
+ 126 0040 002B     		cmp	r3, #0
+ 127 0042 13D0     		beq	.L2
+  57:.\main.c      ****         {
+  58:.\main.c      ****             for (i=0;i<4;i++)
+ 128              		.loc 1 58 0
+ 129 0044 FB1D     		add	r3, r7, #7
+ 130 0046 0022     		mov	r2, #0
+ 131 0048 1A70     		strb	r2, [r3]
+ 132 004a 0AE0     		b	.L3
+ 133              	.L4:
+  59:.\main.c      ****              pwm_light_adj[i] = uartByte;
+ 134              		.loc 1 59 0 discriminator 2
+ 135 004c FB1D     		add	r3, r7, #7
+ 136 004e 1B78     		ldrb	r3, [r3]
+ 137 0050 4E4A     		ldr	r2, .L17
+ 138 0052 791D     		add	r1, r7, #5
+ 139 0054 0978     		ldrb	r1, [r1]
+ 140 0056 D154     		strb	r1, [r2, r3]
+  58:.\main.c      ****             for (i=0;i<4;i++)
+ 141              		.loc 1 58 0 discriminator 2
+ 142 0058 FB1D     		add	r3, r7, #7
+ 143 005a 1A78     		ldrb	r2, [r3]
+ 144 005c FB1D     		add	r3, r7, #7
+ 145 005e 0132     		add	r2, r2, #1
+ 146 0060 1A70     		strb	r2, [r3]
+ 147              	.L3:
+  58:.\main.c      ****             for (i=0;i<4;i++)
+ 148              		.loc 1 58 0 is_stmt 0 discriminator 1
+ 149 0062 FB1D     		add	r3, r7, #7
+ 150 0064 1B78     		ldrb	r3, [r3]
+ 151 0066 032B     		cmp	r3, #3
+ 152 0068 F0D9     		bls	.L4
+  60:.\main.c      ****         }else
+  61:.\main.c      ****         {
+  62:.\main.c      ****             for (i=0;i<8;i++)
+  63:.\main.c      ****             {
+  64:.\main.c      ****                 if (channelTime[i] < 1000)
+  65:.\main.c      ****                 {
+  66:.\main.c      ****                     channelValue[i] = 0;
+  67:.\main.c      ****                 }else if (channelTime[i] > 2000)
+  68:.\main.c      ****                 {
+  69:.\main.c      ****                     channelValue[i] = 255;
+  70:.\main.c      ****                 }else
+  71:.\main.c      ****                 {
+  72:.\main.c      ****                     channelValue[i] = (uint8_t) (((channelTime[i] - 1000) * 255) / 1000);
+  73:.\main.c      ****                 }  
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccd6pzET.s 			page 5
 
 
-  65:.\main.c      ****                     channelValue[i] = 0;
-  66:.\main.c      ****                 }else if (channelTime[i] > 2000)
-  67:.\main.c      ****                 {
-  68:.\main.c      ****                     channelValue[i] = 255;
-  69:.\main.c      ****                 }else
-  70:.\main.c      ****                 {
-  71:.\main.c      ****                     channelValue[i] = (uint8_t) (((channelTime[i] - 1000) * 255) / 1000);
-  72:.\main.c      ****                 }  
-  73:.\main.c      ****             }
-  74:.\main.c      ****             if (seconds == secondsTemp + 2)
-  75:.\main.c      ****             {
-  76:.\main.c      ****                 if (channelValue[ch1] == 0 && channelValue[ch4] == 255)
-  77:.\main.c      ****                 {
-  78:.\main.c      ****                     lightAdj = (lightAdj + 1) % 4;
-  79:.\main.c      ****                     for (i=0;i<4;i++)       //Turn all lights off on after 2s of stick in right-low
-  80:.\main.c      ****                     {
-  81:.\main.c      ****                         pwm_light[i] = 0;
-  82:.\main.c      ****                     }
-  83:.\main.c      ****                     lightOff = 1;
-  84:.\main.c      ****                     pwm_light[lightAdj] = pwm_light_adj[lightAdj];
-  85:.\main.c      ****                 }
-  86:.\main.c      ****                 secondsTemp = seconds;
-  87:.\main.c      ****             }else if (seconds == secondsTemp + 1 && lightOff == 1) //Turn all lights back on after 
-  88:.\main.c      ****             {
-  89:.\main.c      ****                 for (i=0;i<4;i++)
-  90:.\main.c      ****                 {
-  91:.\main.c      ****                     pwm_light[i] = pwm_light_adj[i];
-  92:.\main.c      ****                 }
-  93:.\main.c      ****                 lightOff = 0;
-  94:.\main.c      ****             }
-  95:.\main.c      ****             
-  96:.\main.c      ****             pwm_light_adj[lightAdj] = channelValue[ch6];
-  97:.\main.c      ****         }
-  98:.\main.c      ****         /* Place your application code here. */
-  99:.\main.c      ****     }
- 162              		.loc 1 99 0 is_stmt 1
- 163 007a DDE7     		b	.L19
- 164              	.L2:
-  61:.\main.c      ****             for (i=0;i<8;i++)
- 165              		.loc 1 61 0
- 166 007c 3B1C     		mov	r3, r7
- 167 007e 0F33     		add	r3, r3, #15
- 168 0080 0022     		mov	r2, #0
- 169 0082 1A70     		strb	r2, [r3]
- 170 0084 41E0     		b	.L6
- 171              	.L10:
-  63:.\main.c      ****                 if (channelTime[i] < 1000)
- 172              		.loc 1 63 0
- 173 0086 3B1C     		mov	r3, r7
- 174 0088 0F33     		add	r3, r3, #15
- 175 008a 1A78     		ldrb	r2, [r3]
- 176 008c 5D4B     		ldr	r3, .L20+4
- 177 008e 5200     		lsl	r2, r2, #1
- 178 0090 D35A     		ldrh	r3, [r2, r3]
- 179 0092 1AB2     		sxth	r2, r3
- 180 0094 5C4B     		ldr	r3, .L20+8
- 181 0096 9A42     		cmp	r2, r3
-ARM GAS  C:\Users\ole\AppData\Local\Temp\ccvp916Y.s 			page 6
+  74:.\main.c      ****             }
+  75:.\main.c      ****             
+  76:.\main.c      ****             if (counter_setup_millis > 1000)
+  77:.\main.c      ****             {
+  78:.\main.c      ****                 lightAdj = (lightAdj + 1) % 4;
+  79:.\main.c      ****                 for (i=0;i<4;i++)       //Turn all lights off on after 2s of stick in right-low cor
+  80:.\main.c      ****                 {
+  81:.\main.c      ****                     pwm_light[i] = 0;
+  82:.\main.c      ****                 }
+  83:.\main.c      ****                 lightOff = 1;
+  84:.\main.c      ****                 pwm_light[lightAdj] = pwm_light_adj[lightAdj];
+  85:.\main.c      ****                 counter_off_millis = 0;
+  86:.\main.c      ****                 counter_setup_millis = 0;
+  87:.\main.c      ****             }
+  88:.\main.c      ****                 
+  89:.\main.c      ****             if (counter_off_millis == 1500 && lightOff == 1) //Turn all lights back on after 1s
+  90:.\main.c      ****             {
+  91:.\main.c      ****                 lightOff = 0;
+  92:.\main.c      ****                 counter_off_millis = 0;
+  93:.\main.c      ****             }
+  94:.\main.c      ****             
+  95:.\main.c      ****             pwm_light_adj[lightAdj] = channelValue[ch1];
+  96:.\main.c      ****         }
+  97:.\main.c      ****         /* Place your application code here. */
+  98:.\main.c      ****     }
+ 153              		.loc 1 98 0 is_stmt 1
+ 154 006a E2E7     		b	.L16
+ 155              	.L2:
+  62:.\main.c      ****             for (i=0;i<8;i++)
+ 156              		.loc 1 62 0
+ 157 006c FB1D     		add	r3, r7, #7
+ 158 006e 0022     		mov	r2, #0
+ 159 0070 1A70     		strb	r2, [r3]
+ 160 0072 39E0     		b	.L6
+ 161              	.L10:
+  64:.\main.c      ****                 if (channelTime[i] < 1000)
+ 162              		.loc 1 64 0
+ 163 0074 FB1D     		add	r3, r7, #7
+ 164 0076 1A78     		ldrb	r2, [r3]
+ 165 0078 454B     		ldr	r3, .L17+4
+ 166 007a 5200     		lsl	r2, r2, #1
+ 167 007c D35A     		ldrh	r3, [r2, r3]
+ 168 007e 1AB2     		sxth	r2, r3
+ 169 0080 444B     		ldr	r3, .L17+8
+ 170 0082 9A42     		cmp	r2, r3
+ 171 0084 05DC     		bgt	.L7
+  66:.\main.c      ****                     channelValue[i] = 0;
+ 172              		.loc 1 66 0
+ 173 0086 FB1D     		add	r3, r7, #7
+ 174 0088 1B78     		ldrb	r3, [r3]
+ 175 008a 434A     		ldr	r2, .L17+12
+ 176 008c 0021     		mov	r1, #0
+ 177 008e D154     		strb	r1, [r2, r3]
+ 178 0090 25E0     		b	.L8
+ 179              	.L7:
+  67:.\main.c      ****                 }else if (channelTime[i] > 2000)
+ 180              		.loc 1 67 0
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccd6pzET.s 			page 6
 
 
- 182 0098 06DC     		bgt	.L7
-  65:.\main.c      ****                     channelValue[i] = 0;
- 183              		.loc 1 65 0
- 184 009a 3B1C     		mov	r3, r7
- 185 009c 0F33     		add	r3, r3, #15
- 186 009e 1B78     		ldrb	r3, [r3]
- 187 00a0 5A4A     		ldr	r2, .L20+12
- 188 00a2 0021     		mov	r1, #0
- 189 00a4 D154     		strb	r1, [r2, r3]
- 190 00a6 29E0     		b	.L8
- 191              	.L7:
-  66:.\main.c      ****                 }else if (channelTime[i] > 2000)
- 192              		.loc 1 66 0
- 193 00a8 3B1C     		mov	r3, r7
- 194 00aa 0F33     		add	r3, r3, #15
- 195 00ac 1A78     		ldrb	r2, [r3]
- 196 00ae 554B     		ldr	r3, .L20+4
- 197 00b0 5200     		lsl	r2, r2, #1
- 198 00b2 D35A     		ldrh	r3, [r2, r3]
- 199 00b4 1AB2     		sxth	r2, r3
- 200 00b6 FA23     		mov	r3, #250
- 201 00b8 DB00     		lsl	r3, r3, #3
- 202 00ba 9A42     		cmp	r2, r3
- 203 00bc 06DD     		ble	.L9
-  68:.\main.c      ****                     channelValue[i] = 255;
- 204              		.loc 1 68 0
- 205 00be 3B1C     		mov	r3, r7
- 206 00c0 0F33     		add	r3, r3, #15
- 207 00c2 1B78     		ldrb	r3, [r3]
- 208 00c4 514A     		ldr	r2, .L20+12
- 209 00c6 FF21     		mov	r1, #255
- 210 00c8 D154     		strb	r1, [r2, r3]
- 211 00ca 17E0     		b	.L8
- 212              	.L9:
-  71:.\main.c      ****                     channelValue[i] = (uint8_t) (((channelTime[i] - 1000) * 255) / 1000);
- 213              		.loc 1 71 0
- 214 00cc 3B1C     		mov	r3, r7
- 215 00ce 0F33     		add	r3, r3, #15
- 216 00d0 1C78     		ldrb	r4, [r3]
- 217 00d2 3B1C     		mov	r3, r7
- 218 00d4 0F33     		add	r3, r3, #15
- 219 00d6 1A78     		ldrb	r2, [r3]
- 220 00d8 4A4B     		ldr	r3, .L20+4
- 221 00da 5200     		lsl	r2, r2, #1
- 222 00dc D35A     		ldrh	r3, [r2, r3]
- 223 00de 1BB2     		sxth	r3, r3
- 224 00e0 4B49     		ldr	r1, .L20+16
- 225 00e2 5A18     		add	r2, r3, r1
- 226 00e4 131C     		mov	r3, r2
- 227 00e6 1B02     		lsl	r3, r3, #8
- 228 00e8 9B1A     		sub	r3, r3, r2
- 229 00ea 181C     		mov	r0, r3
- 230 00ec FA23     		mov	r3, #250
- 231 00ee 9900     		lsl	r1, r3, #2
- 232 00f0 FFF7FEFF 		bl	__aeabi_idiv
- 233 00f4 031C     		mov	r3, r0
- 234 00f6 DAB2     		uxtb	r2, r3
-ARM GAS  C:\Users\ole\AppData\Local\Temp\ccvp916Y.s 			page 7
+ 181 0092 FB1D     		add	r3, r7, #7
+ 182 0094 1A78     		ldrb	r2, [r3]
+ 183 0096 3E4B     		ldr	r3, .L17+4
+ 184 0098 5200     		lsl	r2, r2, #1
+ 185 009a D35A     		ldrh	r3, [r2, r3]
+ 186 009c 1AB2     		sxth	r2, r3
+ 187 009e FA23     		mov	r3, #250
+ 188 00a0 DB00     		lsl	r3, r3, #3
+ 189 00a2 9A42     		cmp	r2, r3
+ 190 00a4 05DD     		ble	.L9
+  69:.\main.c      ****                     channelValue[i] = 255;
+ 191              		.loc 1 69 0
+ 192 00a6 FB1D     		add	r3, r7, #7
+ 193 00a8 1B78     		ldrb	r3, [r3]
+ 194 00aa 3B4A     		ldr	r2, .L17+12
+ 195 00ac FF21     		mov	r1, #255
+ 196 00ae D154     		strb	r1, [r2, r3]
+ 197 00b0 15E0     		b	.L8
+ 198              	.L9:
+  72:.\main.c      ****                     channelValue[i] = (uint8_t) (((channelTime[i] - 1000) * 255) / 1000);
+ 199              		.loc 1 72 0
+ 200 00b2 FB1D     		add	r3, r7, #7
+ 201 00b4 1C78     		ldrb	r4, [r3]
+ 202 00b6 FB1D     		add	r3, r7, #7
+ 203 00b8 1A78     		ldrb	r2, [r3]
+ 204 00ba 354B     		ldr	r3, .L17+4
+ 205 00bc 5200     		lsl	r2, r2, #1
+ 206 00be D35A     		ldrh	r3, [r2, r3]
+ 207 00c0 1BB2     		sxth	r3, r3
+ 208 00c2 3649     		ldr	r1, .L17+16
+ 209 00c4 5A18     		add	r2, r3, r1
+ 210 00c6 131C     		mov	r3, r2
+ 211 00c8 1B02     		lsl	r3, r3, #8
+ 212 00ca 9B1A     		sub	r3, r3, r2
+ 213 00cc 181C     		mov	r0, r3
+ 214 00ce FA23     		mov	r3, #250
+ 215 00d0 9900     		lsl	r1, r3, #2
+ 216 00d2 FFF7FEFF 		bl	__aeabi_idiv
+ 217 00d6 031C     		mov	r3, r0
+ 218 00d8 DAB2     		uxtb	r2, r3
+ 219 00da 2F4B     		ldr	r3, .L17+12
+ 220 00dc 1A55     		strb	r2, [r3, r4]
+ 221              	.L8:
+  62:.\main.c      ****             for (i=0;i<8;i++)
+ 222              		.loc 1 62 0
+ 223 00de FB1D     		add	r3, r7, #7
+ 224 00e0 1A78     		ldrb	r2, [r3]
+ 225 00e2 FB1D     		add	r3, r7, #7
+ 226 00e4 0132     		add	r2, r2, #1
+ 227 00e6 1A70     		strb	r2, [r3]
+ 228              	.L6:
+  62:.\main.c      ****             for (i=0;i<8;i++)
+ 229              		.loc 1 62 0 is_stmt 0 discriminator 1
+ 230 00e8 FB1D     		add	r3, r7, #7
+ 231 00ea 1B78     		ldrb	r3, [r3]
+ 232 00ec 072B     		cmp	r3, #7
+ 233 00ee C1D9     		bls	.L10
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccd6pzET.s 			page 7
 
 
- 235 00f8 444B     		ldr	r3, .L20+12
- 236 00fa 1A55     		strb	r2, [r3, r4]
- 237              	.L8:
-  61:.\main.c      ****             for (i=0;i<8;i++)
- 238              		.loc 1 61 0
- 239 00fc 3B1C     		mov	r3, r7
- 240 00fe 0F33     		add	r3, r3, #15
- 241 0100 1A78     		ldrb	r2, [r3]
- 242 0102 3B1C     		mov	r3, r7
- 243 0104 0F33     		add	r3, r3, #15
- 244 0106 0132     		add	r2, r2, #1
- 245 0108 1A70     		strb	r2, [r3]
- 246              	.L6:
-  61:.\main.c      ****             for (i=0;i<8;i++)
- 247              		.loc 1 61 0 is_stmt 0 discriminator 1
- 248 010a 3B1C     		mov	r3, r7
- 249 010c 0F33     		add	r3, r3, #15
- 250 010e 1B78     		ldrb	r3, [r3]
- 251 0110 072B     		cmp	r3, #7
- 252 0112 B8D9     		bls	.L10
-  74:.\main.c      ****             if (seconds == secondsTemp + 2)
- 253              		.loc 1 74 0 is_stmt 1
- 254 0114 BB68     		ldr	r3, [r7, #8]
- 255 0116 9A1C     		add	r2, r3, #2
- 256 0118 3E4B     		ldr	r3, .L20+20
- 257 011a 1B68     		ldr	r3, [r3]
- 258 011c 9A42     		cmp	r2, r3
- 259 011e 3FD1     		bne	.L11
-  76:.\main.c      ****                 if (channelValue[ch1] == 0 && channelValue[ch4] == 255)
- 260              		.loc 1 76 0
- 261 0120 3A4B     		ldr	r3, .L20+12
- 262 0122 1B78     		ldrb	r3, [r3]
- 263 0124 002B     		cmp	r3, #0
- 264 0126 37D1     		bne	.L12
-  76:.\main.c      ****                 if (channelValue[ch1] == 0 && channelValue[ch4] == 255)
- 265              		.loc 1 76 0 is_stmt 0 discriminator 1
- 266 0128 384B     		ldr	r3, .L20+12
- 267 012a DB78     		ldrb	r3, [r3, #3]
- 268 012c FF2B     		cmp	r3, #255
- 269 012e 33D1     		bne	.L12
-  78:.\main.c      ****                     lightAdj = (lightAdj + 1) % 4;
- 270              		.loc 1 78 0 is_stmt 1
- 271 0130 3B1C     		mov	r3, r7
- 272 0132 0E33     		add	r3, r3, #14
- 273 0134 1B78     		ldrb	r3, [r3]
- 274 0136 5A1C     		add	r2, r3, #1
- 275 0138 374B     		ldr	r3, .L20+24
- 276 013a 1340     		and	r3, r2
- 277 013c 04D5     		bpl	.L13
- 278 013e 013B     		sub	r3, r3, #1
- 279 0140 0422     		mov	r2, #4
- 280 0142 5242     		neg	r2, r2
- 281 0144 1343     		orr	r3, r2
- 282 0146 0133     		add	r3, r3, #1
- 283              	.L13:
- 284 0148 1A1C     		mov	r2, r3
- 285 014a 3B1C     		mov	r3, r7
-ARM GAS  C:\Users\ole\AppData\Local\Temp\ccvp916Y.s 			page 8
+  76:.\main.c      ****             if (counter_setup_millis > 1000)
+ 234              		.loc 1 76 0 is_stmt 1
+ 235 00f0 2B4B     		ldr	r3, .L17+20
+ 236 00f2 1A88     		ldrh	r2, [r3]
+ 237 00f4 FA23     		mov	r3, #250
+ 238 00f6 9B00     		lsl	r3, r3, #2
+ 239 00f8 9A42     		cmp	r2, r3
+ 240 00fa 30D9     		bls	.L11
+  78:.\main.c      ****                 lightAdj = (lightAdj + 1) % 4;
+ 241              		.loc 1 78 0
+ 242 00fc BB1D     		add	r3, r7, #6
+ 243 00fe 1B78     		ldrb	r3, [r3]
+ 244 0100 5A1C     		add	r2, r3, #1
+ 245 0102 284B     		ldr	r3, .L17+24
+ 246 0104 1340     		and	r3, r2
+ 247 0106 04D5     		bpl	.L12
+ 248 0108 013B     		sub	r3, r3, #1
+ 249 010a 0422     		mov	r2, #4
+ 250 010c 5242     		neg	r2, r2
+ 251 010e 1343     		orr	r3, r2
+ 252 0110 0133     		add	r3, r3, #1
+ 253              	.L12:
+ 254 0112 1A1C     		mov	r2, r3
+ 255 0114 BB1D     		add	r3, r7, #6
+ 256 0116 1A70     		strb	r2, [r3]
+  79:.\main.c      ****                 for (i=0;i<4;i++)       //Turn all lights off on after 2s of stick in right-low cor
+ 257              		.loc 1 79 0
+ 258 0118 FB1D     		add	r3, r7, #7
+ 259 011a 0022     		mov	r2, #0
+ 260 011c 1A70     		strb	r2, [r3]
+ 261 011e 09E0     		b	.L13
+ 262              	.L14:
+  81:.\main.c      ****                     pwm_light[i] = 0;
+ 263              		.loc 1 81 0 discriminator 2
+ 264 0120 FB1D     		add	r3, r7, #7
+ 265 0122 1B78     		ldrb	r3, [r3]
+ 266 0124 204A     		ldr	r2, .L17+28
+ 267 0126 0021     		mov	r1, #0
+ 268 0128 D154     		strb	r1, [r2, r3]
+  79:.\main.c      ****                 for (i=0;i<4;i++)       //Turn all lights off on after 2s of stick in right-low cor
+ 269              		.loc 1 79 0 discriminator 2
+ 270 012a FB1D     		add	r3, r7, #7
+ 271 012c 1A78     		ldrb	r2, [r3]
+ 272 012e FB1D     		add	r3, r7, #7
+ 273 0130 0132     		add	r2, r2, #1
+ 274 0132 1A70     		strb	r2, [r3]
+ 275              	.L13:
+  79:.\main.c      ****                 for (i=0;i<4;i++)       //Turn all lights off on after 2s of stick in right-low cor
+ 276              		.loc 1 79 0 is_stmt 0 discriminator 1
+ 277 0134 FB1D     		add	r3, r7, #7
+ 278 0136 1B78     		ldrb	r3, [r3]
+ 279 0138 032B     		cmp	r3, #3
+ 280 013a F1D9     		bls	.L14
+  83:.\main.c      ****                 lightOff = 1;
+ 281              		.loc 1 83 0 is_stmt 1
+ 282 013c 1B4B     		ldr	r3, .L17+32
+ 283 013e 0122     		mov	r2, #1
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccd6pzET.s 			page 8
 
 
- 286 014c 0E33     		add	r3, r3, #14
- 287 014e 1A70     		strb	r2, [r3]
-  79:.\main.c      ****                     for (i=0;i<4;i++)       //Turn all lights off on after 2s of stick in right-low
- 288              		.loc 1 79 0
- 289 0150 3B1C     		mov	r3, r7
- 290 0152 0F33     		add	r3, r3, #15
- 291 0154 0022     		mov	r2, #0
- 292 0156 1A70     		strb	r2, [r3]
- 293 0158 0CE0     		b	.L14
- 294              	.L15:
-  81:.\main.c      ****                         pwm_light[i] = 0;
- 295              		.loc 1 81 0 discriminator 2
- 296 015a 3B1C     		mov	r3, r7
- 297 015c 0F33     		add	r3, r3, #15
- 298 015e 1B78     		ldrb	r3, [r3]
- 299 0160 2E4A     		ldr	r2, .L20+28
- 300 0162 0021     		mov	r1, #0
- 301 0164 D154     		strb	r1, [r2, r3]
-  79:.\main.c      ****                     for (i=0;i<4;i++)       //Turn all lights off on after 2s of stick in right-low
- 302              		.loc 1 79 0 discriminator 2
- 303 0166 3B1C     		mov	r3, r7
- 304 0168 0F33     		add	r3, r3, #15
- 305 016a 1A78     		ldrb	r2, [r3]
- 306 016c 3B1C     		mov	r3, r7
- 307 016e 0F33     		add	r3, r3, #15
- 308 0170 0132     		add	r2, r2, #1
- 309 0172 1A70     		strb	r2, [r3]
- 310              	.L14:
-  79:.\main.c      ****                     for (i=0;i<4;i++)       //Turn all lights off on after 2s of stick in right-low
- 311              		.loc 1 79 0 is_stmt 0 discriminator 1
- 312 0174 3B1C     		mov	r3, r7
- 313 0176 0F33     		add	r3, r3, #15
- 314 0178 1B78     		ldrb	r3, [r3]
- 315 017a 032B     		cmp	r3, #3
- 316 017c EDD9     		bls	.L15
-  83:.\main.c      ****                     lightOff = 1;
- 317              		.loc 1 83 0 is_stmt 1
- 318 017e 284B     		ldr	r3, .L20+32
- 319 0180 0122     		mov	r2, #1
- 320 0182 1A70     		strb	r2, [r3]
-  84:.\main.c      ****                     pwm_light[lightAdj] = pwm_light_adj[lightAdj];
- 321              		.loc 1 84 0
- 322 0184 3B1C     		mov	r3, r7
- 323 0186 0E33     		add	r3, r3, #14
- 324 0188 1B78     		ldrb	r3, [r3]
- 325 018a 3A1C     		mov	r2, r7
- 326 018c 0E32     		add	r2, r2, #14
- 327 018e 1278     		ldrb	r2, [r2]
- 328 0190 1B49     		ldr	r1, .L20
- 329 0192 895C     		ldrb	r1, [r1, r2]
- 330 0194 214A     		ldr	r2, .L20+28
- 331 0196 D154     		strb	r1, [r2, r3]
- 332              	.L12:
-  86:.\main.c      ****                 secondsTemp = seconds;
- 333              		.loc 1 86 0
- 334 0198 1E4B     		ldr	r3, .L20+20
- 335 019a 1B68     		ldr	r3, [r3]
-ARM GAS  C:\Users\ole\AppData\Local\Temp\ccvp916Y.s 			page 9
+ 284 0140 1A70     		strb	r2, [r3]
+  84:.\main.c      ****                 pwm_light[lightAdj] = pwm_light_adj[lightAdj];
+ 285              		.loc 1 84 0
+ 286 0142 BB1D     		add	r3, r7, #6
+ 287 0144 1B78     		ldrb	r3, [r3]
+ 288 0146 BA1D     		add	r2, r7, #6
+ 289 0148 1278     		ldrb	r2, [r2]
+ 290 014a 1049     		ldr	r1, .L17
+ 291 014c 895C     		ldrb	r1, [r1, r2]
+ 292 014e 164A     		ldr	r2, .L17+28
+ 293 0150 D154     		strb	r1, [r2, r3]
+  85:.\main.c      ****                 counter_off_millis = 0;
+ 294              		.loc 1 85 0
+ 295 0152 174B     		ldr	r3, .L17+36
+ 296 0154 0022     		mov	r2, #0
+ 297 0156 1A80     		strh	r2, [r3]
+  86:.\main.c      ****                 counter_setup_millis = 0;
+ 298              		.loc 1 86 0
+ 299 0158 114B     		ldr	r3, .L17+20
+ 300 015a 0022     		mov	r2, #0
+ 301 015c 1A80     		strh	r2, [r3]
+ 302              	.L11:
+  89:.\main.c      ****             if (counter_off_millis == 1500 && lightOff == 1) //Turn all lights back on after 1s
+ 303              		.loc 1 89 0
+ 304 015e 144B     		ldr	r3, .L17+36
+ 305 0160 1A88     		ldrh	r2, [r3]
+ 306 0162 144B     		ldr	r3, .L17+40
+ 307 0164 9A42     		cmp	r2, r3
+ 308 0166 09D1     		bne	.L15
+  89:.\main.c      ****             if (counter_off_millis == 1500 && lightOff == 1) //Turn all lights back on after 1s
+ 309              		.loc 1 89 0 is_stmt 0 discriminator 1
+ 310 0168 104B     		ldr	r3, .L17+32
+ 311 016a 1B78     		ldrb	r3, [r3]
+ 312 016c 012B     		cmp	r3, #1
+ 313 016e 05D1     		bne	.L15
+  91:.\main.c      ****                 lightOff = 0;
+ 314              		.loc 1 91 0 is_stmt 1
+ 315 0170 0E4B     		ldr	r3, .L17+32
+ 316 0172 0022     		mov	r2, #0
+ 317 0174 1A70     		strb	r2, [r3]
+  92:.\main.c      ****                 counter_off_millis = 0;
+ 318              		.loc 1 92 0
+ 319 0176 0E4B     		ldr	r3, .L17+36
+ 320 0178 0022     		mov	r2, #0
+ 321 017a 1A80     		strh	r2, [r3]
+ 322              	.L15:
+  95:.\main.c      ****             pwm_light_adj[lightAdj] = channelValue[ch1];
+ 323              		.loc 1 95 0
+ 324 017c BB1D     		add	r3, r7, #6
+ 325 017e 1B78     		ldrb	r3, [r3]
+ 326 0180 054A     		ldr	r2, .L17+12
+ 327 0182 1178     		ldrb	r1, [r2]
+ 328 0184 014A     		ldr	r2, .L17
+ 329 0186 D154     		strb	r1, [r2, r3]
+ 330              		.loc 1 98 0
+ 331 0188 53E7     		b	.L16
+ 332              	.L18:
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccd6pzET.s 			page 9
 
 
- 336 019c BB60     		str	r3, [r7, #8]
- 337 019e 27E0     		b	.L16
- 338              	.L11:
-  87:.\main.c      ****             }else if (seconds == secondsTemp + 1 && lightOff == 1) //Turn all lights back on after 
- 339              		.loc 1 87 0
- 340 01a0 BB68     		ldr	r3, [r7, #8]
- 341 01a2 5A1C     		add	r2, r3, #1
- 342 01a4 1B4B     		ldr	r3, .L20+20
- 343 01a6 1B68     		ldr	r3, [r3]
- 344 01a8 9A42     		cmp	r2, r3
- 345 01aa 21D1     		bne	.L16
-  87:.\main.c      ****             }else if (seconds == secondsTemp + 1 && lightOff == 1) //Turn all lights back on after 
- 346              		.loc 1 87 0 is_stmt 0 discriminator 1
- 347 01ac 1C4B     		ldr	r3, .L20+32
- 348 01ae 1B78     		ldrb	r3, [r3]
- 349 01b0 012B     		cmp	r3, #1
- 350 01b2 1DD1     		bne	.L16
-  89:.\main.c      ****                 for (i=0;i<4;i++)
- 351              		.loc 1 89 0 is_stmt 1
- 352 01b4 3B1C     		mov	r3, r7
- 353 01b6 0F33     		add	r3, r3, #15
- 354 01b8 0022     		mov	r2, #0
- 355 01ba 1A70     		strb	r2, [r3]
- 356 01bc 10E0     		b	.L17
- 357              	.L18:
-  91:.\main.c      ****                     pwm_light[i] = pwm_light_adj[i];
- 358              		.loc 1 91 0 discriminator 2
- 359 01be 3B1C     		mov	r3, r7
- 360 01c0 0F33     		add	r3, r3, #15
- 361 01c2 1B78     		ldrb	r3, [r3]
- 362 01c4 3A1C     		mov	r2, r7
- 363 01c6 0F32     		add	r2, r2, #15
- 364 01c8 1278     		ldrb	r2, [r2]
- 365 01ca 0D49     		ldr	r1, .L20
- 366 01cc 895C     		ldrb	r1, [r1, r2]
- 367 01ce 134A     		ldr	r2, .L20+28
- 368 01d0 D154     		strb	r1, [r2, r3]
-  89:.\main.c      ****                 for (i=0;i<4;i++)
- 369              		.loc 1 89 0 discriminator 2
- 370 01d2 3B1C     		mov	r3, r7
- 371 01d4 0F33     		add	r3, r3, #15
- 372 01d6 1A78     		ldrb	r2, [r3]
- 373 01d8 3B1C     		mov	r3, r7
- 374 01da 0F33     		add	r3, r3, #15
- 375 01dc 0132     		add	r2, r2, #1
- 376 01de 1A70     		strb	r2, [r3]
- 377              	.L17:
-  89:.\main.c      ****                 for (i=0;i<4;i++)
- 378              		.loc 1 89 0 is_stmt 0 discriminator 1
- 379 01e0 3B1C     		mov	r3, r7
- 380 01e2 0F33     		add	r3, r3, #15
- 381 01e4 1B78     		ldrb	r3, [r3]
- 382 01e6 032B     		cmp	r3, #3
- 383 01e8 E9D9     		bls	.L18
-  93:.\main.c      ****                 lightOff = 0;
- 384              		.loc 1 93 0 is_stmt 1
- 385 01ea 0D4B     		ldr	r3, .L20+32
-ARM GAS  C:\Users\ole\AppData\Local\Temp\ccvp916Y.s 			page 10
+ 333 018a C046     		.align	2
+ 334              	.L17:
+ 335 018c 00000000 		.word	pwm_light_adj
+ 336 0190 00000000 		.word	channelTime
+ 337 0194 E7030000 		.word	999
+ 338 0198 00000000 		.word	channelValue
+ 339 019c 18FCFFFF 		.word	-1000
+ 340 01a0 00000000 		.word	counter_setup_millis
+ 341 01a4 03000080 		.word	-2147483645
+ 342 01a8 00000000 		.word	pwm_light
+ 343 01ac 00000000 		.word	lightOff
+ 344 01b0 00000000 		.word	counter_off_millis
+ 345 01b4 DC050000 		.word	1500
+ 346              		.cfi_endproc
+ 347              	.LFE33:
+ 348              		.size	main, .-main
+ 349              		.text
+ 350              	.Letext0:
+ 351              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\3.1\\psoc creator\\import\\gnu_cs\\arm\\4
+ 352              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\3.1\\psoc creator\\import\\gnu_cs\\arm\\4
+ 353              		.section	.debug_info,"",%progbits
+ 354              	.Ldebug_info0:
+ 355 0000 0D020000 		.4byte	0x20d
+ 356 0004 0400     		.2byte	0x4
+ 357 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 358 000a 04       		.byte	0x4
+ 359 000b 01       		.uleb128 0x1
+ 360 000c AF010000 		.4byte	.LASF31
+ 361 0010 01       		.byte	0x1
+ 362 0011 E1000000 		.4byte	.LASF32
+ 363 0015 4E010000 		.4byte	.LASF33
+ 364 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 365 001d 00000000 		.4byte	0
+ 366 0021 00000000 		.4byte	.Ldebug_line0
+ 367 0025 02       		.uleb128 0x2
+ 368 0026 01       		.byte	0x1
+ 369 0027 06       		.byte	0x6
+ 370 0028 A3010000 		.4byte	.LASF0
+ 371 002c 03       		.uleb128 0x3
+ 372 002d 16000000 		.4byte	.LASF2
+ 373 0031 02       		.byte	0x2
+ 374 0032 1C       		.byte	0x1c
+ 375 0033 37000000 		.4byte	0x37
+ 376 0037 02       		.uleb128 0x2
+ 377 0038 01       		.byte	0x1
+ 378 0039 08       		.byte	0x8
+ 379 003a 66000000 		.4byte	.LASF1
+ 380 003e 03       		.uleb128 0x3
+ 381 003f 36000000 		.4byte	.LASF3
+ 382 0043 02       		.byte	0x2
+ 383 0044 25       		.byte	0x25
+ 384 0045 49000000 		.4byte	0x49
+ 385 0049 02       		.uleb128 0x2
+ 386 004a 02       		.byte	0x2
+ 387 004b 05       		.byte	0x5
+ 388 004c 72010000 		.4byte	.LASF4
+ 389 0050 03       		.uleb128 0x3
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccd6pzET.s 			page 10
 
 
- 386 01ec 0022     		mov	r2, #0
- 387 01ee 1A70     		strb	r2, [r3]
- 388              	.L16:
-  96:.\main.c      ****             pwm_light_adj[lightAdj] = channelValue[ch6];
- 389              		.loc 1 96 0
- 390 01f0 3B1C     		mov	r3, r7
- 391 01f2 0E33     		add	r3, r3, #14
- 392 01f4 1B78     		ldrb	r3, [r3]
- 393 01f6 054A     		ldr	r2, .L20+12
- 394 01f8 5179     		ldrb	r1, [r2, #5]
- 395 01fa 014A     		ldr	r2, .L20
- 396 01fc D154     		strb	r1, [r2, r3]
- 397              		.loc 1 99 0
- 398 01fe 1BE7     		b	.L19
- 399              	.L21:
- 400              		.align	2
- 401              	.L20:
- 402 0200 00000000 		.word	pwm_light_adj
- 403 0204 00000000 		.word	channelTime
- 404 0208 E7030000 		.word	999
- 405 020c 00000000 		.word	channelValue
- 406 0210 18FCFFFF 		.word	-1000
- 407 0214 00000000 		.word	seconds
- 408 0218 03000080 		.word	-2147483645
- 409 021c 00000000 		.word	pwm_light
- 410 0220 00000000 		.word	lightOff
- 411              		.cfi_endproc
- 412              	.LFE33:
- 413              		.size	main, .-main
- 414              		.text
- 415              	.Letext0:
- 416              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\3.1\\psoc creator\\import\\gnu_cs\\arm\\4
- 417              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\3.1\\psoc creator\\import\\gnu_cs\\arm\\4
- 418              		.section	.debug_info,"",%progbits
- 419              	.Ldebug_info0:
- 420 0000 26020000 		.4byte	0x226
- 421 0004 0400     		.2byte	0x4
- 422 0006 00000000 		.4byte	.Ldebug_abbrev0
- 423 000a 04       		.byte	0x4
- 424 000b 01       		.uleb128 0x1
- 425 000c AF010000 		.4byte	.LASF33
- 426 0010 01       		.byte	0x1
- 427 0011 C0000000 		.4byte	.LASF34
- 428 0015 2D010000 		.4byte	.LASF35
- 429 0019 00000000 		.4byte	.Ldebug_ranges0+0
- 430 001d 00000000 		.4byte	0
- 431 0021 00000000 		.4byte	.Ldebug_line0
- 432 0025 02       		.uleb128 0x2
- 433 0026 01       		.byte	0x1
- 434 0027 06       		.byte	0x6
- 435 0028 A3010000 		.4byte	.LASF0
- 436 002c 03       		.uleb128 0x3
- 437 002d 16000000 		.4byte	.LASF2
- 438 0031 02       		.byte	0x2
- 439 0032 1C       		.byte	0x1c
- 440 0033 37000000 		.4byte	0x37
- 441 0037 02       		.uleb128 0x2
-ARM GAS  C:\Users\ole\AppData\Local\Temp\ccvp916Y.s 			page 11
+ 390 0051 C5000000 		.4byte	.LASF5
+ 391 0055 02       		.byte	0x2
+ 392 0056 26       		.byte	0x26
+ 393 0057 5B000000 		.4byte	0x5b
+ 394 005b 02       		.uleb128 0x2
+ 395 005c 02       		.byte	0x2
+ 396 005d 07       		.byte	0x7
+ 397 005e 9F000000 		.4byte	.LASF6
+ 398 0062 02       		.uleb128 0x2
+ 399 0063 04       		.byte	0x4
+ 400 0064 05       		.byte	0x5
+ 401 0065 9A010000 		.4byte	.LASF7
+ 402 0069 02       		.uleb128 0x2
+ 403 006a 04       		.byte	0x4
+ 404 006b 07       		.byte	0x7
+ 405 006c 8D000000 		.4byte	.LASF8
+ 406 0070 02       		.uleb128 0x2
+ 407 0071 08       		.byte	0x8
+ 408 0072 05       		.byte	0x5
+ 409 0073 40010000 		.4byte	.LASF9
+ 410 0077 02       		.uleb128 0x2
+ 411 0078 08       		.byte	0x8
+ 412 0079 07       		.byte	0x7
+ 413 007a 08010000 		.4byte	.LASF10
+ 414 007e 04       		.uleb128 0x4
+ 415 007f 04       		.byte	0x4
+ 416 0080 05       		.byte	0x5
+ 417 0081 696E7400 		.ascii	"int\000"
+ 418 0085 02       		.uleb128 0x2
+ 419 0086 04       		.byte	0x4
+ 420 0087 07       		.byte	0x7
+ 421 0088 FB000000 		.4byte	.LASF11
+ 422 008c 03       		.uleb128 0x3
+ 423 008d 1F010000 		.4byte	.LASF12
+ 424 0091 03       		.byte	0x3
+ 425 0092 2A       		.byte	0x2a
+ 426 0093 2C000000 		.4byte	0x2c
+ 427 0097 03       		.uleb128 0x3
+ 428 0098 27010000 		.4byte	.LASF13
+ 429 009c 03       		.byte	0x3
+ 430 009d 35       		.byte	0x35
+ 431 009e 3E000000 		.4byte	0x3e
+ 432 00a2 03       		.uleb128 0x3
+ 433 00a3 7C010000 		.4byte	.LASF14
+ 434 00a7 03       		.byte	0x3
+ 435 00a8 36       		.byte	0x36
+ 436 00a9 50000000 		.4byte	0x50
+ 437 00ad 02       		.uleb128 0x2
+ 438 00ae 04       		.byte	0x4
+ 439 00af 04       		.byte	0x4
+ 440 00b0 57000000 		.4byte	.LASF15
+ 441 00b4 02       		.uleb128 0x2
+ 442 00b5 08       		.byte	0x8
+ 443 00b6 04       		.byte	0x4
+ 444 00b7 D0000000 		.4byte	.LASF16
+ 445 00bb 02       		.uleb128 0x2
+ 446 00bc 01       		.byte	0x1
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccd6pzET.s 			page 11
 
 
- 442 0038 01       		.byte	0x1
- 443 0039 08       		.byte	0x8
- 444 003a 66000000 		.4byte	.LASF1
- 445 003e 03       		.uleb128 0x3
- 446 003f 36000000 		.4byte	.LASF3
- 447 0043 02       		.byte	0x2
- 448 0044 25       		.byte	0x25
- 449 0045 49000000 		.4byte	0x49
- 450 0049 02       		.uleb128 0x2
- 451 004a 02       		.byte	0x2
- 452 004b 05       		.byte	0x5
- 453 004c 60010000 		.4byte	.LASF4
- 454 0050 03       		.uleb128 0x3
- 455 0051 A4000000 		.4byte	.LASF5
- 456 0055 02       		.byte	0x2
- 457 0056 26       		.byte	0x26
- 458 0057 5B000000 		.4byte	0x5b
- 459 005b 02       		.uleb128 0x2
- 460 005c 02       		.byte	0x2
- 461 005d 07       		.byte	0x7
- 462 005e 86000000 		.4byte	.LASF6
- 463 0062 02       		.uleb128 0x2
- 464 0063 04       		.byte	0x4
- 465 0064 05       		.byte	0x5
- 466 0065 95010000 		.4byte	.LASF7
- 467 0069 03       		.uleb128 0x3
- 468 006a 99000000 		.4byte	.LASF8
- 469 006e 02       		.byte	0x2
- 470 006f 38       		.byte	0x38
- 471 0070 74000000 		.4byte	0x74
- 472 0074 02       		.uleb128 0x2
- 473 0075 04       		.byte	0x4
- 474 0076 07       		.byte	0x7
- 475 0077 74000000 		.4byte	.LASF9
- 476 007b 02       		.uleb128 0x2
- 477 007c 08       		.byte	0x8
- 478 007d 05       		.byte	0x5
- 479 007e 1F010000 		.4byte	.LASF10
- 480 0082 02       		.uleb128 0x2
- 481 0083 08       		.byte	0x8
- 482 0084 07       		.byte	0x7
- 483 0085 E7000000 		.4byte	.LASF11
- 484 0089 04       		.uleb128 0x4
- 485 008a 04       		.byte	0x4
- 486 008b 05       		.byte	0x5
- 487 008c 696E7400 		.ascii	"int\000"
- 488 0090 02       		.uleb128 0x2
- 489 0091 04       		.byte	0x4
- 490 0092 07       		.byte	0x7
- 491 0093 DA000000 		.4byte	.LASF12
- 492 0097 03       		.uleb128 0x3
- 493 0098 FE000000 		.4byte	.LASF13
- 494 009c 03       		.byte	0x3
- 495 009d 2A       		.byte	0x2a
- 496 009e 2C000000 		.4byte	0x2c
- 497 00a2 03       		.uleb128 0x3
- 498 00a3 06010000 		.4byte	.LASF14
-ARM GAS  C:\Users\ole\AppData\Local\Temp\ccvp916Y.s 			page 12
+ 447 00bd 08       		.byte	0x8
+ 448 00be 6D010000 		.4byte	.LASF17
+ 449 00c2 02       		.uleb128 0x2
+ 450 00c3 04       		.byte	0x4
+ 451 00c4 07       		.byte	0x7
+ 452 00c5 37010000 		.4byte	.LASF18
+ 453 00c9 05       		.uleb128 0x5
+ 454 00ca 2F010000 		.4byte	.LASF34
+ 455 00ce 01       		.byte	0x1
+ 456 00cf 01       		.byte	0x1
+ 457 00d0 0E       		.byte	0xe
+ 458 00d1 06010000 		.4byte	0x106
+ 459 00d5 06       		.uleb128 0x6
+ 460 00d6 63683100 		.ascii	"ch1\000"
+ 461 00da 00       		.sleb128 0
+ 462 00db 06       		.uleb128 0x6
+ 463 00dc 63683200 		.ascii	"ch2\000"
+ 464 00e0 01       		.sleb128 1
+ 465 00e1 06       		.uleb128 0x6
+ 466 00e2 63683300 		.ascii	"ch3\000"
+ 467 00e6 02       		.sleb128 2
+ 468 00e7 06       		.uleb128 0x6
+ 469 00e8 63683400 		.ascii	"ch4\000"
+ 470 00ec 03       		.sleb128 3
+ 471 00ed 06       		.uleb128 0x6
+ 472 00ee 63683500 		.ascii	"ch5\000"
+ 473 00f2 04       		.sleb128 4
+ 474 00f3 06       		.uleb128 0x6
+ 475 00f4 63683600 		.ascii	"ch6\000"
+ 476 00f8 05       		.sleb128 5
+ 477 00f9 06       		.uleb128 0x6
+ 478 00fa 63683700 		.ascii	"ch7\000"
+ 479 00fe 06       		.sleb128 6
+ 480 00ff 06       		.uleb128 0x6
+ 481 0100 63683800 		.ascii	"ch8\000"
+ 482 0104 07       		.sleb128 7
+ 483 0105 00       		.byte	0
+ 484 0106 07       		.uleb128 0x7
+ 485 0107 EA000000 		.4byte	.LASF35
+ 486 010b 01       		.byte	0x1
+ 487 010c 22       		.byte	0x22
+ 488 010d 7E000000 		.4byte	0x7e
+ 489 0111 00000000 		.4byte	.LFB33
+ 490 0115 B8010000 		.4byte	.LFE33-.LFB33
+ 491 0119 01       		.uleb128 0x1
+ 492 011a 9C       		.byte	0x9c
+ 493 011b 48010000 		.4byte	0x148
+ 494 011f 08       		.uleb128 0x8
+ 495 0120 6900     		.ascii	"i\000"
+ 496 0122 01       		.byte	0x1
+ 497 0123 24       		.byte	0x24
+ 498 0124 8C000000 		.4byte	0x8c
+ 499 0128 02       		.uleb128 0x2
+ 500 0129 91       		.byte	0x91
+ 501 012a 6F       		.sleb128 -17
+ 502 012b 09       		.uleb128 0x9
+ 503 012c 5D000000 		.4byte	.LASF19
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccd6pzET.s 			page 12
 
 
- 499 00a7 03       		.byte	0x3
- 500 00a8 35       		.byte	0x35
- 501 00a9 3E000000 		.4byte	0x3e
- 502 00ad 03       		.uleb128 0x3
- 503 00ae 6A010000 		.4byte	.LASF15
- 504 00b2 03       		.byte	0x3
- 505 00b3 36       		.byte	0x36
- 506 00b4 50000000 		.4byte	0x50
- 507 00b8 03       		.uleb128 0x3
- 508 00b9 8C010000 		.4byte	.LASF16
- 509 00bd 03       		.byte	0x3
- 510 00be 42       		.byte	0x42
- 511 00bf 69000000 		.4byte	0x69
- 512 00c3 02       		.uleb128 0x2
- 513 00c4 04       		.byte	0x4
- 514 00c5 04       		.byte	0x4
- 515 00c6 57000000 		.4byte	.LASF17
- 516 00ca 02       		.uleb128 0x2
- 517 00cb 08       		.byte	0x8
- 518 00cc 04       		.byte	0x4
- 519 00cd AF000000 		.4byte	.LASF18
- 520 00d1 02       		.uleb128 0x2
- 521 00d2 01       		.byte	0x1
- 522 00d3 08       		.byte	0x8
- 523 00d4 9E010000 		.4byte	.LASF19
- 524 00d8 02       		.uleb128 0x2
- 525 00d9 04       		.byte	0x4
- 526 00da 07       		.byte	0x7
- 527 00db 16010000 		.4byte	.LASF20
- 528 00df 05       		.uleb128 0x5
- 529 00e0 0E010000 		.4byte	.LASF36
- 530 00e4 01       		.byte	0x1
- 531 00e5 01       		.byte	0x1
- 532 00e6 0E       		.byte	0xe
- 533 00e7 1C010000 		.4byte	0x11c
- 534 00eb 06       		.uleb128 0x6
- 535 00ec 63683100 		.ascii	"ch1\000"
- 536 00f0 00       		.sleb128 0
- 537 00f1 06       		.uleb128 0x6
- 538 00f2 63683200 		.ascii	"ch2\000"
- 539 00f6 01       		.sleb128 1
- 540 00f7 06       		.uleb128 0x6
- 541 00f8 63683300 		.ascii	"ch3\000"
- 542 00fc 02       		.sleb128 2
- 543 00fd 06       		.uleb128 0x6
- 544 00fe 63683400 		.ascii	"ch4\000"
- 545 0102 03       		.sleb128 3
- 546 0103 06       		.uleb128 0x6
- 547 0104 63683500 		.ascii	"ch5\000"
- 548 0108 04       		.sleb128 4
- 549 0109 06       		.uleb128 0x6
- 550 010a 63683600 		.ascii	"ch6\000"
- 551 010e 05       		.sleb128 5
- 552 010f 06       		.uleb128 0x6
- 553 0110 63683700 		.ascii	"ch7\000"
- 554 0114 06       		.sleb128 6
- 555 0115 06       		.uleb128 0x6
-ARM GAS  C:\Users\ole\AppData\Local\Temp\ccvp916Y.s 			page 13
+ 504 0130 01       		.byte	0x1
+ 505 0131 25       		.byte	0x25
+ 506 0132 8C000000 		.4byte	0x8c
+ 507 0136 02       		.uleb128 0x2
+ 508 0137 91       		.byte	0x91
+ 509 0138 6D       		.sleb128 -19
+ 510 0139 09       		.uleb128 0x9
+ 511 013a 40000000 		.4byte	.LASF20
+ 512 013e 01       		.byte	0x1
+ 513 013f 26       		.byte	0x26
+ 514 0140 8C000000 		.4byte	0x8c
+ 515 0144 02       		.uleb128 0x2
+ 516 0145 91       		.byte	0x91
+ 517 0146 6E       		.sleb128 -18
+ 518 0147 00       		.byte	0
+ 519 0148 0A       		.uleb128 0xa
+ 520 0149 8C000000 		.4byte	0x8c
+ 521 014d 58010000 		.4byte	0x158
+ 522 0151 0B       		.uleb128 0xb
+ 523 0152 C2000000 		.4byte	0xc2
+ 524 0156 03       		.byte	0x3
+ 525 0157 00       		.byte	0
+ 526 0158 0C       		.uleb128 0xc
+ 527 0159 D7000000 		.4byte	.LASF21
+ 528 015d 01       		.byte	0x1
+ 529 015e 10       		.byte	0x10
+ 530 015f 48010000 		.4byte	0x148
+ 531 0163 05       		.uleb128 0x5
+ 532 0164 03       		.byte	0x3
+ 533 0165 00000000 		.4byte	pwm_light
+ 534 0169 0C       		.uleb128 0xc
+ 535 016a 38020000 		.4byte	.LASF22
+ 536 016e 01       		.byte	0x1
+ 537 016f 12       		.byte	0x12
+ 538 0170 8C000000 		.4byte	0x8c
+ 539 0174 05       		.uleb128 0x5
+ 540 0175 03       		.byte	0x3
+ 541 0176 00000000 		.4byte	lightOff
+ 542 017a 0C       		.uleb128 0xc
+ 543 017b 49000000 		.4byte	.LASF23
+ 544 017f 01       		.byte	0x1
+ 545 0180 14       		.byte	0x14
+ 546 0181 48010000 		.4byte	0x148
+ 547 0185 05       		.uleb128 0x5
+ 548 0186 03       		.byte	0x3
+ 549 0187 00000000 		.4byte	pwm_light_adj
+ 550 018b 0A       		.uleb128 0xa
+ 551 018c 8C000000 		.4byte	0x8c
+ 552 0190 9B010000 		.4byte	0x19b
+ 553 0194 0B       		.uleb128 0xb
+ 554 0195 C2000000 		.4byte	0xc2
+ 555 0199 07       		.byte	0x7
+ 556 019a 00       		.byte	0
+ 557 019b 0C       		.uleb128 0xc
+ 558 019c 2B020000 		.4byte	.LASF24
+ 559 01a0 01       		.byte	0x1
+ 560 01a1 16       		.byte	0x16
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccd6pzET.s 			page 13
 
 
- 556 0116 63683800 		.ascii	"ch8\000"
- 557 011a 07       		.sleb128 7
- 558 011b 00       		.byte	0
- 559 011c 07       		.uleb128 0x7
- 560 011d C9000000 		.4byte	.LASF37
- 561 0121 01       		.byte	0x1
- 562 0122 20       		.byte	0x20
- 563 0123 89000000 		.4byte	0x89
- 564 0127 00000000 		.4byte	.LFB33
- 565 012b 24020000 		.4byte	.LFE33-.LFB33
- 566 012f 01       		.uleb128 0x1
- 567 0130 9C       		.byte	0x9c
- 568 0131 6C010000 		.4byte	0x16c
- 569 0135 08       		.uleb128 0x8
- 570 0136 6900     		.ascii	"i\000"
- 571 0138 01       		.byte	0x1
- 572 0139 22       		.byte	0x22
- 573 013a 97000000 		.4byte	0x97
- 574 013e 02       		.uleb128 0x2
- 575 013f 91       		.byte	0x91
- 576 0140 6F       		.sleb128 -17
- 577 0141 09       		.uleb128 0x9
- 578 0142 5D000000 		.4byte	.LASF21
- 579 0146 01       		.byte	0x1
- 580 0147 23       		.byte	0x23
- 581 0148 97000000 		.4byte	0x97
- 582 014c 02       		.uleb128 0x2
- 583 014d 91       		.byte	0x91
- 584 014e 67       		.sleb128 -25
- 585 014f 09       		.uleb128 0x9
- 586 0150 40000000 		.4byte	.LASF22
- 587 0154 01       		.byte	0x1
- 588 0155 24       		.byte	0x24
- 589 0156 97000000 		.4byte	0x97
- 590 015a 02       		.uleb128 0x2
- 591 015b 91       		.byte	0x91
- 592 015c 6E       		.sleb128 -18
- 593 015d 09       		.uleb128 0x9
- 594 015e 54010000 		.4byte	.LASF23
- 595 0162 01       		.byte	0x1
- 596 0163 26       		.byte	0x26
- 597 0164 B8000000 		.4byte	0xb8
- 598 0168 02       		.uleb128 0x2
- 599 0169 91       		.byte	0x91
- 600 016a 68       		.sleb128 -24
- 601 016b 00       		.byte	0
- 602 016c 0A       		.uleb128 0xa
- 603 016d 97000000 		.4byte	0x97
- 604 0171 7C010000 		.4byte	0x17c
- 605 0175 0B       		.uleb128 0xb
- 606 0176 D8000000 		.4byte	0xd8
- 607 017a 03       		.byte	0x3
- 608 017b 00       		.byte	0
- 609 017c 0C       		.uleb128 0xc
- 610 017d B6000000 		.4byte	.LASF24
- 611 0181 01       		.byte	0x1
- 612 0182 10       		.byte	0x10
-ARM GAS  C:\Users\ole\AppData\Local\Temp\ccvp916Y.s 			page 14
+ 561 01a2 8B010000 		.4byte	0x18b
+ 562 01a6 05       		.uleb128 0x5
+ 563 01a7 03       		.byte	0x3
+ 564 01a8 00000000 		.4byte	channelValue
+ 565 01ac 0A       		.uleb128 0xa
+ 566 01ad 97000000 		.4byte	0x97
+ 567 01b1 BC010000 		.4byte	0x1bc
+ 568 01b5 0B       		.uleb128 0xb
+ 569 01b6 C2000000 		.4byte	0xc2
+ 570 01ba 07       		.byte	0x7
+ 571 01bb 00       		.byte	0
+ 572 01bc 0D       		.uleb128 0xd
+ 573 01bd EF000000 		.4byte	.LASF25
+ 574 01c1 01       		.byte	0x1
+ 575 01c2 18       		.byte	0x18
+ 576 01c3 AC010000 		.4byte	0x1ac
+ 577 01c7 0D       		.uleb128 0xd
+ 578 01c8 B2000000 		.4byte	.LASF26
+ 579 01cc 01       		.byte	0x1
+ 580 01cd 1B       		.byte	0x1b
+ 581 01ce A2000000 		.4byte	0xa2
+ 582 01d2 0D       		.uleb128 0xd
+ 583 01d3 85010000 		.4byte	.LASF27
+ 584 01d7 01       		.byte	0x1
+ 585 01d8 1C       		.byte	0x1c
+ 586 01d9 A2000000 		.4byte	0xa2
+ 587 01dd 0C       		.uleb128 0xc
+ 588 01de 20000000 		.4byte	.LASF28
+ 589 01e2 01       		.byte	0x1
+ 590 01e3 1E       		.byte	0x1e
+ 591 01e4 A2000000 		.4byte	0xa2
+ 592 01e8 05       		.uleb128 0x5
+ 593 01e9 03       		.byte	0x3
+ 594 01ea 00000000 		.4byte	flashTime_StrobeLight
+ 595 01ee 0C       		.uleb128 0xc
+ 596 01ef 00000000 		.4byte	.LASF29
+ 597 01f3 01       		.byte	0x1
+ 598 01f4 1F       		.byte	0x1f
+ 599 01f5 A2000000 		.4byte	0xa2
+ 600 01f9 05       		.uleb128 0x5
+ 601 01fa 03       		.byte	0x3
+ 602 01fb 00000000 		.4byte	pauseTime_StrobeLight
+ 603 01ff 0C       		.uleb128 0xc
+ 604 0200 74000000 		.4byte	.LASF30
+ 605 0204 01       		.byte	0x1
+ 606 0205 20       		.byte	0x20
+ 607 0206 A2000000 		.4byte	0xa2
+ 608 020a 05       		.uleb128 0x5
+ 609 020b 03       		.byte	0x3
+ 610 020c 00000000 		.4byte	flashTime_CollisionLight
+ 611 0210 00       		.byte	0
+ 612              		.section	.debug_abbrev,"",%progbits
+ 613              	.Ldebug_abbrev0:
+ 614 0000 01       		.uleb128 0x1
+ 615 0001 11       		.uleb128 0x11
+ 616 0002 01       		.byte	0x1
+ 617 0003 25       		.uleb128 0x25
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccd6pzET.s 			page 14
 
 
- 613 0183 6C010000 		.4byte	0x16c
- 614 0187 05       		.uleb128 0x5
- 615 0188 03       		.byte	0x3
- 616 0189 00000000 		.4byte	pwm_light
- 617 018d 0C       		.uleb128 0xc
- 618 018e 38020000 		.4byte	.LASF25
- 619 0192 01       		.byte	0x1
- 620 0193 12       		.byte	0x12
- 621 0194 97000000 		.4byte	0x97
- 622 0198 05       		.uleb128 0x5
- 623 0199 03       		.byte	0x3
- 624 019a 00000000 		.4byte	lightOff
- 625 019e 0C       		.uleb128 0xc
- 626 019f 49000000 		.4byte	.LASF26
- 627 01a3 01       		.byte	0x1
- 628 01a4 14       		.byte	0x14
- 629 01a5 6C010000 		.4byte	0x16c
- 630 01a9 05       		.uleb128 0x5
- 631 01aa 03       		.byte	0x3
- 632 01ab 00000000 		.4byte	pwm_light_adj
- 633 01af 0A       		.uleb128 0xa
- 634 01b0 97000000 		.4byte	0x97
- 635 01b4 BF010000 		.4byte	0x1bf
- 636 01b8 0B       		.uleb128 0xb
- 637 01b9 D8000000 		.4byte	0xd8
- 638 01bd 07       		.byte	0x7
- 639 01be 00       		.byte	0
- 640 01bf 0C       		.uleb128 0xc
- 641 01c0 2B020000 		.4byte	.LASF27
- 642 01c4 01       		.byte	0x1
- 643 01c5 16       		.byte	0x16
- 644 01c6 AF010000 		.4byte	0x1af
- 645 01ca 05       		.uleb128 0x5
- 646 01cb 03       		.byte	0x3
- 647 01cc 00000000 		.4byte	channelValue
- 648 01d0 0A       		.uleb128 0xa
- 649 01d1 A2000000 		.4byte	0xa2
- 650 01d5 E0010000 		.4byte	0x1e0
- 651 01d9 0B       		.uleb128 0xb
- 652 01da D8000000 		.4byte	0xd8
- 653 01de 07       		.byte	0x7
- 654 01df 00       		.byte	0
- 655 01e0 0D       		.uleb128 0xd
- 656 01e1 CE000000 		.4byte	.LASF28
- 657 01e5 01       		.byte	0x1
- 658 01e6 18       		.byte	0x18
- 659 01e7 D0010000 		.4byte	0x1d0
- 660 01eb 0D       		.uleb128 0xd
- 661 01ec 4C010000 		.4byte	.LASF29
- 662 01f0 01       		.byte	0x1
- 663 01f1 1A       		.byte	0x1a
- 664 01f2 B8000000 		.4byte	0xb8
- 665 01f6 0C       		.uleb128 0xc
- 666 01f7 20000000 		.4byte	.LASF30
- 667 01fb 01       		.byte	0x1
- 668 01fc 1C       		.byte	0x1c
- 669 01fd AD000000 		.4byte	0xad
-ARM GAS  C:\Users\ole\AppData\Local\Temp\ccvp916Y.s 			page 15
+ 618 0004 0E       		.uleb128 0xe
+ 619 0005 13       		.uleb128 0x13
+ 620 0006 0B       		.uleb128 0xb
+ 621 0007 03       		.uleb128 0x3
+ 622 0008 0E       		.uleb128 0xe
+ 623 0009 1B       		.uleb128 0x1b
+ 624 000a 0E       		.uleb128 0xe
+ 625 000b 55       		.uleb128 0x55
+ 626 000c 17       		.uleb128 0x17
+ 627 000d 11       		.uleb128 0x11
+ 628 000e 01       		.uleb128 0x1
+ 629 000f 10       		.uleb128 0x10
+ 630 0010 17       		.uleb128 0x17
+ 631 0011 00       		.byte	0
+ 632 0012 00       		.byte	0
+ 633 0013 02       		.uleb128 0x2
+ 634 0014 24       		.uleb128 0x24
+ 635 0015 00       		.byte	0
+ 636 0016 0B       		.uleb128 0xb
+ 637 0017 0B       		.uleb128 0xb
+ 638 0018 3E       		.uleb128 0x3e
+ 639 0019 0B       		.uleb128 0xb
+ 640 001a 03       		.uleb128 0x3
+ 641 001b 0E       		.uleb128 0xe
+ 642 001c 00       		.byte	0
+ 643 001d 00       		.byte	0
+ 644 001e 03       		.uleb128 0x3
+ 645 001f 16       		.uleb128 0x16
+ 646 0020 00       		.byte	0
+ 647 0021 03       		.uleb128 0x3
+ 648 0022 0E       		.uleb128 0xe
+ 649 0023 3A       		.uleb128 0x3a
+ 650 0024 0B       		.uleb128 0xb
+ 651 0025 3B       		.uleb128 0x3b
+ 652 0026 0B       		.uleb128 0xb
+ 653 0027 49       		.uleb128 0x49
+ 654 0028 13       		.uleb128 0x13
+ 655 0029 00       		.byte	0
+ 656 002a 00       		.byte	0
+ 657 002b 04       		.uleb128 0x4
+ 658 002c 24       		.uleb128 0x24
+ 659 002d 00       		.byte	0
+ 660 002e 0B       		.uleb128 0xb
+ 661 002f 0B       		.uleb128 0xb
+ 662 0030 3E       		.uleb128 0x3e
+ 663 0031 0B       		.uleb128 0xb
+ 664 0032 03       		.uleb128 0x3
+ 665 0033 08       		.uleb128 0x8
+ 666 0034 00       		.byte	0
+ 667 0035 00       		.byte	0
+ 668 0036 05       		.uleb128 0x5
+ 669 0037 04       		.uleb128 0x4
+ 670 0038 01       		.byte	0x1
+ 671 0039 03       		.uleb128 0x3
+ 672 003a 0E       		.uleb128 0xe
+ 673 003b 0B       		.uleb128 0xb
+ 674 003c 0B       		.uleb128 0xb
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccd6pzET.s 			page 15
 
 
- 670 0201 05       		.uleb128 0x5
- 671 0202 03       		.byte	0x3
- 672 0203 00000000 		.4byte	flashTime_StrobeLight
- 673 0207 0C       		.uleb128 0xc
- 674 0208 00000000 		.4byte	.LASF31
- 675 020c 01       		.byte	0x1
- 676 020d 1D       		.byte	0x1d
- 677 020e AD000000 		.4byte	0xad
- 678 0212 05       		.uleb128 0x5
- 679 0213 03       		.byte	0x3
- 680 0214 00000000 		.4byte	pauseTime_StrobeLight
- 681 0218 0C       		.uleb128 0xc
- 682 0219 73010000 		.4byte	.LASF32
- 683 021d 01       		.byte	0x1
- 684 021e 1E       		.byte	0x1e
- 685 021f AD000000 		.4byte	0xad
- 686 0223 05       		.uleb128 0x5
- 687 0224 03       		.byte	0x3
- 688 0225 00000000 		.4byte	flashTime_CollisionLight
- 689 0229 00       		.byte	0
- 690              		.section	.debug_abbrev,"",%progbits
- 691              	.Ldebug_abbrev0:
- 692 0000 01       		.uleb128 0x1
- 693 0001 11       		.uleb128 0x11
- 694 0002 01       		.byte	0x1
- 695 0003 25       		.uleb128 0x25
- 696 0004 0E       		.uleb128 0xe
- 697 0005 13       		.uleb128 0x13
- 698 0006 0B       		.uleb128 0xb
- 699 0007 03       		.uleb128 0x3
- 700 0008 0E       		.uleb128 0xe
- 701 0009 1B       		.uleb128 0x1b
- 702 000a 0E       		.uleb128 0xe
- 703 000b 55       		.uleb128 0x55
- 704 000c 17       		.uleb128 0x17
- 705 000d 11       		.uleb128 0x11
- 706 000e 01       		.uleb128 0x1
- 707 000f 10       		.uleb128 0x10
- 708 0010 17       		.uleb128 0x17
- 709 0011 00       		.byte	0
- 710 0012 00       		.byte	0
- 711 0013 02       		.uleb128 0x2
- 712 0014 24       		.uleb128 0x24
- 713 0015 00       		.byte	0
- 714 0016 0B       		.uleb128 0xb
- 715 0017 0B       		.uleb128 0xb
- 716 0018 3E       		.uleb128 0x3e
- 717 0019 0B       		.uleb128 0xb
- 718 001a 03       		.uleb128 0x3
- 719 001b 0E       		.uleb128 0xe
- 720 001c 00       		.byte	0
- 721 001d 00       		.byte	0
- 722 001e 03       		.uleb128 0x3
- 723 001f 16       		.uleb128 0x16
- 724 0020 00       		.byte	0
- 725 0021 03       		.uleb128 0x3
- 726 0022 0E       		.uleb128 0xe
-ARM GAS  C:\Users\ole\AppData\Local\Temp\ccvp916Y.s 			page 16
+ 675 003d 3A       		.uleb128 0x3a
+ 676 003e 0B       		.uleb128 0xb
+ 677 003f 3B       		.uleb128 0x3b
+ 678 0040 0B       		.uleb128 0xb
+ 679 0041 01       		.uleb128 0x1
+ 680 0042 13       		.uleb128 0x13
+ 681 0043 00       		.byte	0
+ 682 0044 00       		.byte	0
+ 683 0045 06       		.uleb128 0x6
+ 684 0046 28       		.uleb128 0x28
+ 685 0047 00       		.byte	0
+ 686 0048 03       		.uleb128 0x3
+ 687 0049 08       		.uleb128 0x8
+ 688 004a 1C       		.uleb128 0x1c
+ 689 004b 0D       		.uleb128 0xd
+ 690 004c 00       		.byte	0
+ 691 004d 00       		.byte	0
+ 692 004e 07       		.uleb128 0x7
+ 693 004f 2E       		.uleb128 0x2e
+ 694 0050 01       		.byte	0x1
+ 695 0051 3F       		.uleb128 0x3f
+ 696 0052 19       		.uleb128 0x19
+ 697 0053 03       		.uleb128 0x3
+ 698 0054 0E       		.uleb128 0xe
+ 699 0055 3A       		.uleb128 0x3a
+ 700 0056 0B       		.uleb128 0xb
+ 701 0057 3B       		.uleb128 0x3b
+ 702 0058 0B       		.uleb128 0xb
+ 703 0059 49       		.uleb128 0x49
+ 704 005a 13       		.uleb128 0x13
+ 705 005b 11       		.uleb128 0x11
+ 706 005c 01       		.uleb128 0x1
+ 707 005d 12       		.uleb128 0x12
+ 708 005e 06       		.uleb128 0x6
+ 709 005f 40       		.uleb128 0x40
+ 710 0060 18       		.uleb128 0x18
+ 711 0061 9642     		.uleb128 0x2116
+ 712 0063 19       		.uleb128 0x19
+ 713 0064 01       		.uleb128 0x1
+ 714 0065 13       		.uleb128 0x13
+ 715 0066 00       		.byte	0
+ 716 0067 00       		.byte	0
+ 717 0068 08       		.uleb128 0x8
+ 718 0069 34       		.uleb128 0x34
+ 719 006a 00       		.byte	0
+ 720 006b 03       		.uleb128 0x3
+ 721 006c 08       		.uleb128 0x8
+ 722 006d 3A       		.uleb128 0x3a
+ 723 006e 0B       		.uleb128 0xb
+ 724 006f 3B       		.uleb128 0x3b
+ 725 0070 0B       		.uleb128 0xb
+ 726 0071 49       		.uleb128 0x49
+ 727 0072 13       		.uleb128 0x13
+ 728 0073 02       		.uleb128 0x2
+ 729 0074 18       		.uleb128 0x18
+ 730 0075 00       		.byte	0
+ 731 0076 00       		.byte	0
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccd6pzET.s 			page 16
 
 
- 727 0023 3A       		.uleb128 0x3a
- 728 0024 0B       		.uleb128 0xb
- 729 0025 3B       		.uleb128 0x3b
- 730 0026 0B       		.uleb128 0xb
- 731 0027 49       		.uleb128 0x49
- 732 0028 13       		.uleb128 0x13
- 733 0029 00       		.byte	0
- 734 002a 00       		.byte	0
- 735 002b 04       		.uleb128 0x4
- 736 002c 24       		.uleb128 0x24
- 737 002d 00       		.byte	0
- 738 002e 0B       		.uleb128 0xb
- 739 002f 0B       		.uleb128 0xb
- 740 0030 3E       		.uleb128 0x3e
- 741 0031 0B       		.uleb128 0xb
- 742 0032 03       		.uleb128 0x3
- 743 0033 08       		.uleb128 0x8
- 744 0034 00       		.byte	0
- 745 0035 00       		.byte	0
- 746 0036 05       		.uleb128 0x5
- 747 0037 04       		.uleb128 0x4
- 748 0038 01       		.byte	0x1
- 749 0039 03       		.uleb128 0x3
- 750 003a 0E       		.uleb128 0xe
- 751 003b 0B       		.uleb128 0xb
- 752 003c 0B       		.uleb128 0xb
- 753 003d 3A       		.uleb128 0x3a
- 754 003e 0B       		.uleb128 0xb
- 755 003f 3B       		.uleb128 0x3b
- 756 0040 0B       		.uleb128 0xb
- 757 0041 01       		.uleb128 0x1
- 758 0042 13       		.uleb128 0x13
- 759 0043 00       		.byte	0
- 760 0044 00       		.byte	0
- 761 0045 06       		.uleb128 0x6
- 762 0046 28       		.uleb128 0x28
- 763 0047 00       		.byte	0
- 764 0048 03       		.uleb128 0x3
- 765 0049 08       		.uleb128 0x8
- 766 004a 1C       		.uleb128 0x1c
- 767 004b 0D       		.uleb128 0xd
- 768 004c 00       		.byte	0
- 769 004d 00       		.byte	0
- 770 004e 07       		.uleb128 0x7
- 771 004f 2E       		.uleb128 0x2e
- 772 0050 01       		.byte	0x1
- 773 0051 3F       		.uleb128 0x3f
- 774 0052 19       		.uleb128 0x19
- 775 0053 03       		.uleb128 0x3
- 776 0054 0E       		.uleb128 0xe
- 777 0055 3A       		.uleb128 0x3a
- 778 0056 0B       		.uleb128 0xb
- 779 0057 3B       		.uleb128 0x3b
- 780 0058 0B       		.uleb128 0xb
- 781 0059 49       		.uleb128 0x49
- 782 005a 13       		.uleb128 0x13
- 783 005b 11       		.uleb128 0x11
-ARM GAS  C:\Users\ole\AppData\Local\Temp\ccvp916Y.s 			page 17
+ 732 0077 09       		.uleb128 0x9
+ 733 0078 34       		.uleb128 0x34
+ 734 0079 00       		.byte	0
+ 735 007a 03       		.uleb128 0x3
+ 736 007b 0E       		.uleb128 0xe
+ 737 007c 3A       		.uleb128 0x3a
+ 738 007d 0B       		.uleb128 0xb
+ 739 007e 3B       		.uleb128 0x3b
+ 740 007f 0B       		.uleb128 0xb
+ 741 0080 49       		.uleb128 0x49
+ 742 0081 13       		.uleb128 0x13
+ 743 0082 02       		.uleb128 0x2
+ 744 0083 18       		.uleb128 0x18
+ 745 0084 00       		.byte	0
+ 746 0085 00       		.byte	0
+ 747 0086 0A       		.uleb128 0xa
+ 748 0087 01       		.uleb128 0x1
+ 749 0088 01       		.byte	0x1
+ 750 0089 49       		.uleb128 0x49
+ 751 008a 13       		.uleb128 0x13
+ 752 008b 01       		.uleb128 0x1
+ 753 008c 13       		.uleb128 0x13
+ 754 008d 00       		.byte	0
+ 755 008e 00       		.byte	0
+ 756 008f 0B       		.uleb128 0xb
+ 757 0090 21       		.uleb128 0x21
+ 758 0091 00       		.byte	0
+ 759 0092 49       		.uleb128 0x49
+ 760 0093 13       		.uleb128 0x13
+ 761 0094 2F       		.uleb128 0x2f
+ 762 0095 0B       		.uleb128 0xb
+ 763 0096 00       		.byte	0
+ 764 0097 00       		.byte	0
+ 765 0098 0C       		.uleb128 0xc
+ 766 0099 34       		.uleb128 0x34
+ 767 009a 00       		.byte	0
+ 768 009b 03       		.uleb128 0x3
+ 769 009c 0E       		.uleb128 0xe
+ 770 009d 3A       		.uleb128 0x3a
+ 771 009e 0B       		.uleb128 0xb
+ 772 009f 3B       		.uleb128 0x3b
+ 773 00a0 0B       		.uleb128 0xb
+ 774 00a1 49       		.uleb128 0x49
+ 775 00a2 13       		.uleb128 0x13
+ 776 00a3 3F       		.uleb128 0x3f
+ 777 00a4 19       		.uleb128 0x19
+ 778 00a5 02       		.uleb128 0x2
+ 779 00a6 18       		.uleb128 0x18
+ 780 00a7 00       		.byte	0
+ 781 00a8 00       		.byte	0
+ 782 00a9 0D       		.uleb128 0xd
+ 783 00aa 34       		.uleb128 0x34
+ 784 00ab 00       		.byte	0
+ 785 00ac 03       		.uleb128 0x3
+ 786 00ad 0E       		.uleb128 0xe
+ 787 00ae 3A       		.uleb128 0x3a
+ 788 00af 0B       		.uleb128 0xb
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccd6pzET.s 			page 17
 
 
- 784 005c 01       		.uleb128 0x1
- 785 005d 12       		.uleb128 0x12
- 786 005e 06       		.uleb128 0x6
- 787 005f 40       		.uleb128 0x40
- 788 0060 18       		.uleb128 0x18
- 789 0061 9642     		.uleb128 0x2116
- 790 0063 19       		.uleb128 0x19
- 791 0064 01       		.uleb128 0x1
- 792 0065 13       		.uleb128 0x13
- 793 0066 00       		.byte	0
- 794 0067 00       		.byte	0
- 795 0068 08       		.uleb128 0x8
- 796 0069 34       		.uleb128 0x34
- 797 006a 00       		.byte	0
- 798 006b 03       		.uleb128 0x3
- 799 006c 08       		.uleb128 0x8
- 800 006d 3A       		.uleb128 0x3a
- 801 006e 0B       		.uleb128 0xb
- 802 006f 3B       		.uleb128 0x3b
- 803 0070 0B       		.uleb128 0xb
- 804 0071 49       		.uleb128 0x49
- 805 0072 13       		.uleb128 0x13
- 806 0073 02       		.uleb128 0x2
- 807 0074 18       		.uleb128 0x18
- 808 0075 00       		.byte	0
- 809 0076 00       		.byte	0
- 810 0077 09       		.uleb128 0x9
- 811 0078 34       		.uleb128 0x34
- 812 0079 00       		.byte	0
- 813 007a 03       		.uleb128 0x3
- 814 007b 0E       		.uleb128 0xe
- 815 007c 3A       		.uleb128 0x3a
- 816 007d 0B       		.uleb128 0xb
- 817 007e 3B       		.uleb128 0x3b
- 818 007f 0B       		.uleb128 0xb
- 819 0080 49       		.uleb128 0x49
- 820 0081 13       		.uleb128 0x13
- 821 0082 02       		.uleb128 0x2
- 822 0083 18       		.uleb128 0x18
- 823 0084 00       		.byte	0
- 824 0085 00       		.byte	0
- 825 0086 0A       		.uleb128 0xa
- 826 0087 01       		.uleb128 0x1
- 827 0088 01       		.byte	0x1
- 828 0089 49       		.uleb128 0x49
- 829 008a 13       		.uleb128 0x13
- 830 008b 01       		.uleb128 0x1
- 831 008c 13       		.uleb128 0x13
- 832 008d 00       		.byte	0
- 833 008e 00       		.byte	0
- 834 008f 0B       		.uleb128 0xb
- 835 0090 21       		.uleb128 0x21
- 836 0091 00       		.byte	0
- 837 0092 49       		.uleb128 0x49
- 838 0093 13       		.uleb128 0x13
- 839 0094 2F       		.uleb128 0x2f
- 840 0095 0B       		.uleb128 0xb
-ARM GAS  C:\Users\ole\AppData\Local\Temp\ccvp916Y.s 			page 18
+ 789 00b0 3B       		.uleb128 0x3b
+ 790 00b1 0B       		.uleb128 0xb
+ 791 00b2 49       		.uleb128 0x49
+ 792 00b3 13       		.uleb128 0x13
+ 793 00b4 3F       		.uleb128 0x3f
+ 794 00b5 19       		.uleb128 0x19
+ 795 00b6 3C       		.uleb128 0x3c
+ 796 00b7 19       		.uleb128 0x19
+ 797 00b8 00       		.byte	0
+ 798 00b9 00       		.byte	0
+ 799 00ba 00       		.byte	0
+ 800              		.section	.debug_aranges,"",%progbits
+ 801 0000 1C000000 		.4byte	0x1c
+ 802 0004 0200     		.2byte	0x2
+ 803 0006 00000000 		.4byte	.Ldebug_info0
+ 804 000a 04       		.byte	0x4
+ 805 000b 00       		.byte	0
+ 806 000c 0000     		.2byte	0
+ 807 000e 0000     		.2byte	0
+ 808 0010 00000000 		.4byte	.LFB33
+ 809 0014 B8010000 		.4byte	.LFE33-.LFB33
+ 810 0018 00000000 		.4byte	0
+ 811 001c 00000000 		.4byte	0
+ 812              		.section	.debug_ranges,"",%progbits
+ 813              	.Ldebug_ranges0:
+ 814 0000 00000000 		.4byte	.LFB33
+ 815 0004 B8010000 		.4byte	.LFE33
+ 816 0008 00000000 		.4byte	0
+ 817 000c 00000000 		.4byte	0
+ 818              		.section	.debug_line,"",%progbits
+ 819              	.Ldebug_line0:
+ 820 0000 8D010000 		.section	.debug_str,"MS",%progbits,1
+ 820      02001D01 
+ 820      00000201 
+ 820      FB0E0D00 
+ 820      01010101 
+ 821              	.LASF29:
+ 822 0000 70617573 		.ascii	"pauseTime_StrobeLight\000"
+ 822      6554696D 
+ 822      655F5374 
+ 822      726F6265 
+ 822      4C696768 
+ 823              	.LASF2:
+ 824 0016 5F5F7569 		.ascii	"__uint8_t\000"
+ 824      6E74385F 
+ 824      7400
+ 825              	.LASF28:
+ 826 0020 666C6173 		.ascii	"flashTime_StrobeLight\000"
+ 826      6854696D 
+ 826      655F5374 
+ 826      726F6265 
+ 826      4C696768 
+ 827              	.LASF3:
+ 828 0036 5F5F696E 		.ascii	"__int16_t\000"
+ 828      7431365F 
+ 828      7400
+ 829              	.LASF20:
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccd6pzET.s 			page 18
 
 
- 841 0096 00       		.byte	0
- 842 0097 00       		.byte	0
- 843 0098 0C       		.uleb128 0xc
- 844 0099 34       		.uleb128 0x34
- 845 009a 00       		.byte	0
- 846 009b 03       		.uleb128 0x3
- 847 009c 0E       		.uleb128 0xe
- 848 009d 3A       		.uleb128 0x3a
- 849 009e 0B       		.uleb128 0xb
- 850 009f 3B       		.uleb128 0x3b
- 851 00a0 0B       		.uleb128 0xb
- 852 00a1 49       		.uleb128 0x49
- 853 00a2 13       		.uleb128 0x13
- 854 00a3 3F       		.uleb128 0x3f
- 855 00a4 19       		.uleb128 0x19
- 856 00a5 02       		.uleb128 0x2
- 857 00a6 18       		.uleb128 0x18
- 858 00a7 00       		.byte	0
- 859 00a8 00       		.byte	0
- 860 00a9 0D       		.uleb128 0xd
- 861 00aa 34       		.uleb128 0x34
- 862 00ab 00       		.byte	0
- 863 00ac 03       		.uleb128 0x3
- 864 00ad 0E       		.uleb128 0xe
- 865 00ae 3A       		.uleb128 0x3a
- 866 00af 0B       		.uleb128 0xb
- 867 00b0 3B       		.uleb128 0x3b
- 868 00b1 0B       		.uleb128 0xb
- 869 00b2 49       		.uleb128 0x49
- 870 00b3 13       		.uleb128 0x13
- 871 00b4 3F       		.uleb128 0x3f
- 872 00b5 19       		.uleb128 0x19
- 873 00b6 3C       		.uleb128 0x3c
- 874 00b7 19       		.uleb128 0x19
- 875 00b8 00       		.byte	0
- 876 00b9 00       		.byte	0
- 877 00ba 00       		.byte	0
- 878              		.section	.debug_aranges,"",%progbits
- 879 0000 1C000000 		.4byte	0x1c
- 880 0004 0200     		.2byte	0x2
- 881 0006 00000000 		.4byte	.Ldebug_info0
- 882 000a 04       		.byte	0x4
- 883 000b 00       		.byte	0
- 884 000c 0000     		.2byte	0
- 885 000e 0000     		.2byte	0
- 886 0010 00000000 		.4byte	.LFB33
- 887 0014 24020000 		.4byte	.LFE33-.LFB33
- 888 0018 00000000 		.4byte	0
- 889 001c 00000000 		.4byte	0
- 890              		.section	.debug_ranges,"",%progbits
- 891              	.Ldebug_ranges0:
- 892 0000 00000000 		.4byte	.LFB33
- 893 0004 24020000 		.4byte	.LFE33
- 894 0008 00000000 		.4byte	0
- 895 000c 00000000 		.4byte	0
- 896              		.section	.debug_line,"",%progbits
- 897              	.Ldebug_line0:
-ARM GAS  C:\Users\ole\AppData\Local\Temp\ccvp916Y.s 			page 19
+ 830 0040 6C696768 		.ascii	"lightAdj\000"
+ 830      7441646A 
+ 830      00
+ 831              	.LASF23:
+ 832 0049 70776D5F 		.ascii	"pwm_light_adj\000"
+ 832      6C696768 
+ 832      745F6164 
+ 832      6A00
+ 833              	.LASF15:
+ 834 0057 666C6F61 		.ascii	"float\000"
+ 834      7400
+ 835              	.LASF19:
+ 836 005d 75617274 		.ascii	"uartByte\000"
+ 836      42797465 
+ 836      00
+ 837              	.LASF1:
+ 838 0066 756E7369 		.ascii	"unsigned char\000"
+ 838      676E6564 
+ 838      20636861 
+ 838      7200
+ 839              	.LASF30:
+ 840 0074 666C6173 		.ascii	"flashTime_CollisionLight\000"
+ 840      6854696D 
+ 840      655F436F 
+ 840      6C6C6973 
+ 840      696F6E4C 
+ 841              	.LASF8:
+ 842 008d 6C6F6E67 		.ascii	"long unsigned int\000"
+ 842      20756E73 
+ 842      69676E65 
+ 842      6420696E 
+ 842      7400
+ 843              	.LASF6:
+ 844 009f 73686F72 		.ascii	"short unsigned int\000"
+ 844      7420756E 
+ 844      7369676E 
+ 844      65642069 
+ 844      6E7400
+ 845              	.LASF26:
+ 846 00b2 636F756E 		.ascii	"counter_off_millis\000"
+ 846      7465725F 
+ 846      6F66665F 
+ 846      6D696C6C 
+ 846      697300
+ 847              	.LASF5:
+ 848 00c5 5F5F7569 		.ascii	"__uint16_t\000"
+ 848      6E743136 
+ 848      5F7400
+ 849              	.LASF16:
+ 850 00d0 646F7562 		.ascii	"double\000"
+ 850      6C6500
+ 851              	.LASF21:
+ 852 00d7 70776D5F 		.ascii	"pwm_light\000"
+ 852      6C696768 
+ 852      7400
+ 853              	.LASF32:
+ 854 00e1 2E5C6D61 		.ascii	".\\main.c\000"
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccd6pzET.s 			page 19
 
 
- 898 0000 A6010000 		.section	.debug_str,"MS",%progbits,1
- 898      02001D01 
- 898      00000201 
- 898      FB0E0D00 
- 898      01010101 
- 899              	.LASF31:
- 900 0000 70617573 		.ascii	"pauseTime_StrobeLight\000"
- 900      6554696D 
- 900      655F5374 
- 900      726F6265 
- 900      4C696768 
- 901              	.LASF2:
- 902 0016 5F5F7569 		.ascii	"__uint8_t\000"
- 902      6E74385F 
- 902      7400
- 903              	.LASF30:
- 904 0020 666C6173 		.ascii	"flashTime_StrobeLight\000"
- 904      6854696D 
- 904      655F5374 
- 904      726F6265 
- 904      4C696768 
- 905              	.LASF3:
- 906 0036 5F5F696E 		.ascii	"__int16_t\000"
- 906      7431365F 
- 906      7400
- 907              	.LASF22:
- 908 0040 6C696768 		.ascii	"lightAdj\000"
- 908      7441646A 
- 908      00
- 909              	.LASF26:
- 910 0049 70776D5F 		.ascii	"pwm_light_adj\000"
- 910      6C696768 
- 910      745F6164 
- 910      6A00
- 911              	.LASF17:
- 912 0057 666C6F61 		.ascii	"float\000"
- 912      7400
- 913              	.LASF21:
- 914 005d 75617274 		.ascii	"uartByte\000"
- 914      42797465 
- 914      00
- 915              	.LASF1:
- 916 0066 756E7369 		.ascii	"unsigned char\000"
- 916      676E6564 
- 916      20636861 
- 916      7200
- 917              	.LASF9:
- 918 0074 6C6F6E67 		.ascii	"long unsigned int\000"
- 918      20756E73 
- 918      69676E65 
- 918      6420696E 
- 918      7400
- 919              	.LASF6:
- 920 0086 73686F72 		.ascii	"short unsigned int\000"
- 920      7420756E 
- 920      7369676E 
- 920      65642069 
-ARM GAS  C:\Users\ole\AppData\Local\Temp\ccvp916Y.s 			page 20
+ 854      696E2E63 
+ 854      00
+ 855              	.LASF35:
+ 856 00ea 6D61696E 		.ascii	"main\000"
+ 856      00
+ 857              	.LASF25:
+ 858 00ef 6368616E 		.ascii	"channelTime\000"
+ 858      6E656C54 
+ 858      696D6500 
+ 859              	.LASF11:
+ 860 00fb 756E7369 		.ascii	"unsigned int\000"
+ 860      676E6564 
+ 860      20696E74 
+ 860      00
+ 861              	.LASF10:
+ 862 0108 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 862      206C6F6E 
+ 862      6720756E 
+ 862      7369676E 
+ 862      65642069 
+ 863              	.LASF12:
+ 864 011f 75696E74 		.ascii	"uint8_t\000"
+ 864      385F7400 
+ 865              	.LASF13:
+ 866 0127 696E7431 		.ascii	"int16_t\000"
+ 866      365F7400 
+ 867              	.LASF34:
+ 868 012f 6368616E 		.ascii	"chanels\000"
+ 868      656C7300 
+ 869              	.LASF18:
+ 870 0137 73697A65 		.ascii	"sizetype\000"
+ 870      74797065 
+ 870      00
+ 871              	.LASF9:
+ 872 0140 6C6F6E67 		.ascii	"long long int\000"
+ 872      206C6F6E 
+ 872      6720696E 
+ 872      7400
+ 873              	.LASF33:
+ 874 014e 583A5C44 		.ascii	"X:\\Dokumente\\Ole\\FLC\\FLC.cydsn\000"
+ 874      6F6B756D 
+ 874      656E7465 
+ 874      5C4F6C65 
+ 874      5C464C43 
+ 875              	.LASF17:
+ 876 016d 63686172 		.ascii	"char\000"
+ 876      00
+ 877              	.LASF4:
+ 878 0172 73686F72 		.ascii	"short int\000"
+ 878      7420696E 
+ 878      7400
+ 879              	.LASF14:
+ 880 017c 75696E74 		.ascii	"uint16_t\000"
+ 880      31365F74 
+ 880      00
+ 881              	.LASF27:
+ 882 0185 636F756E 		.ascii	"counter_setup_millis\000"
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccd6pzET.s 			page 20
 
 
- 920      6E7400
- 921              	.LASF8:
- 922 0099 5F5F7569 		.ascii	"__uint32_t\000"
- 922      6E743332 
- 922      5F7400
- 923              	.LASF5:
- 924 00a4 5F5F7569 		.ascii	"__uint16_t\000"
- 924      6E743136 
- 924      5F7400
- 925              	.LASF18:
- 926 00af 646F7562 		.ascii	"double\000"
- 926      6C6500
- 927              	.LASF24:
- 928 00b6 70776D5F 		.ascii	"pwm_light\000"
- 928      6C696768 
- 928      7400
- 929              	.LASF34:
- 930 00c0 2E5C6D61 		.ascii	".\\main.c\000"
- 930      696E2E63 
- 930      00
- 931              	.LASF37:
- 932 00c9 6D61696E 		.ascii	"main\000"
- 932      00
- 933              	.LASF28:
- 934 00ce 6368616E 		.ascii	"channelTime\000"
- 934      6E656C54 
- 934      696D6500 
- 935              	.LASF12:
- 936 00da 756E7369 		.ascii	"unsigned int\000"
- 936      676E6564 
- 936      20696E74 
- 936      00
- 937              	.LASF11:
- 938 00e7 6C6F6E67 		.ascii	"long long unsigned int\000"
- 938      206C6F6E 
- 938      6720756E 
- 938      7369676E 
- 938      65642069 
- 939              	.LASF13:
- 940 00fe 75696E74 		.ascii	"uint8_t\000"
- 940      385F7400 
- 941              	.LASF14:
- 942 0106 696E7431 		.ascii	"int16_t\000"
- 942      365F7400 
- 943              	.LASF36:
- 944 010e 6368616E 		.ascii	"chanels\000"
- 944      656C7300 
- 945              	.LASF20:
- 946 0116 73697A65 		.ascii	"sizetype\000"
- 946      74797065 
- 946      00
- 947              	.LASF10:
- 948 011f 6C6F6E67 		.ascii	"long long int\000"
- 948      206C6F6E 
- 948      6720696E 
- 948      7400
- 949              	.LASF35:
-ARM GAS  C:\Users\ole\AppData\Local\Temp\ccvp916Y.s 			page 21
-
-
- 950 012d 583A5C44 		.ascii	"X:\\Dokumente\\Ole\\FLC\\FLC.cydsn\000"
- 950      6F6B756D 
- 950      656E7465 
- 950      5C4F6C65 
- 950      5C464C43 
- 951              	.LASF29:
- 952 014c 7365636F 		.ascii	"seconds\000"
- 952      6E647300 
- 953              	.LASF23:
- 954 0154 7365636F 		.ascii	"secondsTemp\000"
- 954      6E647354 
- 954      656D7000 
- 955              	.LASF4:
- 956 0160 73686F72 		.ascii	"short int\000"
- 956      7420696E 
- 956      7400
- 957              	.LASF15:
- 958 016a 75696E74 		.ascii	"uint16_t\000"
- 958      31365F74 
- 958      00
- 959              	.LASF32:
- 960 0173 666C6173 		.ascii	"flashTime_CollisionLight\000"
- 960      6854696D 
- 960      655F436F 
- 960      6C6C6973 
- 960      696F6E4C 
- 961              	.LASF16:
- 962 018c 75696E74 		.ascii	"uint32_t\000"
- 962      33325F74 
- 962      00
- 963              	.LASF7:
- 964 0195 6C6F6E67 		.ascii	"long int\000"
- 964      20696E74 
- 964      00
- 965              	.LASF19:
- 966 019e 63686172 		.ascii	"char\000"
- 966      00
- 967              	.LASF0:
- 968 01a3 7369676E 		.ascii	"signed char\000"
- 968      65642063 
- 968      68617200 
- 969              	.LASF33:
- 970 01af 474E5520 		.ascii	"GNU C 4.8.4 20140526 (release) [ARM/embedded-4_8-br"
- 970      4320342E 
- 970      382E3420 
- 970      32303134 
- 970      30353236 
- 971 01e2 616E6368 		.ascii	"anch revision 211358] -mcpu=cortex-m0 -mthumb -g -O"
- 971      20726576 
- 971      6973696F 
- 971      6E203231 
- 971      31333538 
- 972 0215 30202D66 		.ascii	"0 -ffunction-sections\000"
- 972      66756E63 
- 972      74696F6E 
- 972      2D736563 
- 972      74696F6E 
-ARM GAS  C:\Users\ole\AppData\Local\Temp\ccvp916Y.s 			page 22
-
-
- 973              	.LASF27:
- 974 022b 6368616E 		.ascii	"channelValue\000"
- 974      6E656C56 
- 974      616C7565 
- 974      00
- 975              	.LASF25:
- 976 0238 6C696768 		.ascii	"lightOff\000"
- 976      744F6666 
- 976      00
- 977              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.4 20140526 (release) [ARM/embedded-4_8-br
+ 882      7465725F 
+ 882      73657475 
+ 882      705F6D69 
+ 882      6C6C6973 
+ 883              	.LASF7:
+ 884 019a 6C6F6E67 		.ascii	"long int\000"
+ 884      20696E74 
+ 884      00
+ 885              	.LASF0:
+ 886 01a3 7369676E 		.ascii	"signed char\000"
+ 886      65642063 
+ 886      68617200 
+ 887              	.LASF31:
+ 888 01af 474E5520 		.ascii	"GNU C 4.8.4 20140526 (release) [ARM/embedded-4_8-br"
+ 888      4320342E 
+ 888      382E3420 
+ 888      32303134 
+ 888      30353236 
+ 889 01e2 616E6368 		.ascii	"anch revision 211358] -mcpu=cortex-m0 -mthumb -g -O"
+ 889      20726576 
+ 889      6973696F 
+ 889      6E203231 
+ 889      31333538 
+ 890 0215 30202D66 		.ascii	"0 -ffunction-sections\000"
+ 890      66756E63 
+ 890      74696F6E 
+ 890      2D736563 
+ 890      74696F6E 
+ 891              	.LASF24:
+ 892 022b 6368616E 		.ascii	"channelValue\000"
+ 892      6E656C56 
+ 892      616C7565 
+ 892      00
+ 893              	.LASF22:
+ 894 0238 6C696768 		.ascii	"lightOff\000"
+ 894      744F6666 
+ 894      00
+ 895              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.4 20140526 (release) [ARM/embedded-4_8-br

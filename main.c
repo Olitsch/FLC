@@ -24,6 +24,8 @@ uint8_t channelValue[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 extern int16_t channelTime[8];
 
 extern uint32_t seconds;
+extern uint16_t counter_off_millis;
+extern uint16_t counter_setup_millis;
 
 uint16_t flashTime_StrobeLight = 60;
 uint16_t pauseTime_StrobeLight = 60;
@@ -35,7 +37,6 @@ int main()
     uint8_t uartByte;
     uint8_t lightAdj = 0;
 
-    uint32_t secondsTemp = 0;
     /* Place your initialization/startup code here (e.g. MyInst_Start()) */
     CyGlobalIntEnable;
     PWM_Timer_Start();
@@ -72,29 +73,26 @@ int main()
                 }  
             }
             
-            if (seconds == secondsTemp + 2)
+            if (counter_setup_millis > 1000)
             {
-                if (channelValue[ch1] == 0 && channelValue[ch4] == 255)
+                lightAdj = (lightAdj + 1) % 4;
+                for (i=0;i<4;i++)       //Turn all lights off on after 2s of stick in right-low corner
                 {
-                    lightAdj = (lightAdj + 1) % 4;
-                    for (i=0;i<4;i++)       //Turn all lights off on after 2s of stick in right-low corner
-                    {
-                        pwm_light[i] = 0;
-                    }
-                    lightOff = 1;
-                    pwm_light[lightAdj] = pwm_light_adj[lightAdj];
+                    pwm_light[i] = 0;
                 }
-                secondsTemp = seconds;
-            }else if (seconds == secondsTemp + 1 && lightOff == 1) //Turn all lights back on after 1s
+                lightOff = 1;
+                pwm_light[lightAdj] = pwm_light_adj[lightAdj];
+                counter_off_millis = 0;
+                counter_setup_millis = 0;
+            }
+                
+            if (counter_off_millis == 1500 && lightOff == 1) //Turn all lights back on after 1s
             {
-                for (i=0;i<4;i++)
-                {
-                    pwm_light[i] = pwm_light_adj[i];
-                }
                 lightOff = 0;
+                counter_off_millis = 0;
             }
             
-            pwm_light_adj[lightAdj] = channelValue[ch6];
+            pwm_light_adj[lightAdj] = channelValue[ch1];
         }
         /* Place your application code here. */
     }
