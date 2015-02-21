@@ -33,6 +33,10 @@ enum lights {strobe = 0, collision, navigation, landing};
 
 extern uint8_t pwm_light[4];
 extern uint8_t pwm_light_adj[4];
+
+extern uint8_t lightOff;
+
+uint32_t seconds = 0;
     
 extern uint16_t flashTime_StrobeLight;
 extern uint16_t pauseTime_StrobeLight;
@@ -159,41 +163,52 @@ CY_ISR(isr_blink_Interrupt)
     isr_blink_ClearPending();
     Blink_Timer_ClearInterrupt(Blink_Timer_INTR_MASK_TC);
     //UART_2_UartPutChar('I');
-    pwm_light[landing] = pwm_light_adj[landing];
-    pwm_light[navigation] = pwm_light_adj[navigation];
-    
-    if (counter_blink == 0)
+
+    if (lightOff == 0)
     {
-        pwm_light[collision] = 0x00;
-        pwm_light[strobe] = 0x00;
-    }
-    
-    if (counter_blink == 600)
-    {
-        pwm_light[collision] = pwm_light_adj[collision];
-    }
-    if (counter_blink == 600 + flashTime_CollisionLight)
-    {
-        pwm_light[collision] = 0x00;
-    }
-    
-    if (counter_blink == 1020)
-    {
-         pwm_light[strobe] =  pwm_light_adj[strobe];
-    }
-    if (counter_blink == 1020 + flashTime_StrobeLight)
-    {
-         pwm_light[strobe] = 0x00;
-    }
-    if (counter_blink == 1020 + flashTime_StrobeLight + 60)
-    {
-         pwm_light[strobe] =  pwm_light_adj[strobe];
-    }
-    if (counter_blink == 1020 + flashTime_StrobeLight + pauseTime_StrobeLight + flashTime_StrobeLight)
-    {
-         pwm_light[strobe] = 0x00;
+        pwm_light[landing] = pwm_light_adj[landing];
+        pwm_light[navigation] = pwm_light_adj[navigation];
+        
+        if (counter_blink == 0)
+        {
+            pwm_light[collision] = 0x00;
+            pwm_light[strobe] = 0x00;
+        }
+        
+        if (counter_blink == 600)
+        {
+            pwm_light[collision] = pwm_light_adj[collision];
+        }
+        if (counter_blink == 600 + flashTime_CollisionLight)
+        {
+            pwm_light[collision] = 0x00;
+        }
+        
+        if (counter_blink == 1020)
+        {
+             pwm_light[strobe] =  pwm_light_adj[strobe];
+        }
+        if (counter_blink == 1020 + flashTime_StrobeLight)
+        {
+             pwm_light[strobe] = 0x00;
+        }
+        if (counter_blink == 1020 + flashTime_StrobeLight + 60)
+        {
+             pwm_light[strobe] =  pwm_light_adj[strobe];
+        }
+        if (counter_blink == 1020 + flashTime_StrobeLight + pauseTime_StrobeLight + flashTime_StrobeLight)
+        {
+             pwm_light[strobe] = 0x00;
+            counter_blink = 0;
+        }
+    }else if (counter_blink == 1200)
         counter_blink = 0;
+    
+    if (counter_blink == 1000)
+    {
+        seconds++;
     }
+    
     counter_blink++;
     /* `#END` */
 }

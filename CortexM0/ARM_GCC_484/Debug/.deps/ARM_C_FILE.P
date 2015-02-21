@@ -1,26 +1,6 @@
-X:/Dokumente/Ole/FLC/FLC.cydsn/CortexM0/ARM_GCC_484/Debug/isr_RC.o : X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/CollisionLight.h X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/CollisionLight_aliases.h X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/CyLib.h X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/LandingLight.h X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/LandingLight_aliases.h X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/NavLight.h X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/NavLight_aliases.h X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/PWM_Timer.h X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/RC_Timer.h X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/StrobeLight.h X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/StrobeLight_aliases.h X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/UART_2.h X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/UART_2_PINS.h X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/UART_2_SCBCLK.h X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/UART_2_rx.h X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/UART_2_rx_aliases.h X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/UART_2_tx.h X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/UART_2_tx_aliases.h X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/cydevice_trm.h X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/cyfitter.h X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/cypins.h X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/cytypes.h X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/isr_RC.h X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/isr_blink.h X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/uart_2_spi_uart.h X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/isr_RC.c 
-
-X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/CollisionLight.h : 
-
-X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/CollisionLight_aliases.h : 
+X:/Dokumente/Ole/FLC/FLC.cydsn/CortexM0/ARM_GCC_484/Debug/isr_blink.o : X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/CyLib.h X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/UART_2.h X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/UART_2_PINS.h X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/UART_2_SCBCLK.h X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/UART_2_rx.h X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/UART_2_rx_aliases.h X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/UART_2_tx.h X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/UART_2_tx_aliases.h X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/blink_timer.h X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/cydevice_trm.h X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/cyfitter.h X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/cypins.h X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/cytypes.h X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/isr_blink.h X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/uart_2_spi_uart.h X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/isr_blink.c 
 
 X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/CyLib.h : 
-
-X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/LandingLight.h : 
-
-X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/LandingLight_aliases.h : 
-
-X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/NavLight.h : 
-
-X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/NavLight_aliases.h : 
-
-X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/PWM_Timer.h : 
-
-X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/RC_Timer.h : 
-
-X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/StrobeLight.h : 
-
-X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/StrobeLight_aliases.h : 
 
 X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/UART_2.h : 
 
@@ -36,6 +16,8 @@ X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/UART_2_tx.h :
 
 X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/UART_2_tx_aliases.h : 
 
+X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/blink_timer.h : 
+
 X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/cydevice_trm.h : 
 
 X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/cyfitter.h : 
@@ -44,11 +26,9 @@ X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/cypins.h :
 
 X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/cytypes.h : 
 
-X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/isr_RC.h : 
-
 X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/isr_blink.h : 
 
 X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/uart_2_spi_uart.h : 
 
-X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/isr_RC.c : 
+X:/Dokumente/Ole/FLC/FLC.cydsn/Generated_Source/PSoC4/isr_blink.c : 
 

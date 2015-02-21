@@ -15,12 +15,15 @@ enum chanels {ch1 = 0, ch2, ch3, ch4, ch5, ch6, ch7, ch8};
 
 uint8_t pwm_light[4] = {0x10, 0x10, 0x10, 0x10};
 
+    uint8_t lightOff = 0;
 
 uint8_t pwm_light_adj[4] = {0x10, 0x10, 0x10, 0x10};
 
 uint8_t channelValue[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 
 extern int16_t channelTime[8];
+
+extern uint32_t seconds;
 
 uint16_t flashTime_StrobeLight = 60;
 uint16_t pauseTime_StrobeLight = 60;
@@ -30,6 +33,9 @@ int main()
 {
     uint8_t i;
     uint8_t uartByte;
+    uint8_t lightAdj = 0;
+
+    uint32_t secondsTemp = 0;
     /* Place your initialization/startup code here (e.g. MyInst_Start()) */
     CyGlobalIntEnable;
     PWM_Timer_Start();
@@ -66,9 +72,29 @@ int main()
                 }  
             }
             
+            if (seconds == secondsTemp + 2)
+            {
+                if (channelValue[ch1] == 0 && channelValue[ch4] == 255)
+                {
+                    lightAdj = (lightAdj + 1) % 4;
+                    for (i=0;i<4;i++)       //Turn all lights off on after 2s of stick in right-low corner
+                    {
+                        pwm_light[i] = 0;
+                    }
+                    lightOff = 1;
+                    pwm_light[lightAdj] = pwm_light_adj[lightAdj];
+                }
+                secondsTemp = seconds;
+            }else if (seconds == secondsTemp + 1 && lightOff == 1) //Turn all lights back on after 1s
+            {
+                for (i=0;i<4;i++)
+                {
+                    pwm_light[i] = pwm_light_adj[i];
+                }
+                lightOff = 0;
+            }
             
-            for (i=0;i<4;i++)
-             pwm_light_adj[i] = channelValue[ch6];
+            pwm_light_adj[lightAdj] = channelValue[ch6];
         }
         /* Place your application code here. */
     }
