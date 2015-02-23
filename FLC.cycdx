@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <blockRegMap version="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://cypress.com/xsd/cyblockregmap cyblockregmap.xsd" xmlns="http://cypress.com/xsd/cyblockregmap">
-  <block name="StrobeLight" BASE="0x0" SIZE="0x0" desc="" visible="true" />
   <block name="isr_uart" BASE="0x0" SIZE="0x0" desc="" visible="true" />
-  <block name="LandingLight" BASE="0x0" SIZE="0x0" desc="" visible="true" />
-  <block name="NavLight" BASE="0x0" SIZE="0x0" desc="" visible="true" />
-  <block name="P2_4" BASE="0x0" SIZE="0x0" desc="" visible="true" />
-  <block name="isr_RC" BASE="0x0" SIZE="0x0" desc="" visible="true" />
   <block name="CollisionLight" BASE="0x0" SIZE="0x0" desc="" visible="true" />
+  <block name="NavLight" BASE="0x0" SIZE="0x0" desc="" visible="true" />
+  <block name="StrobeLight" BASE="0x0" SIZE="0x0" desc="" visible="true" />
+  <block name="isr_RC" BASE="0x0" SIZE="0x0" desc="" visible="true" />
+  <block name="Em_EEPROM_1" BASE="0x0" SIZE="0x0" desc="" visible="true" />
   <block name="isr_pwm" BASE="0x0" SIZE="0x0" desc="" visible="true" />
+  <block name="P2_4" BASE="0x0" SIZE="0x0" desc="" visible="true" />
+  <block name="LandingLight" BASE="0x0" SIZE="0x0" desc="" visible="true" />
   <block name="isr_blink" BASE="0x0" SIZE="0x0" desc="" visible="true" />
   <block name="Blink_Timer" BASE="0x0" SIZE="0x0" desc="" visible="true">
     <block name="VMux_count" BASE="0x0" SIZE="0x0" desc="" visible="true" />

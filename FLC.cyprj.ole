@@ -20,6 +20,7 @@
 <dep name=".\Generated_Source\PSoC4\CollisionLight_aliases.h" />
 <dep name=".\Generated_Source\PSoC4\CyFlash.h" />
 <dep name=".\Generated_Source\PSoC4\CyLib.h" />
+<dep name=".\Generated_Source\PSoC4\Em_EEPROM_1.h" />
 <dep name=".\Generated_Source\PSoC4\LandingLight.h" />
 <dep name=".\Generated_Source\PSoC4\LandingLight_aliases.h" />
 <dep name=".\Generated_Source\PSoC4\NavLight.h" />
@@ -77,6 +78,7 @@
 <file name=".\Generated_Source\PSoC4\CollisionLight_aliases.h" />
 <file name=".\Generated_Source\PSoC4\CyFlash.h" />
 <file name=".\Generated_Source\PSoC4\CyLib.h" />
+<file name=".\Generated_Source\PSoC4\Em_EEPROM_1.h" />
 <file name=".\Generated_Source\PSoC4\LandingLight.h" />
 <file name=".\Generated_Source\PSoC4\LandingLight_aliases.h" />
 <file name=".\Generated_Source\PSoC4\NavLight.h" />
@@ -126,81 +128,6 @@
 <file name=".\Generated_Source\PSoC4\isr_uart.h" />
 <file name=".\Generated_Source\PSoC4\project.h" />
 <file name=".\main.c" />
-<file name=".\CortexM0\ARM_GCC_484\Debug\isr_blink.o">
-<dep name=".\Generated_Source\PSoC4\CyLib.h" />
-<dep name=".\Generated_Source\PSoC4\UART_2.h" />
-<dep name=".\Generated_Source\PSoC4\UART_2_PINS.h" />
-<dep name=".\Generated_Source\PSoC4\UART_2_SCBCLK.h" />
-<dep name=".\Generated_Source\PSoC4\UART_2_rx.h" />
-<dep name=".\Generated_Source\PSoC4\UART_2_rx_aliases.h" />
-<dep name=".\Generated_Source\PSoC4\UART_2_tx.h" />
-<dep name=".\Generated_Source\PSoC4\UART_2_tx_aliases.h" />
-<dep name=".\Generated_Source\PSoC4\blink_timer.h" />
-<dep name=".\Generated_Source\PSoC4\cydevice_trm.h" />
-<dep name=".\Generated_Source\PSoC4\cyfitter.h" />
-<dep name=".\Generated_Source\PSoC4\cypins.h" />
-<dep name=".\Generated_Source\PSoC4\cytypes.h" />
-<dep name=".\Generated_Source\PSoC4\isr_blink.h" />
-<dep name=".\Generated_Source\PSoC4\uart_2_spi_uart.h" />
-<dep name=".\Generated_Source\PSoC4\isr_blink.c" />
-</file>
-<file name=".\Generated_Source\PSoC4\isr_blink.c" />
-<file name=".\CortexM0\ARM_GCC_484\Debug\isr_RC.o">
-<dep name=".\Generated_Source\PSoC4\CollisionLight.h" />
-<dep name=".\Generated_Source\PSoC4\CollisionLight_aliases.h" />
-<dep name=".\Generated_Source\PSoC4\CyLib.h" />
-<dep name=".\Generated_Source\PSoC4\LandingLight.h" />
-<dep name=".\Generated_Source\PSoC4\LandingLight_aliases.h" />
-<dep name=".\Generated_Source\PSoC4\NavLight.h" />
-<dep name=".\Generated_Source\PSoC4\NavLight_aliases.h" />
-<dep name=".\Generated_Source\PSoC4\PWM_Timer.h" />
-<dep name=".\Generated_Source\PSoC4\RC_Timer.h" />
-<dep name=".\Generated_Source\PSoC4\StrobeLight.h" />
-<dep name=".\Generated_Source\PSoC4\StrobeLight_aliases.h" />
-<dep name=".\Generated_Source\PSoC4\UART_2.h" />
-<dep name=".\Generated_Source\PSoC4\UART_2_PINS.h" />
-<dep name=".\Generated_Source\PSoC4\UART_2_SCBCLK.h" />
-<dep name=".\Generated_Source\PSoC4\UART_2_rx.h" />
-<dep name=".\Generated_Source\PSoC4\UART_2_rx_aliases.h" />
-<dep name=".\Generated_Source\PSoC4\UART_2_tx.h" />
-<dep name=".\Generated_Source\PSoC4\UART_2_tx_aliases.h" />
-<dep name=".\Generated_Source\PSoC4\cydevice_trm.h" />
-<dep name=".\Generated_Source\PSoC4\cyfitter.h" />
-<dep name=".\Generated_Source\PSoC4\cypins.h" />
-<dep name=".\Generated_Source\PSoC4\cytypes.h" />
-<dep name=".\Generated_Source\PSoC4\isr_RC.h" />
-<dep name=".\Generated_Source\PSoC4\isr_blink.h" />
-<dep name=".\Generated_Source\PSoC4\uart_2_spi_uart.h" />
-<dep name=".\Generated_Source\PSoC4\isr_RC.c" />
-</file>
-<file name=".\Generated_Source\PSoC4\isr_RC.c" />
-<file name=".\CortexM0\ARM_GCC_484\Debug\RC_Timer.o">
-<dep name=".\Generated_Source\PSoC4\CyLib.h" />
-<dep name=".\Generated_Source\PSoC4\RC_Timer.h" />
-<dep name=".\Generated_Source\PSoC4\cydevice_trm.h" />
-<dep name=".\Generated_Source\PSoC4\cyfitter.h" />
-<dep name=".\Generated_Source\PSoC4\cytypes.h" />
-<dep name=".\Generated_Source\PSoC4\RC_Timer.c" />
-</file>
-<file name=".\Generated_Source\PSoC4\RC_Timer.c" />
-<file name=".\CortexM0\ARM_GCC_484\Debug\RC_Timer_PM.o">
-<dep name=".\Generated_Source\PSoC4\CyLib.h" />
-<dep name=".\Generated_Source\PSoC4\RC_Timer.h" />
-<dep name=".\Generated_Source\PSoC4\cydevice_trm.h" />
-<dep name=".\Generated_Source\PSoC4\cyfitter.h" />
-<dep name=".\Generated_Source\PSoC4\cytypes.h" />
-<dep name=".\Generated_Source\PSoC4\RC_Timer_PM.c" />
-</file>
-<file name=".\Generated_Source\PSoC4\RC_Timer_PM.c" />
-<file name=".\CortexM0\ARM_GCC_484\Debug\cyfitter_cfg.o">
-<dep name=".\Generated_Source\PSoC4\CyLib.h" />
-<dep name=".\Generated_Source\PSoC4\cydevice_trm.h" />
-<dep name=".\Generated_Source\PSoC4\cyfitter.h" />
-<dep name=".\Generated_Source\PSoC4\cyfitter_cfg.h" />
-<dep name=".\Generated_Source\PSoC4\cytypes.h" />
-<dep name=".\Generated_Source\PSoC4\cyfitter_cfg.c" />
-</file>
-<file name=".\Generated_Source\PSoC4\cyfitter_cfg.c" />
 <file name=".\CortexM0\ARM_GCC_484\Debug\Blink_Timer.o">
 <dep name=".\Generated_Source\PSoC4\Blink_Timer.h" />
 <dep name=".\Generated_Source\PSoC4\CyLib.h" />
@@ -273,6 +200,16 @@
 <dep name=".\Generated_Source\PSoC4\CyLib.c" />
 </file>
 <file name=".\Generated_Source\PSoC4\CyLib.c" />
+<file name=".\CortexM0\ARM_GCC_484\Debug\Em_EEPROM_1.o">
+<dep name=".\Generated_Source\PSoC4\CyFlash.h" />
+<dep name=".\Generated_Source\PSoC4\CyLib.h" />
+<dep name=".\Generated_Source\PSoC4\Em_EEPROM_1.h" />
+<dep name=".\Generated_Source\PSoC4\cydevice_trm.h" />
+<dep name=".\Generated_Source\PSoC4\cyfitter.h" />
+<dep name=".\Generated_Source\PSoC4\cytypes.h" />
+<dep name=".\Generated_Source\PSoC4\Em_EEPROM_1.c" />
+</file>
+<file name=".\Generated_Source\PSoC4\Em_EEPROM_1.c" />
 <file name=".\CortexM0\ARM_GCC_484\Debug\LandingLight.o">
 <dep name=".\Generated_Source\PSoC4\LandingLight.h" />
 <dep name=".\Generated_Source\PSoC4\LandingLight_aliases.h" />
@@ -321,6 +258,24 @@
 <dep name=".\Generated_Source\PSoC4\PWM_Timer_PM.c" />
 </file>
 <file name=".\Generated_Source\PSoC4\PWM_Timer_PM.c" />
+<file name=".\CortexM0\ARM_GCC_484\Debug\RC_Timer.o">
+<dep name=".\Generated_Source\PSoC4\CyLib.h" />
+<dep name=".\Generated_Source\PSoC4\RC_Timer.h" />
+<dep name=".\Generated_Source\PSoC4\cydevice_trm.h" />
+<dep name=".\Generated_Source\PSoC4\cyfitter.h" />
+<dep name=".\Generated_Source\PSoC4\cytypes.h" />
+<dep name=".\Generated_Source\PSoC4\RC_Timer.c" />
+</file>
+<file name=".\Generated_Source\PSoC4\RC_Timer.c" />
+<file name=".\CortexM0\ARM_GCC_484\Debug\RC_Timer_PM.o">
+<dep name=".\Generated_Source\PSoC4\CyLib.h" />
+<dep name=".\Generated_Source\PSoC4\RC_Timer.h" />
+<dep name=".\Generated_Source\PSoC4\cydevice_trm.h" />
+<dep name=".\Generated_Source\PSoC4\cyfitter.h" />
+<dep name=".\Generated_Source\PSoC4\cytypes.h" />
+<dep name=".\Generated_Source\PSoC4\RC_Timer_PM.c" />
+</file>
+<file name=".\Generated_Source\PSoC4\RC_Timer_PM.c" />
 <file name=".\CortexM0\ARM_GCC_484\Debug\StrobeLight.o">
 <dep name=".\Generated_Source\PSoC4\StrobeLight.h" />
 <dep name=".\Generated_Source\PSoC4\StrobeLight_aliases.h" />
@@ -669,6 +624,15 @@
 <dep name=".\Generated_Source\PSoC4\cybootloader.c" />
 </file>
 <file name=".\Generated_Source\PSoC4\cybootloader.c" />
+<file name=".\CortexM0\ARM_GCC_484\Debug\cyfitter_cfg.o">
+<dep name=".\Generated_Source\PSoC4\CyLib.h" />
+<dep name=".\Generated_Source\PSoC4\cydevice_trm.h" />
+<dep name=".\Generated_Source\PSoC4\cyfitter.h" />
+<dep name=".\Generated_Source\PSoC4\cyfitter_cfg.h" />
+<dep name=".\Generated_Source\PSoC4\cytypes.h" />
+<dep name=".\Generated_Source\PSoC4\cyfitter_cfg.c" />
+</file>
+<file name=".\Generated_Source\PSoC4\cyfitter_cfg.c" />
 <file name=".\CortexM0\ARM_GCC_484\Debug\cymetadata.o">
 <dep name=".\Generated_Source\PSoC4\cydevice_trm.h" />
 <dep name=".\Generated_Source\PSoC4\cyfitter.h" />
@@ -683,6 +647,54 @@
 <dep name=".\Generated_Source\PSoC4\cyutils.c" />
 </file>
 <file name=".\Generated_Source\PSoC4\cyutils.c" />
+<file name=".\CortexM0\ARM_GCC_484\Debug\isr_RC.o">
+<dep name=".\Generated_Source\PSoC4\CollisionLight.h" />
+<dep name=".\Generated_Source\PSoC4\CollisionLight_aliases.h" />
+<dep name=".\Generated_Source\PSoC4\CyLib.h" />
+<dep name=".\Generated_Source\PSoC4\LandingLight.h" />
+<dep name=".\Generated_Source\PSoC4\LandingLight_aliases.h" />
+<dep name=".\Generated_Source\PSoC4\NavLight.h" />
+<dep name=".\Generated_Source\PSoC4\NavLight_aliases.h" />
+<dep name=".\Generated_Source\PSoC4\PWM_Timer.h" />
+<dep name=".\Generated_Source\PSoC4\RC_Timer.h" />
+<dep name=".\Generated_Source\PSoC4\StrobeLight.h" />
+<dep name=".\Generated_Source\PSoC4\StrobeLight_aliases.h" />
+<dep name=".\Generated_Source\PSoC4\UART_2.h" />
+<dep name=".\Generated_Source\PSoC4\UART_2_PINS.h" />
+<dep name=".\Generated_Source\PSoC4\UART_2_SCBCLK.h" />
+<dep name=".\Generated_Source\PSoC4\UART_2_rx.h" />
+<dep name=".\Generated_Source\PSoC4\UART_2_rx_aliases.h" />
+<dep name=".\Generated_Source\PSoC4\UART_2_tx.h" />
+<dep name=".\Generated_Source\PSoC4\UART_2_tx_aliases.h" />
+<dep name=".\Generated_Source\PSoC4\cydevice_trm.h" />
+<dep name=".\Generated_Source\PSoC4\cyfitter.h" />
+<dep name=".\Generated_Source\PSoC4\cypins.h" />
+<dep name=".\Generated_Source\PSoC4\cytypes.h" />
+<dep name=".\Generated_Source\PSoC4\isr_RC.h" />
+<dep name=".\Generated_Source\PSoC4\isr_blink.h" />
+<dep name=".\Generated_Source\PSoC4\uart_2_spi_uart.h" />
+<dep name=".\Generated_Source\PSoC4\isr_RC.c" />
+</file>
+<file name=".\Generated_Source\PSoC4\isr_RC.c" />
+<file name=".\CortexM0\ARM_GCC_484\Debug\isr_blink.o">
+<dep name=".\Generated_Source\PSoC4\CyLib.h" />
+<dep name=".\Generated_Source\PSoC4\UART_2.h" />
+<dep name=".\Generated_Source\PSoC4\UART_2_PINS.h" />
+<dep name=".\Generated_Source\PSoC4\UART_2_SCBCLK.h" />
+<dep name=".\Generated_Source\PSoC4\UART_2_rx.h" />
+<dep name=".\Generated_Source\PSoC4\UART_2_rx_aliases.h" />
+<dep name=".\Generated_Source\PSoC4\UART_2_tx.h" />
+<dep name=".\Generated_Source\PSoC4\UART_2_tx_aliases.h" />
+<dep name=".\Generated_Source\PSoC4\blink_timer.h" />
+<dep name=".\Generated_Source\PSoC4\cydevice_trm.h" />
+<dep name=".\Generated_Source\PSoC4\cyfitter.h" />
+<dep name=".\Generated_Source\PSoC4\cypins.h" />
+<dep name=".\Generated_Source\PSoC4\cytypes.h" />
+<dep name=".\Generated_Source\PSoC4\isr_blink.h" />
+<dep name=".\Generated_Source\PSoC4\uart_2_spi_uart.h" />
+<dep name=".\Generated_Source\PSoC4\isr_blink.c" />
+</file>
+<file name=".\Generated_Source\PSoC4\isr_blink.c" />
 <file name=".\CortexM0\ARM_GCC_484\Debug\isr_pwm.o">
 <dep name=".\Generated_Source\PSoC4\CollisionLight.h" />
 <dep name=".\Generated_Source\PSoC4\CollisionLight_aliases.h" />
@@ -801,6 +813,7 @@
 <dep name=".\CortexM0\ARM_GCC_484\Debug\isr_RC.o" />
 <dep name=".\CortexM0\ARM_GCC_484\Debug\UART_1_SCBCLK.o" />
 <dep name=".\CortexM0\ARM_GCC_484\Debug\UART_2_SCBCLK.o" />
+<dep name=".\CortexM0\ARM_GCC_484\Debug\Em_EEPROM_1.o" />
 <dep name=".\CortexM0\ARM_GCC_484\Debug\FLC.a" />
 <dep name="${CyRoot}\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CortexM0\ARM_GCC_484\Debug\CyComponentLibrary.a" />
 </file>
@@ -862,6 +875,7 @@
 <name_val_pair name=".\Generated_Source\PSoC4\UART_1_SCBCLK.c" v="-mcpu=cortex-m0 -mthumb -Wno-main -I. -I.\Generated_Source\PSoC4 -Wa,-alh=${OutputDir}/${CompileFile}.lst -g -D DEBUG -Wall -ffunction-sections -O0" />
 <name_val_pair name=".\Generated_Source\PSoC4\UART_2_SCBCLK.c" v="-mcpu=cortex-m0 -mthumb -Wno-main -I. -I.\Generated_Source\PSoC4 -Wa,-alh=${OutputDir}/${CompileFile}.lst -g -D DEBUG -Wall -ffunction-sections -O0" />
 <name_val_pair name="X:\Dokumente\Ole\FLC\FLC.cydsn\CortexM0\ARM_GCC_484\Debug\FLC.hex" v="-mthumb -march=armv6-m -Wl,-Map,${OutputDir}/${ProjectShortName}.map -T .\Generated_Source\PSoC4\cm0gcc.ld -g -specs=nano.specs &quot;-u _printf_float&quot; &quot;&quot; -Wl,--gc-sections" />
+<name_val_pair name=".\Generated_Source\PSoC4\Em_EEPROM_1.c" v="-mcpu=cortex-m0 -mthumb -Wno-main -I. -I.\Generated_Source\PSoC4 -Wa,-alh=${OutputDir}/${CompileFile}.lst -g -D DEBUG -Wall -ffunction-sections -O0" />
 </name>
 </genericCmdLineData>
 <codeGenCmdLineTag v="-.appdatapath &quot;C:\Users\ole\AppData\Local\Cypress Semiconductor\PSoC Creator\3.1&quot; -.fdsnotice -.fdswarpdepfile=warp_dependencies.txt -.fdselabdepfile=elab_dependencies.txt -.fdsbldfile=generated_files.txt -p X:\Dokumente\Ole\FLC\FLC.cydsn\FLC.cyprj -d CY8C4125AXI-483 -s X:\Dokumente\Ole\FLC\FLC.cydsn\Generated_Source\PSoC4 -- -yv2 -q10 -ygs -o2 -v3 -.fftcfgtype=LE" />
@@ -874,19 +888,34 @@
 <v>Off-Chip</v>
 </tree_states_tab_names>
 <tree_states>
-<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="Cypress Component Catalog\System\Interrupt [v1.70]">
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="Cypress Component Catalog\System\Emulated EEPROM [v1.10]">
 <ExpandedNodeIds>
 <v>Cypress Component Catalog</v>
+<v>Cypress Component Catalog\Analog</v>
+<v>Cypress Component Catalog\Digital</v>
+<v>Cypress Component Catalog\Ports and Pins</v>
 <v>Cypress Component Catalog\System</v>
 </ExpandedNodeIds>
 <VisibleNodeIds>
 <v>Cypress Component Catalog</v>
 <v>Cypress Component Catalog\Analog</v>
+<v>Cypress Component Catalog\Analog\ADC</v>
+<v>Cypress Component Catalog\Analog\Amplifiers</v>
+<v>Cypress Component Catalog\Analog\Analog MUX</v>
+<v>Cypress Component Catalog\Analog\Comparators</v>
+<v>Cypress Component Catalog\Analog\DAC</v>
+<v>Cypress Component Catalog\Analog\Manual Routing</v>
 <v>Cypress Component Catalog\CapSense</v>
 <v>Cypress Component Catalog\Communications</v>
 <v>Cypress Component Catalog\Digital</v>
+<v>Cypress Component Catalog\Digital\Functions</v>
+<v>Cypress Component Catalog\Digital\Logic</v>
 <v>Cypress Component Catalog\Display</v>
 <v>Cypress Component Catalog\Ports and Pins</v>
+<v>Cypress Component Catalog\Ports and Pins\Analog Pin [v2.10]</v>
+<v>Cypress Component Catalog\Ports and Pins\Digital Bidirectional Pin [v2.10]</v>
+<v>Cypress Component Catalog\Ports and Pins\Digital Input Pin [v2.10]</v>
+<v>Cypress Component Catalog\Ports and Pins\Digital Output Pin [v2.10]</v>
 <v>Cypress Component Catalog\System</v>
 <v>Cypress Component Catalog\System\Bootloadable [v1.30]</v>
 <v>Cypress Component Catalog\System\Bootloader [v1.30]</v>
@@ -1830,6 +1859,11 @@
 <v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_isr_v1_70\Custom\custom.cs</v>
 <v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_isr_v1_70\PSoC4\API\intc.c</v>
 <v>${CyRoot}\psoc\content\cyprimitives\CyPrimitives.cylib\cy_isr_v1_70\PSoC4\API\intc.h</v>
+<v>${CyRoot}\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\Em_EEPROM_v1_10\Em_EEPROM_v1_10.cysym</v>
+<v>${CyRoot}\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\Em_EEPROM_v1_10\Em_EEPROM_v1_10.cystate</v>
+<v>${CyRoot}\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\Em_EEPROM_v1_10\Em_EEPROM_v1_10.pdf</v>
+<v>${CyRoot}\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\Em_EEPROM_v1_10\API\Em_EEPROM.c</v>
+<v>${CyRoot}\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\Em_EEPROM_v1_10\API\Em_EEPROM.h</v>
 <v>.\FLC.cydwr</v>
 <v>${CyRoot}\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\cy_boot_v4_20\PSoC4\API\cm0gcc.ld</v>
 <v>${CyRoot}\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\cy_boot_v4_20\PSoC4\API\Cm0RealView.scat</v>
@@ -2007,6 +2041,8 @@
 <v>.\Generated_Source\PSoC4\UART_1_SCBCLK.h</v>
 <v>.\Generated_Source\PSoC4\UART_2_SCBCLK.c</v>
 <v>.\Generated_Source\PSoC4\UART_2_SCBCLK.h</v>
+<v>.\Generated_Source\PSoC4\Em_EEPROM_1.c</v>
+<v>.\Generated_Source\PSoC4\Em_EEPROM_1.h</v>
 </gen_list>
 <warp_dep>
 <v>C:\Program Files (x86)\Cypress\PSoC Creator\3.1\PSoC Creator\warp\lib\ieee\work\stdlogic.vif</v>
@@ -2016,14 +2052,14 @@
 <v>C:\Program Files (x86)\Cypress\PSoC Creator\3.1\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\or_v1_0\or_v1_0.v</v>
 <v>C:\Program Files (x86)\Cypress\PSoC Creator\3.1\PSoC Creator\warp\lib\common\stdlogic\rtlpkg.vif</v>
 </warp_dep>
-<deps_time v="130689937318222758" />
+<deps_time v="130691844369445222" />
 <top_block v="TopDesign" />
 <last_generation v="1" />
 </CyGuid_925cc1e1-309e-4e08-b0a1-09a83c35b157>
 </dataGuid>
 <dataGuid v="769d31ea-68b1-4f0c-b90a-7c10a43ee563">
 <CyGuid_769d31ea-68b1-4f0c-b90a-7c10a43ee563 type_name="CyDesigner.Common.ProjMgmt.Model.CyLinkCustomData" version="1">
-<deps_time v="130689948372634043" />
+<deps_time v="130691838114799898" />
 </CyGuid_769d31ea-68b1-4f0c-b90a-7c10a43ee563>
 </dataGuid>
 </userData>

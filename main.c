@@ -16,8 +16,8 @@ enum chanels {ch1 = 0, ch2, ch3, ch4, ch5, ch6, ch7, ch8};
 uint8_t pwm_light[4] = {0x10, 0x10, 0x10, 0x10};
 
     uint8_t lightOff = 0;
-
 uint8_t pwm_light_adj[4] = {0x10, 0x10, 0x10, 0x10};
+static const uint8 CYCODE pwm_light_init[4] = {0x10, 0x10, 0x10, 0x10};
 
 uint8_t channelValue[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 
@@ -48,6 +48,9 @@ int main()
     isr_pwm_Start();
     isr_RC_Start();
     isr_blink_Start();
+    
+    for (i=0;i<4;i++)
+        pwm_light[i] = pwm_light_init[i];
  
     
     for(;;)
@@ -75,6 +78,7 @@ int main()
             
             if (counter_setup_millis > 1000)
             {
+                Em_EEPROM_1_Write(pwm_light_adj,pwm_light_init,4);
                 lightAdj = (lightAdj + 1) % 4;
                 for (i=0;i<4;i++)       //Turn all lights off on after 2s of stick in right-low corner
                 {
