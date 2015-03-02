@@ -28,6 +28,7 @@
 /* `#START isr_blink_intc` */
 #include <uart_2_spi_uart.h>
 #include <blink_timer.h>
+#include <button.h>
     
 enum lights {strobe = 0, collision, navigation, landing};
 enum chanels {ch1 = 0, ch2, ch3, ch4, ch5, ch6, ch7, ch8};
@@ -49,6 +50,7 @@ extern uint16_t flashTime_CollisionLight;
 uint16_t counter_blink = 0;
 uint16_t counter_off_millis = 0;
 uint16_t counter_setup_millis = 0;
+uint16_t counter_button_millis = 0;
     
 /* `#END` */
 
@@ -217,6 +219,14 @@ CY_ISR(isr_blink_Interrupt)
         counter_setup_millis = 0;
     }
     
+    if (Button_Read() == 0) // Button Pressed
+    {
+        counter_button_millis++;
+    }
+    else
+    {
+        counter_button_millis = 0;
+    }
     counter_blink++;
     counter_off_millis++;
     /* `#END` */

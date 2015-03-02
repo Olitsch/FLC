@@ -50,6 +50,8 @@
 #include <P2_4_aliases.h>
 #include <isr_RC.h>
 #include <Em_EEPROM_1.h>
+#include <Button.h>
+#include <Button_aliases.h>
 #include <UART_1_SCBCLK.h>
 #include <UART_1_tx.h>
 #include <UART_1_tx_aliases.h>

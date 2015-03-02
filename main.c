@@ -26,6 +26,7 @@ extern int16_t channelTime[8];
 extern uint32_t seconds;
 extern uint16_t counter_off_millis;
 extern uint16_t counter_setup_millis;
+extern uint16_t counter_button_millis;
 
 uint16_t flashTime_StrobeLight = 60;
 uint16_t pauseTime_StrobeLight = 60;
@@ -50,16 +51,23 @@ int main()
     isr_blink_Start();
     
     for (i=0;i<4;i++)
-        pwm_light[i] = pwm_light_init[i];
+        pwm_light_adj[i] = pwm_light_init[i];
  
     
     for(;;)
     {
+        if (counter_button_millis > 1000)
+        {
+            Bootloadable_1_Load();
+        }
+        
         uartByte = UART_2_UartGetChar();
         if (uartByte != 0)
         {
             for (i=0;i<4;i++)
-             pwm_light_adj[i] = uartByte;
+                pwm_light_adj[i] = uartByte;
+                
+            Em_EEPROM_1_Write(pwm_light_adj,pwm_light_init,4);
         }else
         {
             for (i=0;i<8;i++)
