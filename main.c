@@ -12,10 +12,12 @@
 #include <project.h>
 enum lights {strobe = 0, collision, navigation, landing};
 enum chanels {ch1 = 0, ch2, ch3, ch4, ch5, ch6, ch7, ch8};
+enum modes {flight = 0, ground, setup};
 
 uint8_t pwm_light[4] = {0x10, 0x10, 0x10, 0x10};
 
-    uint8_t lightOff = 0;
+uint8_t lightOff = flight;
+uint8_t mode = 0;
 uint8_t pwm_light_adj[4] = {0x10, 0x10, 0x10, 0x10};
 static const uint8 CYCODE pwm_light_init[4] = {0x10, 0x10, 0x10, 0x10};
 
@@ -23,9 +25,12 @@ uint8_t channelValue[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 
 extern int16_t channelTime[8];
 
+extern uint8_t cppm_sync;
+
 extern uint32_t seconds;
 extern uint16_t counter_off_millis;
 extern uint16_t counter_setup_millis;
+extern uint16_t counter_setup_adj_millis;
 extern uint16_t counter_button_millis;
 
 uint16_t flashTime_StrobeLight = 60;
@@ -51,8 +56,10 @@ int main()
     isr_blink_Start();
     
     for (i=0;i<4;i++)
+    {
         pwm_light_adj[i] = pwm_light_init[i];
- 
+        channelValue[i] = pwm_light_init[i];
+    }
     
     for(;;)
     {
@@ -61,51 +68,80 @@ int main()
             Bootloadable_1_Load();
         }
         
-        uartByte = UART_2_UartGetChar();
-        if (uartByte != 0)
+        if (counter_setup_adj_millis > 1000 && mode == setup)
         {
-            for (i=0;i<4;i++)
-                pwm_light_adj[i] = uartByte;
-                
-            Em_EEPROM_1_Write(pwm_light_adj,pwm_light_init,4);
-        }else
-        {
-            for (i=0;i<8;i++)
-            {
-                if (channelTime[i] < 1000)
-                {
-                    channelValue[i] = 0;
-                }else if (channelTime[i] > 2000)
-                {
-                    channelValue[i] = 255;
-                }else
-                {
-                    channelValue[i] = (uint8_t) (((channelTime[i] - 1000) * 255) / 1000);
-                }  
-            }
-            
-            if (counter_setup_millis > 1000)
-            {
-                Em_EEPROM_1_Write(pwm_light_adj,pwm_light_init,4);
-                lightAdj = (lightAdj + 1) % 4;
-                for (i=0;i<4;i++)       //Turn all lights off on after 2s of stick in right-low corner
-                {
-                    pwm_light[i] = 0;
-                }
-                lightOff = 1;
-                pwm_light[lightAdj] = pwm_light_adj[lightAdj];
-                counter_off_millis = 0;
-                counter_setup_millis = 0;
-            }
-                
-            if (counter_off_millis == 1500 && lightOff == 1) //Turn all lights back on after 1s
-            {
-                lightOff = 0;
-                counter_off_millis = 0;
-            }
-            
-            pwm_light_adj[lightAdj] = channelValue[ch1];
+            mode = flight;
         }
+        else if (counter_setup_adj_millis > 1000 && mode != setup)
+        {
+            mode = setup;
+        }
+        
+        
+        switch (mode)
+        {
+            case flight:
+                
+            break;
+            
+            case ground:
+                
+            break;
+            
+            case setup:
+            
+                if (cppm_sync == 1)
+                {
+                    for (i=0;i<8;i++)
+                    {
+                        if (channelTime[i] < 1000)
+                        {
+                            channelValue[i] = 0;
+                        }else if (channelTime[i] > 2000)
+                        {
+                            channelValue[i] = 255;
+                        }else
+                        {
+                            channelValue[i] = (uint8_t) (((channelTime[i] - 1000) * 255) / 1000);
+                        }  
+                    }
+                    
+                    if (counter_setup_millis > 1000)
+                    {
+                        Em_EEPROM_1_Write(pwm_light_adj,pwm_light_init,4);
+                        lightAdj = (lightAdj + 1) % 4;
+                        for (i=0;i<4;i++)       //Turn all lights off on after 2s of stick in right-low corner
+                        {
+                            pwm_light[i] = 0;
+                        }
+                        lightOff = 1;
+                        pwm_light[lightAdj] = pwm_light_adj[lightAdj];
+                        counter_off_millis = 0;
+                        counter_setup_millis = 0;
+                    }
+                        
+                    if (counter_off_millis == 1500 && lightOff == 1) //Turn all lights back on after 1s
+                    {
+                        lightOff = 0;
+                        counter_off_millis = 0;
+                    }
+                       
+                    pwm_light_adj[lightAdj] = channelValue[ch1];
+                }
+                
+            break;
+        }
+        
+        #ifdef DEBUG
+            uartByte = UART_2_UartGetChar();
+            if (uartByte != 0)
+            {
+                for (i=0;i<4;i++)
+                    pwm_light_adj[i] = uartByte;
+                    
+                Em_EEPROM_1_Write(pwm_light_adj,pwm_light_init,4);
+            }
+        #endif
         /* Place your application code here. */
     }
 }

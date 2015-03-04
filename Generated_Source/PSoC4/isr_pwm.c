@@ -26,13 +26,7 @@
 *  Place your includes, defines and code here 
 ********************************************************************************/
 /* `#START isr_pwm_intc` */
-#include <isr_blink.h>
-#include <PWM_Timer.h>    
-#include <uart_2_spi_uart.h>
-#include <CollisionLight.h>
-#include <LandingLight.h>
-#include <NavLight.h>
-#include <StrobeLight.h>
+#include <project.h>
 
 enum lights {strobe = 0, collision, navigation, landing};
 

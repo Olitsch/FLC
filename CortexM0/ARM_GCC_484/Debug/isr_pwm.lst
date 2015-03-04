@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
+ARM GAS  C:\Users\ole\AppData\Local\Temp\cccYGxhH.s 			page 1
 
 
    1              		.cpu cortex-m0
@@ -30,7 +30,7 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
   27              		.thumb_func
   28              		.type	isr_pwm_Start, %function
   29              	isr_pwm_Start:
-  30              	.LFB0:
+  30              	.LFB33:
   31              		.file 1 ".\\Generated_Source\\PSoC4\\isr_pwm.c"
    1:.\Generated_Source\PSoC4/isr_pwm.c **** /*******************************************************************************
    2:.\Generated_Source\PSoC4/isr_pwm.c **** * File Name: isr_pwm.c  
@@ -58,50 +58,44 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
   24:.\Generated_Source\PSoC4/isr_pwm.c **** 
   25:.\Generated_Source\PSoC4/isr_pwm.c **** /*******************************************************************************
   26:.\Generated_Source\PSoC4/isr_pwm.c **** *  Place your includes, defines and code here 
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 2
+ARM GAS  C:\Users\ole\AppData\Local\Temp\cccYGxhH.s 			page 2
 
 
   27:.\Generated_Source\PSoC4/isr_pwm.c **** ********************************************************************************/
   28:.\Generated_Source\PSoC4/isr_pwm.c **** /* `#START isr_pwm_intc` */
-  29:.\Generated_Source\PSoC4/isr_pwm.c **** #include <isr_blink.h>
-  30:.\Generated_Source\PSoC4/isr_pwm.c **** #include <PWM_Timer.h>    
-  31:.\Generated_Source\PSoC4/isr_pwm.c **** #include <uart_2_spi_uart.h>
-  32:.\Generated_Source\PSoC4/isr_pwm.c **** #include <CollisionLight.h>
-  33:.\Generated_Source\PSoC4/isr_pwm.c **** #include <LandingLight.h>
-  34:.\Generated_Source\PSoC4/isr_pwm.c **** #include <NavLight.h>
-  35:.\Generated_Source\PSoC4/isr_pwm.c **** #include <StrobeLight.h>
+  29:.\Generated_Source\PSoC4/isr_pwm.c **** #include <project.h>
+  30:.\Generated_Source\PSoC4/isr_pwm.c **** 
+  31:.\Generated_Source\PSoC4/isr_pwm.c **** enum lights {strobe = 0, collision, navigation, landing};
+  32:.\Generated_Source\PSoC4/isr_pwm.c **** 
+  33:.\Generated_Source\PSoC4/isr_pwm.c **** extern  uint8_t pwm_light[4];
+  34:.\Generated_Source\PSoC4/isr_pwm.c ****     
+  35:.\Generated_Source\PSoC4/isr_pwm.c **** uint8_t counter_pwm = 0;
   36:.\Generated_Source\PSoC4/isr_pwm.c **** 
-  37:.\Generated_Source\PSoC4/isr_pwm.c **** enum lights {strobe = 0, collision, navigation, landing};
+  37:.\Generated_Source\PSoC4/isr_pwm.c **** /* `#END` */
   38:.\Generated_Source\PSoC4/isr_pwm.c **** 
-  39:.\Generated_Source\PSoC4/isr_pwm.c **** extern  uint8_t pwm_light[4];
-  40:.\Generated_Source\PSoC4/isr_pwm.c ****     
-  41:.\Generated_Source\PSoC4/isr_pwm.c **** uint8_t counter_pwm = 0;
-  42:.\Generated_Source\PSoC4/isr_pwm.c **** 
-  43:.\Generated_Source\PSoC4/isr_pwm.c **** /* `#END` */
+  39:.\Generated_Source\PSoC4/isr_pwm.c **** extern cyisraddress CyRamVectors[CYINT_IRQ_BASE + CY_NUM_INTERRUPTS];
+  40:.\Generated_Source\PSoC4/isr_pwm.c **** 
+  41:.\Generated_Source\PSoC4/isr_pwm.c **** /* Declared in startup, used to set unused interrupts to. */
+  42:.\Generated_Source\PSoC4/isr_pwm.c **** CY_ISR_PROTO(IntDefaultHandler);
+  43:.\Generated_Source\PSoC4/isr_pwm.c **** 
   44:.\Generated_Source\PSoC4/isr_pwm.c **** 
-  45:.\Generated_Source\PSoC4/isr_pwm.c **** extern cyisraddress CyRamVectors[CYINT_IRQ_BASE + CY_NUM_INTERRUPTS];
-  46:.\Generated_Source\PSoC4/isr_pwm.c **** 
-  47:.\Generated_Source\PSoC4/isr_pwm.c **** /* Declared in startup, used to set unused interrupts to. */
-  48:.\Generated_Source\PSoC4/isr_pwm.c **** CY_ISR_PROTO(IntDefaultHandler);
-  49:.\Generated_Source\PSoC4/isr_pwm.c **** 
-  50:.\Generated_Source\PSoC4/isr_pwm.c **** 
-  51:.\Generated_Source\PSoC4/isr_pwm.c **** /*******************************************************************************
-  52:.\Generated_Source\PSoC4/isr_pwm.c **** * Function Name: isr_pwm_Start
-  53:.\Generated_Source\PSoC4/isr_pwm.c **** ********************************************************************************
+  45:.\Generated_Source\PSoC4/isr_pwm.c **** /*******************************************************************************
+  46:.\Generated_Source\PSoC4/isr_pwm.c **** * Function Name: isr_pwm_Start
+  47:.\Generated_Source\PSoC4/isr_pwm.c **** ********************************************************************************
+  48:.\Generated_Source\PSoC4/isr_pwm.c **** *
+  49:.\Generated_Source\PSoC4/isr_pwm.c **** * Summary:
+  50:.\Generated_Source\PSoC4/isr_pwm.c **** *  Set up the interrupt and enable it.
+  51:.\Generated_Source\PSoC4/isr_pwm.c **** *
+  52:.\Generated_Source\PSoC4/isr_pwm.c **** * Parameters:  
+  53:.\Generated_Source\PSoC4/isr_pwm.c **** *   None
   54:.\Generated_Source\PSoC4/isr_pwm.c **** *
-  55:.\Generated_Source\PSoC4/isr_pwm.c **** * Summary:
-  56:.\Generated_Source\PSoC4/isr_pwm.c **** *  Set up the interrupt and enable it.
+  55:.\Generated_Source\PSoC4/isr_pwm.c **** * Return:
+  56:.\Generated_Source\PSoC4/isr_pwm.c **** *   None
   57:.\Generated_Source\PSoC4/isr_pwm.c **** *
-  58:.\Generated_Source\PSoC4/isr_pwm.c **** * Parameters:  
-  59:.\Generated_Source\PSoC4/isr_pwm.c **** *   None
-  60:.\Generated_Source\PSoC4/isr_pwm.c **** *
-  61:.\Generated_Source\PSoC4/isr_pwm.c **** * Return:
-  62:.\Generated_Source\PSoC4/isr_pwm.c **** *   None
-  63:.\Generated_Source\PSoC4/isr_pwm.c **** *
-  64:.\Generated_Source\PSoC4/isr_pwm.c **** *******************************************************************************/
-  65:.\Generated_Source\PSoC4/isr_pwm.c **** void isr_pwm_Start(void)
-  66:.\Generated_Source\PSoC4/isr_pwm.c **** {
-  32              		.loc 1 66 0
+  58:.\Generated_Source\PSoC4/isr_pwm.c **** *******************************************************************************/
+  59:.\Generated_Source\PSoC4/isr_pwm.c **** void isr_pwm_Start(void)
+  60:.\Generated_Source\PSoC4/isr_pwm.c **** {
+  32              		.loc 1 60 0
   33              		.cfi_startproc
   34 0000 80B5     		push	{r7, lr}
   35              		.cfi_def_cfa_offset 8
@@ -109,33 +103,33 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
   37              		.cfi_offset 14, -4
   38 0002 00AF     		add	r7, sp, #0
   39              		.cfi_def_cfa_register 7
-  67:.\Generated_Source\PSoC4/isr_pwm.c ****     /* For all we know the interrupt is active. */
-  68:.\Generated_Source\PSoC4/isr_pwm.c ****     isr_pwm_Disable();
-  40              		.loc 1 68 0
+  61:.\Generated_Source\PSoC4/isr_pwm.c ****     /* For all we know the interrupt is active. */
+  62:.\Generated_Source\PSoC4/isr_pwm.c ****     isr_pwm_Disable();
+  40              		.loc 1 62 0
   41 0004 FFF7FEFF 		bl	isr_pwm_Disable
-  69:.\Generated_Source\PSoC4/isr_pwm.c **** 
-  70:.\Generated_Source\PSoC4/isr_pwm.c ****     /* Set the ISR to point to the isr_pwm Interrupt. */
-  71:.\Generated_Source\PSoC4/isr_pwm.c ****     isr_pwm_SetVector(&isr_pwm_Interrupt);
-  42              		.loc 1 71 0
+  63:.\Generated_Source\PSoC4/isr_pwm.c **** 
+  64:.\Generated_Source\PSoC4/isr_pwm.c ****     /* Set the ISR to point to the isr_pwm Interrupt. */
+  65:.\Generated_Source\PSoC4/isr_pwm.c ****     isr_pwm_SetVector(&isr_pwm_Interrupt);
+  42              		.loc 1 65 0
   43 0008 054B     		ldr	r3, .L2
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 3
-
-
   44 000a 181C     		mov	r0, r3
   45 000c FFF7FEFF 		bl	isr_pwm_SetVector
-  72:.\Generated_Source\PSoC4/isr_pwm.c **** 
-  73:.\Generated_Source\PSoC4/isr_pwm.c ****     /* Set the priority. */
-  74:.\Generated_Source\PSoC4/isr_pwm.c ****     isr_pwm_SetPriority((uint8)isr_pwm_INTC_PRIOR_NUMBER);
-  46              		.loc 1 74 0
+  66:.\Generated_Source\PSoC4/isr_pwm.c **** 
+  67:.\Generated_Source\PSoC4/isr_pwm.c ****     /* Set the priority. */
+  68:.\Generated_Source\PSoC4/isr_pwm.c ****     isr_pwm_SetPriority((uint8)isr_pwm_INTC_PRIOR_NUMBER);
+  46              		.loc 1 68 0
+ARM GAS  C:\Users\ole\AppData\Local\Temp\cccYGxhH.s 			page 3
+
+
   47 0010 0320     		mov	r0, #3
   48 0012 FFF7FEFF 		bl	isr_pwm_SetPriority
-  75:.\Generated_Source\PSoC4/isr_pwm.c **** 
-  76:.\Generated_Source\PSoC4/isr_pwm.c ****     /* Enable it. */
-  77:.\Generated_Source\PSoC4/isr_pwm.c ****     isr_pwm_Enable();
-  49              		.loc 1 77 0
+  69:.\Generated_Source\PSoC4/isr_pwm.c **** 
+  70:.\Generated_Source\PSoC4/isr_pwm.c ****     /* Enable it. */
+  71:.\Generated_Source\PSoC4/isr_pwm.c ****     isr_pwm_Enable();
+  49              		.loc 1 71 0
   50 0016 FFF7FEFF 		bl	isr_pwm_Enable
-  78:.\Generated_Source\PSoC4/isr_pwm.c **** }
-  51              		.loc 1 78 0
+  72:.\Generated_Source\PSoC4/isr_pwm.c **** }
+  51              		.loc 1 72 0
   52 001a BD46     		mov	sp, r7
   53              		@ sp needed
   54 001c 80BD     		pop	{r7, pc}
@@ -144,7 +138,7 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
   57              	.L2:
   58 0020 00000000 		.word	isr_pwm_Interrupt
   59              		.cfi_endproc
-  60              	.LFE0:
+  60              	.LFE33:
   61              		.size	isr_pwm_Start, .-isr_pwm_Start
   62              		.section	.text.isr_pwm_StartEx,"ax",%progbits
   63              		.align	2
@@ -153,69 +147,69 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
   66              		.thumb_func
   67              		.type	isr_pwm_StartEx, %function
   68              	isr_pwm_StartEx:
-  69              	.LFB1:
-  79:.\Generated_Source\PSoC4/isr_pwm.c **** 
-  80:.\Generated_Source\PSoC4/isr_pwm.c **** 
-  81:.\Generated_Source\PSoC4/isr_pwm.c **** /*******************************************************************************
-  82:.\Generated_Source\PSoC4/isr_pwm.c **** * Function Name: isr_pwm_StartEx
-  83:.\Generated_Source\PSoC4/isr_pwm.c **** ********************************************************************************
+  69              	.LFB34:
+  73:.\Generated_Source\PSoC4/isr_pwm.c **** 
+  74:.\Generated_Source\PSoC4/isr_pwm.c **** 
+  75:.\Generated_Source\PSoC4/isr_pwm.c **** /*******************************************************************************
+  76:.\Generated_Source\PSoC4/isr_pwm.c **** * Function Name: isr_pwm_StartEx
+  77:.\Generated_Source\PSoC4/isr_pwm.c **** ********************************************************************************
+  78:.\Generated_Source\PSoC4/isr_pwm.c **** *
+  79:.\Generated_Source\PSoC4/isr_pwm.c **** * Summary:
+  80:.\Generated_Source\PSoC4/isr_pwm.c **** *  Set up the interrupt and enable it.
+  81:.\Generated_Source\PSoC4/isr_pwm.c **** *
+  82:.\Generated_Source\PSoC4/isr_pwm.c **** * Parameters:  
+  83:.\Generated_Source\PSoC4/isr_pwm.c **** *   address: Address of the ISR to set in the interrupt vector table.
   84:.\Generated_Source\PSoC4/isr_pwm.c **** *
-  85:.\Generated_Source\PSoC4/isr_pwm.c **** * Summary:
-  86:.\Generated_Source\PSoC4/isr_pwm.c **** *  Set up the interrupt and enable it.
+  85:.\Generated_Source\PSoC4/isr_pwm.c **** * Return:
+  86:.\Generated_Source\PSoC4/isr_pwm.c **** *   None
   87:.\Generated_Source\PSoC4/isr_pwm.c **** *
-  88:.\Generated_Source\PSoC4/isr_pwm.c **** * Parameters:  
-  89:.\Generated_Source\PSoC4/isr_pwm.c **** *   address: Address of the ISR to set in the interrupt vector table.
-  90:.\Generated_Source\PSoC4/isr_pwm.c **** *
-  91:.\Generated_Source\PSoC4/isr_pwm.c **** * Return:
-  92:.\Generated_Source\PSoC4/isr_pwm.c **** *   None
-  93:.\Generated_Source\PSoC4/isr_pwm.c **** *
-  94:.\Generated_Source\PSoC4/isr_pwm.c **** *******************************************************************************/
-  95:.\Generated_Source\PSoC4/isr_pwm.c **** void isr_pwm_StartEx(cyisraddress address)
-  96:.\Generated_Source\PSoC4/isr_pwm.c **** {
-  70              		.loc 1 96 0
+  88:.\Generated_Source\PSoC4/isr_pwm.c **** *******************************************************************************/
+  89:.\Generated_Source\PSoC4/isr_pwm.c **** void isr_pwm_StartEx(cyisraddress address)
+  90:.\Generated_Source\PSoC4/isr_pwm.c **** {
+  70              		.loc 1 90 0
   71              		.cfi_startproc
   72 0000 80B5     		push	{r7, lr}
   73              		.cfi_def_cfa_offset 8
   74              		.cfi_offset 7, -8
   75              		.cfi_offset 14, -4
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 4
-
-
   76 0002 82B0     		sub	sp, sp, #8
   77              		.cfi_def_cfa_offset 16
   78 0004 00AF     		add	r7, sp, #0
   79              		.cfi_def_cfa_register 7
   80 0006 7860     		str	r0, [r7, #4]
-  97:.\Generated_Source\PSoC4/isr_pwm.c ****     /* For all we know the interrupt is active. */
-  98:.\Generated_Source\PSoC4/isr_pwm.c ****     isr_pwm_Disable();
-  81              		.loc 1 98 0
+  91:.\Generated_Source\PSoC4/isr_pwm.c ****     /* For all we know the interrupt is active. */
+ARM GAS  C:\Users\ole\AppData\Local\Temp\cccYGxhH.s 			page 4
+
+
+  92:.\Generated_Source\PSoC4/isr_pwm.c ****     isr_pwm_Disable();
+  81              		.loc 1 92 0
   82 0008 FFF7FEFF 		bl	isr_pwm_Disable
-  99:.\Generated_Source\PSoC4/isr_pwm.c **** 
- 100:.\Generated_Source\PSoC4/isr_pwm.c ****     /* Set the ISR to point to the isr_pwm Interrupt. */
- 101:.\Generated_Source\PSoC4/isr_pwm.c ****     isr_pwm_SetVector(address);
-  83              		.loc 1 101 0
+  93:.\Generated_Source\PSoC4/isr_pwm.c **** 
+  94:.\Generated_Source\PSoC4/isr_pwm.c ****     /* Set the ISR to point to the isr_pwm Interrupt. */
+  95:.\Generated_Source\PSoC4/isr_pwm.c ****     isr_pwm_SetVector(address);
+  83              		.loc 1 95 0
   84 000c 7B68     		ldr	r3, [r7, #4]
   85 000e 181C     		mov	r0, r3
   86 0010 FFF7FEFF 		bl	isr_pwm_SetVector
- 102:.\Generated_Source\PSoC4/isr_pwm.c **** 
- 103:.\Generated_Source\PSoC4/isr_pwm.c ****     /* Set the priority. */
- 104:.\Generated_Source\PSoC4/isr_pwm.c ****     isr_pwm_SetPriority((uint8)isr_pwm_INTC_PRIOR_NUMBER);
-  87              		.loc 1 104 0
+  96:.\Generated_Source\PSoC4/isr_pwm.c **** 
+  97:.\Generated_Source\PSoC4/isr_pwm.c ****     /* Set the priority. */
+  98:.\Generated_Source\PSoC4/isr_pwm.c ****     isr_pwm_SetPriority((uint8)isr_pwm_INTC_PRIOR_NUMBER);
+  87              		.loc 1 98 0
   88 0014 0320     		mov	r0, #3
   89 0016 FFF7FEFF 		bl	isr_pwm_SetPriority
- 105:.\Generated_Source\PSoC4/isr_pwm.c **** 
- 106:.\Generated_Source\PSoC4/isr_pwm.c ****     /* Enable it. */
- 107:.\Generated_Source\PSoC4/isr_pwm.c ****     isr_pwm_Enable();
-  90              		.loc 1 107 0
+  99:.\Generated_Source\PSoC4/isr_pwm.c **** 
+ 100:.\Generated_Source\PSoC4/isr_pwm.c ****     /* Enable it. */
+ 101:.\Generated_Source\PSoC4/isr_pwm.c ****     isr_pwm_Enable();
+  90              		.loc 1 101 0
   91 001a FFF7FEFF 		bl	isr_pwm_Enable
- 108:.\Generated_Source\PSoC4/isr_pwm.c **** }
-  92              		.loc 1 108 0
+ 102:.\Generated_Source\PSoC4/isr_pwm.c **** }
+  92              		.loc 1 102 0
   93 001e BD46     		mov	sp, r7
   94 0020 02B0     		add	sp, sp, #8
   95              		@ sp needed
   96 0022 80BD     		pop	{r7, pc}
   97              		.cfi_endproc
-  98              	.LFE1:
+  98              	.LFE34:
   99              		.size	isr_pwm_StartEx, .-isr_pwm_StartEx
  100              		.section	.text.isr_pwm_Stop,"ax",%progbits
  101              		.align	2
@@ -224,48 +218,48 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  104              		.thumb_func
  105              		.type	isr_pwm_Stop, %function
  106              	isr_pwm_Stop:
- 107              	.LFB2:
- 109:.\Generated_Source\PSoC4/isr_pwm.c **** 
- 110:.\Generated_Source\PSoC4/isr_pwm.c **** 
- 111:.\Generated_Source\PSoC4/isr_pwm.c **** /*******************************************************************************
- 112:.\Generated_Source\PSoC4/isr_pwm.c **** * Function Name: isr_pwm_Stop
- 113:.\Generated_Source\PSoC4/isr_pwm.c **** ********************************************************************************
- 114:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 115:.\Generated_Source\PSoC4/isr_pwm.c **** * Summary:
- 116:.\Generated_Source\PSoC4/isr_pwm.c **** *   Disables and removes the interrupt.
- 117:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 118:.\Generated_Source\PSoC4/isr_pwm.c **** * Parameters:  
- 119:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 120:.\Generated_Source\PSoC4/isr_pwm.c **** * Return:
- 121:.\Generated_Source\PSoC4/isr_pwm.c **** *   None
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 5
-
-
- 122:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 123:.\Generated_Source\PSoC4/isr_pwm.c **** *******************************************************************************/
- 124:.\Generated_Source\PSoC4/isr_pwm.c **** void isr_pwm_Stop(void)
- 125:.\Generated_Source\PSoC4/isr_pwm.c **** {
- 108              		.loc 1 125 0
+ 107              	.LFB35:
+ 103:.\Generated_Source\PSoC4/isr_pwm.c **** 
+ 104:.\Generated_Source\PSoC4/isr_pwm.c **** 
+ 105:.\Generated_Source\PSoC4/isr_pwm.c **** /*******************************************************************************
+ 106:.\Generated_Source\PSoC4/isr_pwm.c **** * Function Name: isr_pwm_Stop
+ 107:.\Generated_Source\PSoC4/isr_pwm.c **** ********************************************************************************
+ 108:.\Generated_Source\PSoC4/isr_pwm.c **** *
+ 109:.\Generated_Source\PSoC4/isr_pwm.c **** * Summary:
+ 110:.\Generated_Source\PSoC4/isr_pwm.c **** *   Disables and removes the interrupt.
+ 111:.\Generated_Source\PSoC4/isr_pwm.c **** *
+ 112:.\Generated_Source\PSoC4/isr_pwm.c **** * Parameters:  
+ 113:.\Generated_Source\PSoC4/isr_pwm.c **** *
+ 114:.\Generated_Source\PSoC4/isr_pwm.c **** * Return:
+ 115:.\Generated_Source\PSoC4/isr_pwm.c **** *   None
+ 116:.\Generated_Source\PSoC4/isr_pwm.c **** *
+ 117:.\Generated_Source\PSoC4/isr_pwm.c **** *******************************************************************************/
+ 118:.\Generated_Source\PSoC4/isr_pwm.c **** void isr_pwm_Stop(void)
+ 119:.\Generated_Source\PSoC4/isr_pwm.c **** {
+ 108              		.loc 1 119 0
  109              		.cfi_startproc
+ARM GAS  C:\Users\ole\AppData\Local\Temp\cccYGxhH.s 			page 5
+
+
  110 0000 80B5     		push	{r7, lr}
  111              		.cfi_def_cfa_offset 8
  112              		.cfi_offset 7, -8
  113              		.cfi_offset 14, -4
  114 0002 00AF     		add	r7, sp, #0
  115              		.cfi_def_cfa_register 7
- 126:.\Generated_Source\PSoC4/isr_pwm.c ****     /* Disable this interrupt. */
- 127:.\Generated_Source\PSoC4/isr_pwm.c ****     isr_pwm_Disable();
- 116              		.loc 1 127 0
+ 120:.\Generated_Source\PSoC4/isr_pwm.c ****     /* Disable this interrupt. */
+ 121:.\Generated_Source\PSoC4/isr_pwm.c ****     isr_pwm_Disable();
+ 116              		.loc 1 121 0
  117 0004 FFF7FEFF 		bl	isr_pwm_Disable
- 128:.\Generated_Source\PSoC4/isr_pwm.c **** 
- 129:.\Generated_Source\PSoC4/isr_pwm.c ****     /* Set the ISR to point to the passive one. */
- 130:.\Generated_Source\PSoC4/isr_pwm.c ****     isr_pwm_SetVector(&IntDefaultHandler);
- 118              		.loc 1 130 0
+ 122:.\Generated_Source\PSoC4/isr_pwm.c **** 
+ 123:.\Generated_Source\PSoC4/isr_pwm.c ****     /* Set the ISR to point to the passive one. */
+ 124:.\Generated_Source\PSoC4/isr_pwm.c ****     isr_pwm_SetVector(&IntDefaultHandler);
+ 118              		.loc 1 124 0
  119 0008 024B     		ldr	r3, .L6
  120 000a 181C     		mov	r0, r3
  121 000c FFF7FEFF 		bl	isr_pwm_SetVector
- 131:.\Generated_Source\PSoC4/isr_pwm.c **** }
- 122              		.loc 1 131 0
+ 125:.\Generated_Source\PSoC4/isr_pwm.c **** }
+ 122              		.loc 1 125 0
  123 0010 BD46     		mov	sp, r7
  124              		@ sp needed
  125 0012 80BD     		pop	{r7, pc}
@@ -274,7 +268,7 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  128              	.L6:
  129 0014 00000000 		.word	IntDefaultHandler
  130              		.cfi_endproc
- 131              	.LFE2:
+ 131              	.LFE35:
  132              		.size	isr_pwm_Stop, .-isr_pwm_Stop
  133              		.section	.text.isr_pwm_Interrupt,"ax",%progbits
  134              		.align	2
@@ -283,32 +277,32 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  137              		.thumb_func
  138              		.type	isr_pwm_Interrupt, %function
  139              	isr_pwm_Interrupt:
- 140              	.LFB3:
- 132:.\Generated_Source\PSoC4/isr_pwm.c **** 
- 133:.\Generated_Source\PSoC4/isr_pwm.c **** 
- 134:.\Generated_Source\PSoC4/isr_pwm.c **** /*******************************************************************************
- 135:.\Generated_Source\PSoC4/isr_pwm.c **** * Function Name: isr_pwm_Interrupt
- 136:.\Generated_Source\PSoC4/isr_pwm.c **** ********************************************************************************
+ 140              	.LFB36:
+ 126:.\Generated_Source\PSoC4/isr_pwm.c **** 
+ 127:.\Generated_Source\PSoC4/isr_pwm.c **** 
+ 128:.\Generated_Source\PSoC4/isr_pwm.c **** /*******************************************************************************
+ 129:.\Generated_Source\PSoC4/isr_pwm.c **** * Function Name: isr_pwm_Interrupt
+ 130:.\Generated_Source\PSoC4/isr_pwm.c **** ********************************************************************************
+ 131:.\Generated_Source\PSoC4/isr_pwm.c **** *
+ 132:.\Generated_Source\PSoC4/isr_pwm.c **** * Summary:
+ 133:.\Generated_Source\PSoC4/isr_pwm.c **** *   The default Interrupt Service Routine for isr_pwm.
+ 134:.\Generated_Source\PSoC4/isr_pwm.c **** *
+ 135:.\Generated_Source\PSoC4/isr_pwm.c **** *   Add custom code between the coments to keep the next version of this file
+ 136:.\Generated_Source\PSoC4/isr_pwm.c **** *   from over writting your code.
  137:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 138:.\Generated_Source\PSoC4/isr_pwm.c **** * Summary:
- 139:.\Generated_Source\PSoC4/isr_pwm.c **** *   The default Interrupt Service Routine for isr_pwm.
+ 138:.\Generated_Source\PSoC4/isr_pwm.c **** * Parameters:  
+ 139:.\Generated_Source\PSoC4/isr_pwm.c **** *   None
  140:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 141:.\Generated_Source\PSoC4/isr_pwm.c **** *   Add custom code between the coments to keep the next version of this file
- 142:.\Generated_Source\PSoC4/isr_pwm.c **** *   from over writting your code.
+ 141:.\Generated_Source\PSoC4/isr_pwm.c **** * Return:
+ 142:.\Generated_Source\PSoC4/isr_pwm.c **** *   None
  143:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 144:.\Generated_Source\PSoC4/isr_pwm.c **** * Parameters:  
- 145:.\Generated_Source\PSoC4/isr_pwm.c **** *   None
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 6
+ 144:.\Generated_Source\PSoC4/isr_pwm.c **** *******************************************************************************/
+ 145:.\Generated_Source\PSoC4/isr_pwm.c **** CY_ISR(isr_pwm_Interrupt)
+ARM GAS  C:\Users\ole\AppData\Local\Temp\cccYGxhH.s 			page 6
 
 
- 146:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 147:.\Generated_Source\PSoC4/isr_pwm.c **** * Return:
- 148:.\Generated_Source\PSoC4/isr_pwm.c **** *   None
- 149:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 150:.\Generated_Source\PSoC4/isr_pwm.c **** *******************************************************************************/
- 151:.\Generated_Source\PSoC4/isr_pwm.c **** CY_ISR(isr_pwm_Interrupt)
- 152:.\Generated_Source\PSoC4/isr_pwm.c **** {
- 141              		.loc 1 152 0
+ 146:.\Generated_Source\PSoC4/isr_pwm.c **** {
+ 141              		.loc 1 146 0
  142              		.cfi_startproc
  143 0000 80B5     		push	{r7, lr}
  144              		.cfi_def_cfa_offset 8
@@ -316,155 +310,155 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  146              		.cfi_offset 14, -4
  147 0002 00AF     		add	r7, sp, #0
  148              		.cfi_def_cfa_register 7
- 153:.\Generated_Source\PSoC4/isr_pwm.c ****     /*  Place your Interrupt code here. */
- 154:.\Generated_Source\PSoC4/isr_pwm.c ****     /* `#START isr_pwm_Interrupt` */
- 155:.\Generated_Source\PSoC4/isr_pwm.c ****     isr_pwm_ClearPending();
- 149              		.loc 1 155 0
+ 147:.\Generated_Source\PSoC4/isr_pwm.c ****     /*  Place your Interrupt code here. */
+ 148:.\Generated_Source\PSoC4/isr_pwm.c ****     /* `#START isr_pwm_Interrupt` */
+ 149:.\Generated_Source\PSoC4/isr_pwm.c ****     isr_pwm_ClearPending();
+ 149              		.loc 1 149 0
  150 0004 FFF7FEFF 		bl	isr_pwm_ClearPending
- 156:.\Generated_Source\PSoC4/isr_pwm.c ****     PWM_Timer_ClearInterrupt(PWM_Timer_INTR_MASK_TC);
- 151              		.loc 1 156 0
+ 150:.\Generated_Source\PSoC4/isr_pwm.c ****     PWM_Timer_ClearInterrupt(PWM_Timer_INTR_MASK_TC);
+ 151              		.loc 1 150 0
  152 0008 0120     		mov	r0, #1
  153 000a FFF7FEFF 		bl	PWM_Timer_ClearInterrupt
- 157:.\Generated_Source\PSoC4/isr_pwm.c ****     if (counter_pwm == 0 &&  pwm_light[landing] != 0)      //PWM frame start
- 154              		.loc 1 157 0
+ 151:.\Generated_Source\PSoC4/isr_pwm.c ****     if (counter_pwm == 0 &&  pwm_light[landing] != 0)      //PWM frame start
+ 154              		.loc 1 151 0
  155 000e 2C4B     		ldr	r3, .L17
  156 0010 1B78     		ldrb	r3, [r3]
  157 0012 002B     		cmp	r3, #0
  158 0014 06D1     		bne	.L9
- 159              		.loc 1 157 0 is_stmt 0 discriminator 1
+ 159              		.loc 1 151 0 is_stmt 0 discriminator 1
  160 0016 2B4B     		ldr	r3, .L17+4
  161 0018 DB78     		ldrb	r3, [r3, #3]
  162 001a 002B     		cmp	r3, #0
  163 001c 02D0     		beq	.L9
- 158:.\Generated_Source\PSoC4/isr_pwm.c ****     {
- 159:.\Generated_Source\PSoC4/isr_pwm.c ****         LandingLight_Write(0xFF);
- 164              		.loc 1 159 0 is_stmt 1
+ 152:.\Generated_Source\PSoC4/isr_pwm.c ****     {
+ 153:.\Generated_Source\PSoC4/isr_pwm.c ****         LandingLight_Write(0xFF);
+ 164              		.loc 1 153 0 is_stmt 1
  165 001e FF20     		mov	r0, #255
  166 0020 FFF7FEFF 		bl	LandingLight_Write
  167              	.L9:
- 160:.\Generated_Source\PSoC4/isr_pwm.c ****     }
- 161:.\Generated_Source\PSoC4/isr_pwm.c ****     if (counter_pwm == 0 &&  pwm_light[navigation] != 0)      //PWM frame start
- 168              		.loc 1 161 0
+ 154:.\Generated_Source\PSoC4/isr_pwm.c ****     }
+ 155:.\Generated_Source\PSoC4/isr_pwm.c ****     if (counter_pwm == 0 &&  pwm_light[navigation] != 0)      //PWM frame start
+ 168              		.loc 1 155 0
  169 0024 264B     		ldr	r3, .L17
  170 0026 1B78     		ldrb	r3, [r3]
  171 0028 002B     		cmp	r3, #0
  172 002a 06D1     		bne	.L10
- 173              		.loc 1 161 0 is_stmt 0 discriminator 1
+ 173              		.loc 1 155 0 is_stmt 0 discriminator 1
  174 002c 254B     		ldr	r3, .L17+4
  175 002e 9B78     		ldrb	r3, [r3, #2]
  176 0030 002B     		cmp	r3, #0
  177 0032 02D0     		beq	.L10
- 162:.\Generated_Source\PSoC4/isr_pwm.c ****     {
- 163:.\Generated_Source\PSoC4/isr_pwm.c ****         NavLight_Write(0xFF);
- 178              		.loc 1 163 0 is_stmt 1
+ 156:.\Generated_Source\PSoC4/isr_pwm.c ****     {
+ 157:.\Generated_Source\PSoC4/isr_pwm.c ****         NavLight_Write(0xFF);
+ 178              		.loc 1 157 0 is_stmt 1
  179 0034 FF20     		mov	r0, #255
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 7
-
-
  180 0036 FFF7FEFF 		bl	NavLight_Write
  181              	.L10:
- 164:.\Generated_Source\PSoC4/isr_pwm.c ****     }
- 165:.\Generated_Source\PSoC4/isr_pwm.c ****     if (counter_pwm == 0 &&  pwm_light[strobe] != 0)      //PWM frame start
- 182              		.loc 1 165 0
+ 158:.\Generated_Source\PSoC4/isr_pwm.c ****     }
+ 159:.\Generated_Source\PSoC4/isr_pwm.c ****     if (counter_pwm == 0 &&  pwm_light[strobe] != 0)      //PWM frame start
+ 182              		.loc 1 159 0
  183 003a 214B     		ldr	r3, .L17
+ARM GAS  C:\Users\ole\AppData\Local\Temp\cccYGxhH.s 			page 7
+
+
  184 003c 1B78     		ldrb	r3, [r3]
  185 003e 002B     		cmp	r3, #0
  186 0040 06D1     		bne	.L11
- 187              		.loc 1 165 0 is_stmt 0 discriminator 1
+ 187              		.loc 1 159 0 is_stmt 0 discriminator 1
  188 0042 204B     		ldr	r3, .L17+4
  189 0044 1B78     		ldrb	r3, [r3]
  190 0046 002B     		cmp	r3, #0
  191 0048 02D0     		beq	.L11
- 166:.\Generated_Source\PSoC4/isr_pwm.c ****     {
- 167:.\Generated_Source\PSoC4/isr_pwm.c ****         StrobeLight_Write(0xFF);
- 192              		.loc 1 167 0 is_stmt 1
+ 160:.\Generated_Source\PSoC4/isr_pwm.c ****     {
+ 161:.\Generated_Source\PSoC4/isr_pwm.c ****         StrobeLight_Write(0xFF);
+ 192              		.loc 1 161 0 is_stmt 1
  193 004a FF20     		mov	r0, #255
  194 004c FFF7FEFF 		bl	StrobeLight_Write
  195              	.L11:
- 168:.\Generated_Source\PSoC4/isr_pwm.c ****     }
- 169:.\Generated_Source\PSoC4/isr_pwm.c ****     if (counter_pwm == 0 &&  pwm_light[collision] != 0)      //PWM frame start
- 196              		.loc 1 169 0
+ 162:.\Generated_Source\PSoC4/isr_pwm.c ****     }
+ 163:.\Generated_Source\PSoC4/isr_pwm.c ****     if (counter_pwm == 0 &&  pwm_light[collision] != 0)      //PWM frame start
+ 196              		.loc 1 163 0
  197 0050 1B4B     		ldr	r3, .L17
  198 0052 1B78     		ldrb	r3, [r3]
  199 0054 002B     		cmp	r3, #0
  200 0056 06D1     		bne	.L12
- 201              		.loc 1 169 0 is_stmt 0 discriminator 1
+ 201              		.loc 1 163 0 is_stmt 0 discriminator 1
  202 0058 1A4B     		ldr	r3, .L17+4
  203 005a 5B78     		ldrb	r3, [r3, #1]
  204 005c 002B     		cmp	r3, #0
  205 005e 02D0     		beq	.L12
- 170:.\Generated_Source\PSoC4/isr_pwm.c ****     {
- 171:.\Generated_Source\PSoC4/isr_pwm.c ****         CollisionLight_Write(0xFF);
- 206              		.loc 1 171 0 is_stmt 1
+ 164:.\Generated_Source\PSoC4/isr_pwm.c ****     {
+ 165:.\Generated_Source\PSoC4/isr_pwm.c ****         CollisionLight_Write(0xFF);
+ 206              		.loc 1 165 0 is_stmt 1
  207 0060 FF20     		mov	r0, #255
  208 0062 FFF7FEFF 		bl	CollisionLight_Write
  209              	.L12:
- 172:.\Generated_Source\PSoC4/isr_pwm.c ****     }
- 173:.\Generated_Source\PSoC4/isr_pwm.c ****     if (counter_pwm ==  pwm_light[landing]) LandingLight_Write(0x00);      //PWM turn LandingLight 
- 210              		.loc 1 173 0
+ 166:.\Generated_Source\PSoC4/isr_pwm.c ****     }
+ 167:.\Generated_Source\PSoC4/isr_pwm.c ****     if (counter_pwm ==  pwm_light[landing]) LandingLight_Write(0x00);      //PWM turn LandingLight 
+ 210              		.loc 1 167 0
  211 0066 174B     		ldr	r3, .L17+4
  212 0068 DA78     		ldrb	r2, [r3, #3]
  213 006a 154B     		ldr	r3, .L17
  214 006c 1B78     		ldrb	r3, [r3]
  215 006e 9A42     		cmp	r2, r3
  216 0070 02D1     		bne	.L13
- 217              		.loc 1 173 0 is_stmt 0 discriminator 1
+ 217              		.loc 1 167 0 is_stmt 0 discriminator 1
  218 0072 0020     		mov	r0, #0
  219 0074 FFF7FEFF 		bl	LandingLight_Write
  220              	.L13:
- 174:.\Generated_Source\PSoC4/isr_pwm.c ****     if (counter_pwm ==  pwm_light[navigation]) NavLight_Write(0x00);              //PWM turn Landin
- 221              		.loc 1 174 0 is_stmt 1
+ 168:.\Generated_Source\PSoC4/isr_pwm.c ****     if (counter_pwm ==  pwm_light[navigation]) NavLight_Write(0x00);              //PWM turn Landin
+ 221              		.loc 1 168 0 is_stmt 1
  222 0078 124B     		ldr	r3, .L17+4
  223 007a 9A78     		ldrb	r2, [r3, #2]
  224 007c 104B     		ldr	r3, .L17
  225 007e 1B78     		ldrb	r3, [r3]
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 8
-
-
  226 0080 9A42     		cmp	r2, r3
  227 0082 02D1     		bne	.L14
- 228              		.loc 1 174 0 is_stmt 0 discriminator 1
+ 228              		.loc 1 168 0 is_stmt 0 discriminator 1
  229 0084 0020     		mov	r0, #0
  230 0086 FFF7FEFF 		bl	NavLight_Write
  231              	.L14:
- 175:.\Generated_Source\PSoC4/isr_pwm.c ****     if (counter_pwm ==  pwm_light[strobe]) StrobeLight_Write(0x00);        //PWM turn LandingLight 
- 232              		.loc 1 175 0 is_stmt 1
+ARM GAS  C:\Users\ole\AppData\Local\Temp\cccYGxhH.s 			page 8
+
+
+ 169:.\Generated_Source\PSoC4/isr_pwm.c ****     if (counter_pwm ==  pwm_light[strobe]) StrobeLight_Write(0x00);        //PWM turn LandingLight 
+ 232              		.loc 1 169 0 is_stmt 1
  233 008a 0E4B     		ldr	r3, .L17+4
  234 008c 1A78     		ldrb	r2, [r3]
  235 008e 0C4B     		ldr	r3, .L17
  236 0090 1B78     		ldrb	r3, [r3]
  237 0092 9A42     		cmp	r2, r3
  238 0094 02D1     		bne	.L15
- 239              		.loc 1 175 0 is_stmt 0 discriminator 1
+ 239              		.loc 1 169 0 is_stmt 0 discriminator 1
  240 0096 0020     		mov	r0, #0
  241 0098 FFF7FEFF 		bl	StrobeLight_Write
  242              	.L15:
- 176:.\Generated_Source\PSoC4/isr_pwm.c ****     if (counter_pwm ==  pwm_light[collision]) CollisionLight_Write(0x00);  //PWM turn LandingLight 
- 243              		.loc 1 176 0 is_stmt 1
+ 170:.\Generated_Source\PSoC4/isr_pwm.c ****     if (counter_pwm ==  pwm_light[collision]) CollisionLight_Write(0x00);  //PWM turn LandingLight 
+ 243              		.loc 1 170 0 is_stmt 1
  244 009c 094B     		ldr	r3, .L17+4
  245 009e 5A78     		ldrb	r2, [r3, #1]
  246 00a0 074B     		ldr	r3, .L17
  247 00a2 1B78     		ldrb	r3, [r3]
  248 00a4 9A42     		cmp	r2, r3
  249 00a6 02D1     		bne	.L16
- 250              		.loc 1 176 0 is_stmt 0 discriminator 1
+ 250              		.loc 1 170 0 is_stmt 0 discriminator 1
  251 00a8 0020     		mov	r0, #0
  252 00aa FFF7FEFF 		bl	CollisionLight_Write
  253              	.L16:
- 177:.\Generated_Source\PSoC4/isr_pwm.c ****         
- 178:.\Generated_Source\PSoC4/isr_pwm.c ****     
- 179:.\Generated_Source\PSoC4/isr_pwm.c ****     counter_pwm++;
- 254              		.loc 1 179 0 is_stmt 1
+ 171:.\Generated_Source\PSoC4/isr_pwm.c ****         
+ 172:.\Generated_Source\PSoC4/isr_pwm.c ****     
+ 173:.\Generated_Source\PSoC4/isr_pwm.c ****     counter_pwm++;
+ 254              		.loc 1 173 0 is_stmt 1
  255 00ae 044B     		ldr	r3, .L17
  256 00b0 1B78     		ldrb	r3, [r3]
  257 00b2 0133     		add	r3, r3, #1
  258 00b4 DAB2     		uxtb	r2, r3
  259 00b6 024B     		ldr	r3, .L17
  260 00b8 1A70     		strb	r2, [r3]
- 180:.\Generated_Source\PSoC4/isr_pwm.c ****     
- 181:.\Generated_Source\PSoC4/isr_pwm.c ****     /* `#END` */
- 182:.\Generated_Source\PSoC4/isr_pwm.c **** }
- 261              		.loc 1 182 0
+ 174:.\Generated_Source\PSoC4/isr_pwm.c ****     
+ 175:.\Generated_Source\PSoC4/isr_pwm.c ****     /* `#END` */
+ 176:.\Generated_Source\PSoC4/isr_pwm.c **** }
+ 261              		.loc 1 176 0
  262 00ba BD46     		mov	sp, r7
  263              		@ sp needed
  264 00bc 80BD     		pop	{r7, pc}
@@ -474,40 +468,40 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  268 00c0 00000000 		.word	counter_pwm
  269 00c4 00000000 		.word	pwm_light
  270              		.cfi_endproc
- 271              	.LFE3:
+ 271              	.LFE36:
  272              		.size	isr_pwm_Interrupt, .-isr_pwm_Interrupt
  273              		.section	.text.isr_pwm_SetVector,"ax",%progbits
  274              		.align	2
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 9
-
-
  275              		.global	isr_pwm_SetVector
  276              		.code	16
  277              		.thumb_func
  278              		.type	isr_pwm_SetVector, %function
  279              	isr_pwm_SetVector:
- 280              	.LFB4:
- 183:.\Generated_Source\PSoC4/isr_pwm.c **** 
- 184:.\Generated_Source\PSoC4/isr_pwm.c **** 
- 185:.\Generated_Source\PSoC4/isr_pwm.c **** /*******************************************************************************
- 186:.\Generated_Source\PSoC4/isr_pwm.c **** * Function Name: isr_pwm_SetVector
- 187:.\Generated_Source\PSoC4/isr_pwm.c **** ********************************************************************************
- 188:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 189:.\Generated_Source\PSoC4/isr_pwm.c **** * Summary:
- 190:.\Generated_Source\PSoC4/isr_pwm.c **** *   Change the ISR vector for the Interrupt. Note calling isr_pwm_Start
- 191:.\Generated_Source\PSoC4/isr_pwm.c **** *   will override any effect this method would have had. To set the vector 
- 192:.\Generated_Source\PSoC4/isr_pwm.c **** *   before the component has been started use isr_pwm_StartEx instead.
+ 280              	.LFB37:
+ARM GAS  C:\Users\ole\AppData\Local\Temp\cccYGxhH.s 			page 9
+
+
+ 177:.\Generated_Source\PSoC4/isr_pwm.c **** 
+ 178:.\Generated_Source\PSoC4/isr_pwm.c **** 
+ 179:.\Generated_Source\PSoC4/isr_pwm.c **** /*******************************************************************************
+ 180:.\Generated_Source\PSoC4/isr_pwm.c **** * Function Name: isr_pwm_SetVector
+ 181:.\Generated_Source\PSoC4/isr_pwm.c **** ********************************************************************************
+ 182:.\Generated_Source\PSoC4/isr_pwm.c **** *
+ 183:.\Generated_Source\PSoC4/isr_pwm.c **** * Summary:
+ 184:.\Generated_Source\PSoC4/isr_pwm.c **** *   Change the ISR vector for the Interrupt. Note calling isr_pwm_Start
+ 185:.\Generated_Source\PSoC4/isr_pwm.c **** *   will override any effect this method would have had. To set the vector 
+ 186:.\Generated_Source\PSoC4/isr_pwm.c **** *   before the component has been started use isr_pwm_StartEx instead.
+ 187:.\Generated_Source\PSoC4/isr_pwm.c **** *
+ 188:.\Generated_Source\PSoC4/isr_pwm.c **** * Parameters:
+ 189:.\Generated_Source\PSoC4/isr_pwm.c **** *   address: Address of the ISR to set in the interrupt vector table.
+ 190:.\Generated_Source\PSoC4/isr_pwm.c **** *
+ 191:.\Generated_Source\PSoC4/isr_pwm.c **** * Return:
+ 192:.\Generated_Source\PSoC4/isr_pwm.c **** *   None
  193:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 194:.\Generated_Source\PSoC4/isr_pwm.c **** * Parameters:
- 195:.\Generated_Source\PSoC4/isr_pwm.c **** *   address: Address of the ISR to set in the interrupt vector table.
- 196:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 197:.\Generated_Source\PSoC4/isr_pwm.c **** * Return:
- 198:.\Generated_Source\PSoC4/isr_pwm.c **** *   None
- 199:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 200:.\Generated_Source\PSoC4/isr_pwm.c **** *******************************************************************************/
- 201:.\Generated_Source\PSoC4/isr_pwm.c **** void isr_pwm_SetVector(cyisraddress address)
- 202:.\Generated_Source\PSoC4/isr_pwm.c **** {
- 281              		.loc 1 202 0
+ 194:.\Generated_Source\PSoC4/isr_pwm.c **** *******************************************************************************/
+ 195:.\Generated_Source\PSoC4/isr_pwm.c **** void isr_pwm_SetVector(cyisraddress address)
+ 196:.\Generated_Source\PSoC4/isr_pwm.c **** {
+ 281              		.loc 1 196 0
  282              		.cfi_startproc
  283 0000 80B5     		push	{r7, lr}
  284              		.cfi_def_cfa_offset 8
@@ -518,14 +512,14 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  289 0004 00AF     		add	r7, sp, #0
  290              		.cfi_def_cfa_register 7
  291 0006 7860     		str	r0, [r7, #4]
- 203:.\Generated_Source\PSoC4/isr_pwm.c ****     CyRamVectors[CYINT_IRQ_BASE + isr_pwm__INTC_NUMBER] = address;
- 292              		.loc 1 203 0
+ 197:.\Generated_Source\PSoC4/isr_pwm.c ****     CyRamVectors[CYINT_IRQ_BASE + isr_pwm__INTC_NUMBER] = address;
+ 292              		.loc 1 197 0
  293 0008 034A     		ldr	r2, .L20
  294 000a 8023     		mov	r3, #128
  295 000c 7968     		ldr	r1, [r7, #4]
  296 000e D150     		str	r1, [r2, r3]
- 204:.\Generated_Source\PSoC4/isr_pwm.c **** }
- 297              		.loc 1 204 0
+ 198:.\Generated_Source\PSoC4/isr_pwm.c **** }
+ 297              		.loc 1 198 0
  298 0010 BD46     		mov	sp, r7
  299 0012 02B0     		add	sp, sp, #8
  300              		@ sp needed
@@ -535,38 +529,38 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  304              	.L20:
  305 0018 00000000 		.word	CyRamVectors
  306              		.cfi_endproc
- 307              	.LFE4:
+ 307              	.LFE37:
  308              		.size	isr_pwm_SetVector, .-isr_pwm_SetVector
  309              		.section	.text.isr_pwm_GetVector,"ax",%progbits
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 10
-
-
  310              		.align	2
  311              		.global	isr_pwm_GetVector
  312              		.code	16
  313              		.thumb_func
  314              		.type	isr_pwm_GetVector, %function
  315              	isr_pwm_GetVector:
- 316              	.LFB5:
- 205:.\Generated_Source\PSoC4/isr_pwm.c **** 
- 206:.\Generated_Source\PSoC4/isr_pwm.c **** 
- 207:.\Generated_Source\PSoC4/isr_pwm.c **** /*******************************************************************************
- 208:.\Generated_Source\PSoC4/isr_pwm.c **** * Function Name: isr_pwm_GetVector
- 209:.\Generated_Source\PSoC4/isr_pwm.c **** ********************************************************************************
+ARM GAS  C:\Users\ole\AppData\Local\Temp\cccYGxhH.s 			page 10
+
+
+ 316              	.LFB38:
+ 199:.\Generated_Source\PSoC4/isr_pwm.c **** 
+ 200:.\Generated_Source\PSoC4/isr_pwm.c **** 
+ 201:.\Generated_Source\PSoC4/isr_pwm.c **** /*******************************************************************************
+ 202:.\Generated_Source\PSoC4/isr_pwm.c **** * Function Name: isr_pwm_GetVector
+ 203:.\Generated_Source\PSoC4/isr_pwm.c **** ********************************************************************************
+ 204:.\Generated_Source\PSoC4/isr_pwm.c **** *
+ 205:.\Generated_Source\PSoC4/isr_pwm.c **** * Summary:
+ 206:.\Generated_Source\PSoC4/isr_pwm.c **** *   Gets the "address" of the current ISR vector for the Interrupt.
+ 207:.\Generated_Source\PSoC4/isr_pwm.c **** *
+ 208:.\Generated_Source\PSoC4/isr_pwm.c **** * Parameters:
+ 209:.\Generated_Source\PSoC4/isr_pwm.c **** *   None
  210:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 211:.\Generated_Source\PSoC4/isr_pwm.c **** * Summary:
- 212:.\Generated_Source\PSoC4/isr_pwm.c **** *   Gets the "address" of the current ISR vector for the Interrupt.
+ 211:.\Generated_Source\PSoC4/isr_pwm.c **** * Return:
+ 212:.\Generated_Source\PSoC4/isr_pwm.c **** *   Address of the ISR in the interrupt vector table.
  213:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 214:.\Generated_Source\PSoC4/isr_pwm.c **** * Parameters:
- 215:.\Generated_Source\PSoC4/isr_pwm.c **** *   None
- 216:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 217:.\Generated_Source\PSoC4/isr_pwm.c **** * Return:
- 218:.\Generated_Source\PSoC4/isr_pwm.c **** *   Address of the ISR in the interrupt vector table.
- 219:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 220:.\Generated_Source\PSoC4/isr_pwm.c **** *******************************************************************************/
- 221:.\Generated_Source\PSoC4/isr_pwm.c **** cyisraddress isr_pwm_GetVector(void)
- 222:.\Generated_Source\PSoC4/isr_pwm.c **** {
- 317              		.loc 1 222 0
+ 214:.\Generated_Source\PSoC4/isr_pwm.c **** *******************************************************************************/
+ 215:.\Generated_Source\PSoC4/isr_pwm.c **** cyisraddress isr_pwm_GetVector(void)
+ 216:.\Generated_Source\PSoC4/isr_pwm.c **** {
+ 317              		.loc 1 216 0
  318              		.cfi_startproc
  319 0000 80B5     		push	{r7, lr}
  320              		.cfi_def_cfa_offset 8
@@ -574,13 +568,13 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  322              		.cfi_offset 14, -4
  323 0002 00AF     		add	r7, sp, #0
  324              		.cfi_def_cfa_register 7
- 223:.\Generated_Source\PSoC4/isr_pwm.c ****     return CyRamVectors[CYINT_IRQ_BASE + isr_pwm__INTC_NUMBER];
- 325              		.loc 1 223 0
+ 217:.\Generated_Source\PSoC4/isr_pwm.c ****     return CyRamVectors[CYINT_IRQ_BASE + isr_pwm__INTC_NUMBER];
+ 325              		.loc 1 217 0
  326 0004 024A     		ldr	r2, .L24
  327 0006 8023     		mov	r3, #128
  328 0008 D358     		ldr	r3, [r2, r3]
- 224:.\Generated_Source\PSoC4/isr_pwm.c **** }
- 329              		.loc 1 224 0
+ 218:.\Generated_Source\PSoC4/isr_pwm.c **** }
+ 329              		.loc 1 218 0
  330 000a 181C     		mov	r0, r3
  331 000c BD46     		mov	sp, r7
  332              		@ sp needed
@@ -590,7 +584,7 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  336              	.L24:
  337 0010 00000000 		.word	CyRamVectors
  338              		.cfi_endproc
- 339              	.LFE5:
+ 339              	.LFE38:
  340              		.size	isr_pwm_GetVector, .-isr_pwm_GetVector
  341              		.section	.text.isr_pwm_SetPriority,"ax",%progbits
  342              		.align	2
@@ -598,34 +592,34 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  344              		.code	16
  345              		.thumb_func
  346              		.type	isr_pwm_SetPriority, %function
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 11
-
-
  347              	isr_pwm_SetPriority:
- 348              	.LFB6:
- 225:.\Generated_Source\PSoC4/isr_pwm.c **** 
- 226:.\Generated_Source\PSoC4/isr_pwm.c **** 
- 227:.\Generated_Source\PSoC4/isr_pwm.c **** /*******************************************************************************
- 228:.\Generated_Source\PSoC4/isr_pwm.c **** * Function Name: isr_pwm_SetPriority
- 229:.\Generated_Source\PSoC4/isr_pwm.c **** ********************************************************************************
- 230:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 231:.\Generated_Source\PSoC4/isr_pwm.c **** * Summary:
- 232:.\Generated_Source\PSoC4/isr_pwm.c **** *   Sets the Priority of the Interrupt. Note calling isr_pwm_Start
- 233:.\Generated_Source\PSoC4/isr_pwm.c **** *   or isr_pwm_StartEx will override any effect this method would 
- 234:.\Generated_Source\PSoC4/isr_pwm.c **** *   have had. This method should only be called after isr_pwm_Start or 
- 235:.\Generated_Source\PSoC4/isr_pwm.c **** *   isr_pwm_StartEx has been called. To set the initial
- 236:.\Generated_Source\PSoC4/isr_pwm.c **** *   priority for the component use the cydwr file in the tool.
+ 348              	.LFB39:
+ 219:.\Generated_Source\PSoC4/isr_pwm.c **** 
+ 220:.\Generated_Source\PSoC4/isr_pwm.c **** 
+ 221:.\Generated_Source\PSoC4/isr_pwm.c **** /*******************************************************************************
+ 222:.\Generated_Source\PSoC4/isr_pwm.c **** * Function Name: isr_pwm_SetPriority
+ARM GAS  C:\Users\ole\AppData\Local\Temp\cccYGxhH.s 			page 11
+
+
+ 223:.\Generated_Source\PSoC4/isr_pwm.c **** ********************************************************************************
+ 224:.\Generated_Source\PSoC4/isr_pwm.c **** *
+ 225:.\Generated_Source\PSoC4/isr_pwm.c **** * Summary:
+ 226:.\Generated_Source\PSoC4/isr_pwm.c **** *   Sets the Priority of the Interrupt. Note calling isr_pwm_Start
+ 227:.\Generated_Source\PSoC4/isr_pwm.c **** *   or isr_pwm_StartEx will override any effect this method would 
+ 228:.\Generated_Source\PSoC4/isr_pwm.c **** *   have had. This method should only be called after isr_pwm_Start or 
+ 229:.\Generated_Source\PSoC4/isr_pwm.c **** *   isr_pwm_StartEx has been called. To set the initial
+ 230:.\Generated_Source\PSoC4/isr_pwm.c **** *   priority for the component use the cydwr file in the tool.
+ 231:.\Generated_Source\PSoC4/isr_pwm.c **** *
+ 232:.\Generated_Source\PSoC4/isr_pwm.c **** * Parameters:
+ 233:.\Generated_Source\PSoC4/isr_pwm.c **** *   priority: Priority of the interrupt. 0 - 3, 0 being the highest.
+ 234:.\Generated_Source\PSoC4/isr_pwm.c **** *
+ 235:.\Generated_Source\PSoC4/isr_pwm.c **** * Return:
+ 236:.\Generated_Source\PSoC4/isr_pwm.c **** *   None
  237:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 238:.\Generated_Source\PSoC4/isr_pwm.c **** * Parameters:
- 239:.\Generated_Source\PSoC4/isr_pwm.c **** *   priority: Priority of the interrupt. 0 - 3, 0 being the highest.
- 240:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 241:.\Generated_Source\PSoC4/isr_pwm.c **** * Return:
- 242:.\Generated_Source\PSoC4/isr_pwm.c **** *   None
- 243:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 244:.\Generated_Source\PSoC4/isr_pwm.c **** *******************************************************************************/
- 245:.\Generated_Source\PSoC4/isr_pwm.c **** void isr_pwm_SetPriority(uint8 priority)
- 246:.\Generated_Source\PSoC4/isr_pwm.c **** {
- 349              		.loc 1 246 0
+ 238:.\Generated_Source\PSoC4/isr_pwm.c **** *******************************************************************************/
+ 239:.\Generated_Source\PSoC4/isr_pwm.c **** void isr_pwm_SetPriority(uint8 priority)
+ 240:.\Generated_Source\PSoC4/isr_pwm.c **** {
+ 349              		.loc 1 240 0
  350              		.cfi_startproc
  351 0000 90B5     		push	{r4, r7, lr}
  352              		.cfi_def_cfa_offset 12
@@ -639,52 +633,52 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  360 0006 021C     		mov	r2, r0
  361 0008 FB1D     		add	r3, r7, #7
  362 000a 1A70     		strb	r2, [r3]
- 247:.\Generated_Source\PSoC4/isr_pwm.c **** 	uint8 interruptState;
- 248:.\Generated_Source\PSoC4/isr_pwm.c ****     uint32 priorityOffset = ((isr_pwm__INTC_NUMBER % 4u) * 8u) + 6u;
- 363              		.loc 1 248 0
+ 241:.\Generated_Source\PSoC4/isr_pwm.c **** 	uint8 interruptState;
+ 242:.\Generated_Source\PSoC4/isr_pwm.c ****     uint32 priorityOffset = ((isr_pwm__INTC_NUMBER % 4u) * 8u) + 6u;
+ 363              		.loc 1 242 0
  364 000c 0623     		mov	r3, #6
  365 000e FB60     		str	r3, [r7, #12]
- 249:.\Generated_Source\PSoC4/isr_pwm.c ****     
- 250:.\Generated_Source\PSoC4/isr_pwm.c **** 	interruptState = CyEnterCriticalSection();
- 366              		.loc 1 250 0
+ 243:.\Generated_Source\PSoC4/isr_pwm.c ****     
+ 244:.\Generated_Source\PSoC4/isr_pwm.c **** 	interruptState = CyEnterCriticalSection();
+ 366              		.loc 1 244 0
  367 0010 3C1C     		mov	r4, r7
  368 0012 0B34     		add	r4, r4, #11
  369 0014 FFF7FEFF 		bl	CyEnterCriticalSection
  370 0018 031C     		mov	r3, r0
  371 001a 2370     		strb	r3, [r4]
- 251:.\Generated_Source\PSoC4/isr_pwm.c ****     *isr_pwm_INTC_PRIOR = (*isr_pwm_INTC_PRIOR & (uint32)(~isr_pwm__INTC_PRIOR_MASK)) |
- 372              		.loc 1 251 0
+ 245:.\Generated_Source\PSoC4/isr_pwm.c ****     *isr_pwm_INTC_PRIOR = (*isr_pwm_INTC_PRIOR & (uint32)(~isr_pwm__INTC_PRIOR_MASK)) |
+ 372              		.loc 1 245 0
  373 001c 0B4B     		ldr	r3, .L27
  374 001e 0B4A     		ldr	r2, .L27
  375 0020 1268     		ldr	r2, [r2]
  376 0022 C021     		mov	r1, #192
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 12
-
-
  377 0024 101C     		mov	r0, r2
  378 0026 8843     		bic	r0, r1
  379 0028 011C     		mov	r1, r0
- 252:.\Generated_Source\PSoC4/isr_pwm.c ****                                     ((uint32)priority << priorityOffset);
- 380              		.loc 1 252 0
+ 246:.\Generated_Source\PSoC4/isr_pwm.c ****                                     ((uint32)priority << priorityOffset);
+ 380              		.loc 1 246 0
  381 002a FA1D     		add	r2, r7, #7
+ARM GAS  C:\Users\ole\AppData\Local\Temp\cccYGxhH.s 			page 12
+
+
  382 002c 1078     		ldrb	r0, [r2]
  383 002e FA68     		ldr	r2, [r7, #12]
  384 0030 041C     		mov	r4, r0
  385 0032 9440     		lsl	r4, r4, r2
  386 0034 221C     		mov	r2, r4
- 251:.\Generated_Source\PSoC4/isr_pwm.c ****     *isr_pwm_INTC_PRIOR = (*isr_pwm_INTC_PRIOR & (uint32)(~isr_pwm__INTC_PRIOR_MASK)) |
- 387              		.loc 1 251 0
+ 245:.\Generated_Source\PSoC4/isr_pwm.c ****     *isr_pwm_INTC_PRIOR = (*isr_pwm_INTC_PRIOR & (uint32)(~isr_pwm__INTC_PRIOR_MASK)) |
+ 387              		.loc 1 245 0
  388 0036 0A43     		orr	r2, r1
  389 0038 1A60     		str	r2, [r3]
- 253:.\Generated_Source\PSoC4/isr_pwm.c **** 	CyExitCriticalSection(interruptState);
- 390              		.loc 1 253 0
+ 247:.\Generated_Source\PSoC4/isr_pwm.c **** 	CyExitCriticalSection(interruptState);
+ 390              		.loc 1 247 0
  391 003a 3B1C     		mov	r3, r7
  392 003c 0B33     		add	r3, r3, #11
  393 003e 1B78     		ldrb	r3, [r3]
  394 0040 181C     		mov	r0, r3
  395 0042 FFF7FEFF 		bl	CyExitCriticalSection
- 254:.\Generated_Source\PSoC4/isr_pwm.c **** }
- 396              		.loc 1 254 0
+ 248:.\Generated_Source\PSoC4/isr_pwm.c **** }
+ 396              		.loc 1 248 0
  397 0046 BD46     		mov	sp, r7
  398 0048 05B0     		add	sp, sp, #20
  399              		@ sp needed
@@ -694,7 +688,7 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  403              	.L27:
  404 004c 10E400E0 		.word	-536812528
  405              		.cfi_endproc
- 406              	.LFE6:
+ 406              	.LFE39:
  407              		.size	isr_pwm_SetPriority, .-isr_pwm_SetPriority
  408              		.section	.text.isr_pwm_GetPriority,"ax",%progbits
  409              		.align	2
@@ -703,30 +697,30 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  412              		.thumb_func
  413              		.type	isr_pwm_GetPriority, %function
  414              	isr_pwm_GetPriority:
- 415              	.LFB7:
- 255:.\Generated_Source\PSoC4/isr_pwm.c **** 
- 256:.\Generated_Source\PSoC4/isr_pwm.c **** 
- 257:.\Generated_Source\PSoC4/isr_pwm.c **** /*******************************************************************************
- 258:.\Generated_Source\PSoC4/isr_pwm.c **** * Function Name: isr_pwm_GetPriority
- 259:.\Generated_Source\PSoC4/isr_pwm.c **** ********************************************************************************
+ 415              	.LFB40:
+ 249:.\Generated_Source\PSoC4/isr_pwm.c **** 
+ 250:.\Generated_Source\PSoC4/isr_pwm.c **** 
+ 251:.\Generated_Source\PSoC4/isr_pwm.c **** /*******************************************************************************
+ 252:.\Generated_Source\PSoC4/isr_pwm.c **** * Function Name: isr_pwm_GetPriority
+ 253:.\Generated_Source\PSoC4/isr_pwm.c **** ********************************************************************************
+ 254:.\Generated_Source\PSoC4/isr_pwm.c **** *
+ 255:.\Generated_Source\PSoC4/isr_pwm.c **** * Summary:
+ 256:.\Generated_Source\PSoC4/isr_pwm.c **** *   Gets the Priority of the Interrupt.
+ 257:.\Generated_Source\PSoC4/isr_pwm.c **** *
+ 258:.\Generated_Source\PSoC4/isr_pwm.c **** * Parameters:
+ 259:.\Generated_Source\PSoC4/isr_pwm.c **** *   None
  260:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 261:.\Generated_Source\PSoC4/isr_pwm.c **** * Summary:
- 262:.\Generated_Source\PSoC4/isr_pwm.c **** *   Gets the Priority of the Interrupt.
+ 261:.\Generated_Source\PSoC4/isr_pwm.c **** * Return:
+ 262:.\Generated_Source\PSoC4/isr_pwm.c **** *   Priority of the interrupt. 0 - 3, 0 being the highest.
  263:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 264:.\Generated_Source\PSoC4/isr_pwm.c **** * Parameters:
- 265:.\Generated_Source\PSoC4/isr_pwm.c **** *   None
- 266:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 267:.\Generated_Source\PSoC4/isr_pwm.c **** * Return:
- 268:.\Generated_Source\PSoC4/isr_pwm.c **** *   Priority of the interrupt. 0 - 3, 0 being the highest.
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 13
-
-
- 269:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 270:.\Generated_Source\PSoC4/isr_pwm.c **** *******************************************************************************/
- 271:.\Generated_Source\PSoC4/isr_pwm.c **** uint8 isr_pwm_GetPriority(void)
- 272:.\Generated_Source\PSoC4/isr_pwm.c **** {
- 416              		.loc 1 272 0
+ 264:.\Generated_Source\PSoC4/isr_pwm.c **** *******************************************************************************/
+ 265:.\Generated_Source\PSoC4/isr_pwm.c **** uint8 isr_pwm_GetPriority(void)
+ 266:.\Generated_Source\PSoC4/isr_pwm.c **** {
+ 416              		.loc 1 266 0
  417              		.cfi_startproc
+ARM GAS  C:\Users\ole\AppData\Local\Temp\cccYGxhH.s 			page 13
+
+
  418 0000 80B5     		push	{r7, lr}
  419              		.cfi_def_cfa_offset 8
  420              		.cfi_offset 7, -8
@@ -735,14 +729,14 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  423              		.cfi_def_cfa_offset 16
  424 0004 00AF     		add	r7, sp, #0
  425              		.cfi_def_cfa_register 7
- 273:.\Generated_Source\PSoC4/isr_pwm.c ****     uint32 priority;
- 274:.\Generated_Source\PSoC4/isr_pwm.c **** 	uint32 priorityOffset = ((isr_pwm__INTC_NUMBER % 4u) * 8u) + 6u;
- 426              		.loc 1 274 0
+ 267:.\Generated_Source\PSoC4/isr_pwm.c ****     uint32 priority;
+ 268:.\Generated_Source\PSoC4/isr_pwm.c **** 	uint32 priorityOffset = ((isr_pwm__INTC_NUMBER % 4u) * 8u) + 6u;
+ 426              		.loc 1 268 0
  427 0006 0623     		mov	r3, #6
  428 0008 7B60     		str	r3, [r7, #4]
- 275:.\Generated_Source\PSoC4/isr_pwm.c **** 
- 276:.\Generated_Source\PSoC4/isr_pwm.c ****     priority = (*isr_pwm_INTC_PRIOR & isr_pwm__INTC_PRIOR_MASK) >> priorityOffset;
- 429              		.loc 1 276 0
+ 269:.\Generated_Source\PSoC4/isr_pwm.c **** 
+ 270:.\Generated_Source\PSoC4/isr_pwm.c ****     priority = (*isr_pwm_INTC_PRIOR & isr_pwm__INTC_PRIOR_MASK) >> priorityOffset;
+ 429              		.loc 1 270 0
  430 000a 074B     		ldr	r3, .L31
  431 000c 1A68     		ldr	r2, [r3]
  432 000e C023     		mov	r3, #192
@@ -752,13 +746,13 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  436 0016 D940     		lsr	r1, r1, r3
  437 0018 0B1C     		mov	r3, r1
  438 001a 3B60     		str	r3, [r7]
- 277:.\Generated_Source\PSoC4/isr_pwm.c **** 
- 278:.\Generated_Source\PSoC4/isr_pwm.c ****     return (uint8)priority;
- 439              		.loc 1 278 0
+ 271:.\Generated_Source\PSoC4/isr_pwm.c **** 
+ 272:.\Generated_Source\PSoC4/isr_pwm.c ****     return (uint8)priority;
+ 439              		.loc 1 272 0
  440 001c 3B68     		ldr	r3, [r7]
  441 001e DBB2     		uxtb	r3, r3
- 279:.\Generated_Source\PSoC4/isr_pwm.c **** }
- 442              		.loc 1 279 0
+ 273:.\Generated_Source\PSoC4/isr_pwm.c **** }
+ 442              		.loc 1 273 0
  443 0020 181C     		mov	r0, r3
  444 0022 BD46     		mov	sp, r7
  445 0024 02B0     		add	sp, sp, #8
@@ -769,7 +763,7 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  450              	.L31:
  451 0028 10E400E0 		.word	-536812528
  452              		.cfi_endproc
- 453              	.LFE7:
+ 453              	.LFE40:
  454              		.size	isr_pwm_GetPriority, .-isr_pwm_GetPriority
  455              		.section	.text.isr_pwm_Enable,"ax",%progbits
  456              		.align	2
@@ -778,29 +772,29 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  459              		.thumb_func
  460              		.type	isr_pwm_Enable, %function
  461              	isr_pwm_Enable:
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 14
+ 462              	.LFB41:
+ 274:.\Generated_Source\PSoC4/isr_pwm.c **** 
+ 275:.\Generated_Source\PSoC4/isr_pwm.c **** 
+ 276:.\Generated_Source\PSoC4/isr_pwm.c **** /*******************************************************************************
+ 277:.\Generated_Source\PSoC4/isr_pwm.c **** * Function Name: isr_pwm_Enable
+ 278:.\Generated_Source\PSoC4/isr_pwm.c **** ********************************************************************************
+ARM GAS  C:\Users\ole\AppData\Local\Temp\cccYGxhH.s 			page 14
 
 
- 462              	.LFB8:
- 280:.\Generated_Source\PSoC4/isr_pwm.c **** 
- 281:.\Generated_Source\PSoC4/isr_pwm.c **** 
- 282:.\Generated_Source\PSoC4/isr_pwm.c **** /*******************************************************************************
- 283:.\Generated_Source\PSoC4/isr_pwm.c **** * Function Name: isr_pwm_Enable
- 284:.\Generated_Source\PSoC4/isr_pwm.c **** ********************************************************************************
+ 279:.\Generated_Source\PSoC4/isr_pwm.c **** *
+ 280:.\Generated_Source\PSoC4/isr_pwm.c **** * Summary:
+ 281:.\Generated_Source\PSoC4/isr_pwm.c **** *   Enables the interrupt.
+ 282:.\Generated_Source\PSoC4/isr_pwm.c **** *
+ 283:.\Generated_Source\PSoC4/isr_pwm.c **** * Parameters:
+ 284:.\Generated_Source\PSoC4/isr_pwm.c **** *   None
  285:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 286:.\Generated_Source\PSoC4/isr_pwm.c **** * Summary:
- 287:.\Generated_Source\PSoC4/isr_pwm.c **** *   Enables the interrupt.
+ 286:.\Generated_Source\PSoC4/isr_pwm.c **** * Return:
+ 287:.\Generated_Source\PSoC4/isr_pwm.c **** *   None
  288:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 289:.\Generated_Source\PSoC4/isr_pwm.c **** * Parameters:
- 290:.\Generated_Source\PSoC4/isr_pwm.c **** *   None
- 291:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 292:.\Generated_Source\PSoC4/isr_pwm.c **** * Return:
- 293:.\Generated_Source\PSoC4/isr_pwm.c **** *   None
- 294:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 295:.\Generated_Source\PSoC4/isr_pwm.c **** *******************************************************************************/
- 296:.\Generated_Source\PSoC4/isr_pwm.c **** void isr_pwm_Enable(void)
- 297:.\Generated_Source\PSoC4/isr_pwm.c **** {
- 463              		.loc 1 297 0
+ 289:.\Generated_Source\PSoC4/isr_pwm.c **** *******************************************************************************/
+ 290:.\Generated_Source\PSoC4/isr_pwm.c **** void isr_pwm_Enable(void)
+ 291:.\Generated_Source\PSoC4/isr_pwm.c **** {
+ 463              		.loc 1 291 0
  464              		.cfi_startproc
  465 0000 80B5     		push	{r7, lr}
  466              		.cfi_def_cfa_offset 8
@@ -808,15 +802,15 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  468              		.cfi_offset 14, -4
  469 0002 00AF     		add	r7, sp, #0
  470              		.cfi_def_cfa_register 7
- 298:.\Generated_Source\PSoC4/isr_pwm.c ****     /* Enable the general interrupt. */
- 299:.\Generated_Source\PSoC4/isr_pwm.c ****     *isr_pwm_INTC_SET_EN = isr_pwm__INTC_MASK;
- 471              		.loc 1 299 0
+ 292:.\Generated_Source\PSoC4/isr_pwm.c ****     /* Enable the general interrupt. */
+ 293:.\Generated_Source\PSoC4/isr_pwm.c ****     *isr_pwm_INTC_SET_EN = isr_pwm__INTC_MASK;
+ 471              		.loc 1 293 0
  472 0004 024B     		ldr	r3, .L34
  473 0006 8022     		mov	r2, #128
  474 0008 5202     		lsl	r2, r2, #9
  475 000a 1A60     		str	r2, [r3]
- 300:.\Generated_Source\PSoC4/isr_pwm.c **** }
- 476              		.loc 1 300 0
+ 294:.\Generated_Source\PSoC4/isr_pwm.c **** }
+ 476              		.loc 1 294 0
  477 000c BD46     		mov	sp, r7
  478              		@ sp needed
  479 000e 80BD     		pop	{r7, pc}
@@ -825,7 +819,7 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  482              	.L34:
  483 0010 00E100E0 		.word	-536813312
  484              		.cfi_endproc
- 485              	.LFE8:
+ 485              	.LFE41:
  486              		.size	isr_pwm_Enable, .-isr_pwm_Enable
  487              		.section	.text.isr_pwm_GetState,"ax",%progbits
  488              		.align	2
@@ -834,29 +828,29 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  491              		.thumb_func
  492              		.type	isr_pwm_GetState, %function
  493              	isr_pwm_GetState:
- 494              	.LFB9:
- 301:.\Generated_Source\PSoC4/isr_pwm.c **** 
- 302:.\Generated_Source\PSoC4/isr_pwm.c **** 
- 303:.\Generated_Source\PSoC4/isr_pwm.c **** /*******************************************************************************
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 15
+ 494              	.LFB42:
+ 295:.\Generated_Source\PSoC4/isr_pwm.c **** 
+ 296:.\Generated_Source\PSoC4/isr_pwm.c **** 
+ 297:.\Generated_Source\PSoC4/isr_pwm.c **** /*******************************************************************************
+ 298:.\Generated_Source\PSoC4/isr_pwm.c **** * Function Name: isr_pwm_GetState
+ 299:.\Generated_Source\PSoC4/isr_pwm.c **** ********************************************************************************
+ 300:.\Generated_Source\PSoC4/isr_pwm.c **** *
+ 301:.\Generated_Source\PSoC4/isr_pwm.c **** * Summary:
+ 302:.\Generated_Source\PSoC4/isr_pwm.c **** *   Gets the state (enabled, disabled) of the Interrupt.
+ 303:.\Generated_Source\PSoC4/isr_pwm.c **** *
+ARM GAS  C:\Users\ole\AppData\Local\Temp\cccYGxhH.s 			page 15
 
 
- 304:.\Generated_Source\PSoC4/isr_pwm.c **** * Function Name: isr_pwm_GetState
- 305:.\Generated_Source\PSoC4/isr_pwm.c **** ********************************************************************************
+ 304:.\Generated_Source\PSoC4/isr_pwm.c **** * Parameters:
+ 305:.\Generated_Source\PSoC4/isr_pwm.c **** *   None
  306:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 307:.\Generated_Source\PSoC4/isr_pwm.c **** * Summary:
- 308:.\Generated_Source\PSoC4/isr_pwm.c **** *   Gets the state (enabled, disabled) of the Interrupt.
+ 307:.\Generated_Source\PSoC4/isr_pwm.c **** * Return:
+ 308:.\Generated_Source\PSoC4/isr_pwm.c **** *   1 if enabled, 0 if disabled.
  309:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 310:.\Generated_Source\PSoC4/isr_pwm.c **** * Parameters:
- 311:.\Generated_Source\PSoC4/isr_pwm.c **** *   None
- 312:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 313:.\Generated_Source\PSoC4/isr_pwm.c **** * Return:
- 314:.\Generated_Source\PSoC4/isr_pwm.c **** *   1 if enabled, 0 if disabled.
- 315:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 316:.\Generated_Source\PSoC4/isr_pwm.c **** *******************************************************************************/
- 317:.\Generated_Source\PSoC4/isr_pwm.c **** uint8 isr_pwm_GetState(void)
- 318:.\Generated_Source\PSoC4/isr_pwm.c **** {
- 495              		.loc 1 318 0
+ 310:.\Generated_Source\PSoC4/isr_pwm.c **** *******************************************************************************/
+ 311:.\Generated_Source\PSoC4/isr_pwm.c **** uint8 isr_pwm_GetState(void)
+ 312:.\Generated_Source\PSoC4/isr_pwm.c **** {
+ 495              		.loc 1 312 0
  496              		.cfi_startproc
  497 0000 80B5     		push	{r7, lr}
  498              		.cfi_def_cfa_offset 8
@@ -864,24 +858,24 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  500              		.cfi_offset 14, -4
  501 0002 00AF     		add	r7, sp, #0
  502              		.cfi_def_cfa_register 7
- 319:.\Generated_Source\PSoC4/isr_pwm.c ****     /* Get the state of the general interrupt. */
- 320:.\Generated_Source\PSoC4/isr_pwm.c ****     return ((*isr_pwm_INTC_SET_EN & (uint32)isr_pwm__INTC_MASK) != 0u) ? 1u:0u;
- 503              		.loc 1 320 0
+ 313:.\Generated_Source\PSoC4/isr_pwm.c ****     /* Get the state of the general interrupt. */
+ 314:.\Generated_Source\PSoC4/isr_pwm.c ****     return ((*isr_pwm_INTC_SET_EN & (uint32)isr_pwm__INTC_MASK) != 0u) ? 1u:0u;
+ 503              		.loc 1 314 0
  504 0004 054B     		ldr	r3, .L40
  505 0006 1A68     		ldr	r2, [r3]
  506 0008 8023     		mov	r3, #128
  507 000a 5B02     		lsl	r3, r3, #9
  508 000c 1340     		and	r3, r2
  509 000e 01D0     		beq	.L37
- 510              		.loc 1 320 0 is_stmt 0 discriminator 1
+ 510              		.loc 1 314 0 is_stmt 0 discriminator 1
  511 0010 0123     		mov	r3, #1
  512 0012 00E0     		b	.L38
  513              	.L37:
- 514              		.loc 1 320 0 discriminator 2
+ 514              		.loc 1 314 0 discriminator 2
  515 0014 0023     		mov	r3, #0
  516              	.L38:
- 321:.\Generated_Source\PSoC4/isr_pwm.c **** }
- 517              		.loc 1 321 0 is_stmt 1 discriminator 3
+ 315:.\Generated_Source\PSoC4/isr_pwm.c **** }
+ 517              		.loc 1 315 0 is_stmt 1 discriminator 3
  518 0016 181C     		mov	r0, r3
  519 0018 BD46     		mov	sp, r7
  520              		@ sp needed
@@ -891,38 +885,38 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  524              	.L40:
  525 001c 00E100E0 		.word	-536813312
  526              		.cfi_endproc
- 527              	.LFE9:
+ 527              	.LFE42:
  528              		.size	isr_pwm_GetState, .-isr_pwm_GetState
  529              		.section	.text.isr_pwm_Disable,"ax",%progbits
  530              		.align	2
  531              		.global	isr_pwm_Disable
  532              		.code	16
  533              		.thumb_func
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 16
-
-
  534              		.type	isr_pwm_Disable, %function
  535              	isr_pwm_Disable:
- 536              	.LFB10:
- 322:.\Generated_Source\PSoC4/isr_pwm.c **** 
- 323:.\Generated_Source\PSoC4/isr_pwm.c **** 
- 324:.\Generated_Source\PSoC4/isr_pwm.c **** /*******************************************************************************
- 325:.\Generated_Source\PSoC4/isr_pwm.c **** * Function Name: isr_pwm_Disable
- 326:.\Generated_Source\PSoC4/isr_pwm.c **** ********************************************************************************
+ 536              	.LFB43:
+ 316:.\Generated_Source\PSoC4/isr_pwm.c **** 
+ 317:.\Generated_Source\PSoC4/isr_pwm.c **** 
+ 318:.\Generated_Source\PSoC4/isr_pwm.c **** /*******************************************************************************
+ARM GAS  C:\Users\ole\AppData\Local\Temp\cccYGxhH.s 			page 16
+
+
+ 319:.\Generated_Source\PSoC4/isr_pwm.c **** * Function Name: isr_pwm_Disable
+ 320:.\Generated_Source\PSoC4/isr_pwm.c **** ********************************************************************************
+ 321:.\Generated_Source\PSoC4/isr_pwm.c **** *
+ 322:.\Generated_Source\PSoC4/isr_pwm.c **** * Summary:
+ 323:.\Generated_Source\PSoC4/isr_pwm.c **** *   Disables the Interrupt.
+ 324:.\Generated_Source\PSoC4/isr_pwm.c **** *
+ 325:.\Generated_Source\PSoC4/isr_pwm.c **** * Parameters:
+ 326:.\Generated_Source\PSoC4/isr_pwm.c **** *   None
  327:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 328:.\Generated_Source\PSoC4/isr_pwm.c **** * Summary:
- 329:.\Generated_Source\PSoC4/isr_pwm.c **** *   Disables the Interrupt.
+ 328:.\Generated_Source\PSoC4/isr_pwm.c **** * Return:
+ 329:.\Generated_Source\PSoC4/isr_pwm.c **** *   None
  330:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 331:.\Generated_Source\PSoC4/isr_pwm.c **** * Parameters:
- 332:.\Generated_Source\PSoC4/isr_pwm.c **** *   None
- 333:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 334:.\Generated_Source\PSoC4/isr_pwm.c **** * Return:
- 335:.\Generated_Source\PSoC4/isr_pwm.c **** *   None
- 336:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 337:.\Generated_Source\PSoC4/isr_pwm.c **** *******************************************************************************/
- 338:.\Generated_Source\PSoC4/isr_pwm.c **** void isr_pwm_Disable(void)
- 339:.\Generated_Source\PSoC4/isr_pwm.c **** {
- 537              		.loc 1 339 0
+ 331:.\Generated_Source\PSoC4/isr_pwm.c **** *******************************************************************************/
+ 332:.\Generated_Source\PSoC4/isr_pwm.c **** void isr_pwm_Disable(void)
+ 333:.\Generated_Source\PSoC4/isr_pwm.c **** {
+ 537              		.loc 1 333 0
  538              		.cfi_startproc
  539 0000 80B5     		push	{r7, lr}
  540              		.cfi_def_cfa_offset 8
@@ -930,15 +924,15 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  542              		.cfi_offset 14, -4
  543 0002 00AF     		add	r7, sp, #0
  544              		.cfi_def_cfa_register 7
- 340:.\Generated_Source\PSoC4/isr_pwm.c ****     /* Disable the general interrupt. */
- 341:.\Generated_Source\PSoC4/isr_pwm.c ****     *isr_pwm_INTC_CLR_EN = isr_pwm__INTC_MASK;
- 545              		.loc 1 341 0
+ 334:.\Generated_Source\PSoC4/isr_pwm.c ****     /* Disable the general interrupt. */
+ 335:.\Generated_Source\PSoC4/isr_pwm.c ****     *isr_pwm_INTC_CLR_EN = isr_pwm__INTC_MASK;
+ 545              		.loc 1 335 0
  546 0004 024B     		ldr	r3, .L43
  547 0006 8022     		mov	r2, #128
  548 0008 5202     		lsl	r2, r2, #9
  549 000a 1A60     		str	r2, [r3]
- 342:.\Generated_Source\PSoC4/isr_pwm.c **** }
- 550              		.loc 1 342 0
+ 336:.\Generated_Source\PSoC4/isr_pwm.c **** }
+ 550              		.loc 1 336 0
  551 000c BD46     		mov	sp, r7
  552              		@ sp needed
  553 000e 80BD     		pop	{r7, pc}
@@ -947,7 +941,7 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  556              	.L43:
  557 0010 80E100E0 		.word	-536813184
  558              		.cfi_endproc
- 559              	.LFE10:
+ 559              	.LFE43:
  560              		.size	isr_pwm_Disable, .-isr_pwm_Disable
  561              		.section	.text.isr_pwm_SetPending,"ax",%progbits
  562              		.align	2
@@ -956,30 +950,30 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  565              		.thumb_func
  566              		.type	isr_pwm_SetPending, %function
  567              	isr_pwm_SetPending:
- 568              	.LFB11:
- 343:.\Generated_Source\PSoC4/isr_pwm.c **** 
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 17
+ 568              	.LFB44:
+ 337:.\Generated_Source\PSoC4/isr_pwm.c **** 
+ 338:.\Generated_Source\PSoC4/isr_pwm.c **** 
+ 339:.\Generated_Source\PSoC4/isr_pwm.c **** /*******************************************************************************
+ 340:.\Generated_Source\PSoC4/isr_pwm.c **** * Function Name: isr_pwm_SetPending
+ 341:.\Generated_Source\PSoC4/isr_pwm.c **** ********************************************************************************
+ 342:.\Generated_Source\PSoC4/isr_pwm.c **** *
+ 343:.\Generated_Source\PSoC4/isr_pwm.c **** * Summary:
+ARM GAS  C:\Users\ole\AppData\Local\Temp\cccYGxhH.s 			page 17
 
 
- 344:.\Generated_Source\PSoC4/isr_pwm.c **** 
- 345:.\Generated_Source\PSoC4/isr_pwm.c **** /*******************************************************************************
- 346:.\Generated_Source\PSoC4/isr_pwm.c **** * Function Name: isr_pwm_SetPending
- 347:.\Generated_Source\PSoC4/isr_pwm.c **** ********************************************************************************
- 348:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 349:.\Generated_Source\PSoC4/isr_pwm.c **** * Summary:
- 350:.\Generated_Source\PSoC4/isr_pwm.c **** *   Causes the Interrupt to enter the pending state, a software method of
- 351:.\Generated_Source\PSoC4/isr_pwm.c **** *   generating the interrupt.
+ 344:.\Generated_Source\PSoC4/isr_pwm.c **** *   Causes the Interrupt to enter the pending state, a software method of
+ 345:.\Generated_Source\PSoC4/isr_pwm.c **** *   generating the interrupt.
+ 346:.\Generated_Source\PSoC4/isr_pwm.c **** *
+ 347:.\Generated_Source\PSoC4/isr_pwm.c **** * Parameters:
+ 348:.\Generated_Source\PSoC4/isr_pwm.c **** *   None
+ 349:.\Generated_Source\PSoC4/isr_pwm.c **** *
+ 350:.\Generated_Source\PSoC4/isr_pwm.c **** * Return:
+ 351:.\Generated_Source\PSoC4/isr_pwm.c **** *   None
  352:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 353:.\Generated_Source\PSoC4/isr_pwm.c **** * Parameters:
- 354:.\Generated_Source\PSoC4/isr_pwm.c **** *   None
- 355:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 356:.\Generated_Source\PSoC4/isr_pwm.c **** * Return:
- 357:.\Generated_Source\PSoC4/isr_pwm.c **** *   None
- 358:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 359:.\Generated_Source\PSoC4/isr_pwm.c **** *******************************************************************************/
- 360:.\Generated_Source\PSoC4/isr_pwm.c **** void isr_pwm_SetPending(void)
- 361:.\Generated_Source\PSoC4/isr_pwm.c **** {
- 569              		.loc 1 361 0
+ 353:.\Generated_Source\PSoC4/isr_pwm.c **** *******************************************************************************/
+ 354:.\Generated_Source\PSoC4/isr_pwm.c **** void isr_pwm_SetPending(void)
+ 355:.\Generated_Source\PSoC4/isr_pwm.c **** {
+ 569              		.loc 1 355 0
  570              		.cfi_startproc
  571 0000 80B5     		push	{r7, lr}
  572              		.cfi_def_cfa_offset 8
@@ -987,14 +981,14 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  574              		.cfi_offset 14, -4
  575 0002 00AF     		add	r7, sp, #0
  576              		.cfi_def_cfa_register 7
- 362:.\Generated_Source\PSoC4/isr_pwm.c ****     *isr_pwm_INTC_SET_PD = isr_pwm__INTC_MASK;
- 577              		.loc 1 362 0
+ 356:.\Generated_Source\PSoC4/isr_pwm.c ****     *isr_pwm_INTC_SET_PD = isr_pwm__INTC_MASK;
+ 577              		.loc 1 356 0
  578 0004 024B     		ldr	r3, .L46
  579 0006 8022     		mov	r2, #128
  580 0008 5202     		lsl	r2, r2, #9
  581 000a 1A60     		str	r2, [r3]
- 363:.\Generated_Source\PSoC4/isr_pwm.c **** }
- 582              		.loc 1 363 0
+ 357:.\Generated_Source\PSoC4/isr_pwm.c **** }
+ 582              		.loc 1 357 0
  583 000c BD46     		mov	sp, r7
  584              		@ sp needed
  585 000e 80BD     		pop	{r7, pc}
@@ -1003,7 +997,7 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  588              	.L46:
  589 0010 00E200E0 		.word	-536813056
  590              		.cfi_endproc
- 591              	.LFE11:
+ 591              	.LFE44:
  592              		.size	isr_pwm_SetPending, .-isr_pwm_SetPending
  593              		.section	.text.isr_pwm_ClearPending,"ax",%progbits
  594              		.align	2
@@ -1012,29 +1006,29 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  597              		.thumb_func
  598              		.type	isr_pwm_ClearPending, %function
  599              	isr_pwm_ClearPending:
- 600              	.LFB12:
- 364:.\Generated_Source\PSoC4/isr_pwm.c **** 
- 365:.\Generated_Source\PSoC4/isr_pwm.c **** 
- 366:.\Generated_Source\PSoC4/isr_pwm.c **** /*******************************************************************************
- 367:.\Generated_Source\PSoC4/isr_pwm.c **** * Function Name: isr_pwm_ClearPending
- 368:.\Generated_Source\PSoC4/isr_pwm.c **** ********************************************************************************
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 18
+ 600              	.LFB45:
+ 358:.\Generated_Source\PSoC4/isr_pwm.c **** 
+ 359:.\Generated_Source\PSoC4/isr_pwm.c **** 
+ 360:.\Generated_Source\PSoC4/isr_pwm.c **** /*******************************************************************************
+ 361:.\Generated_Source\PSoC4/isr_pwm.c **** * Function Name: isr_pwm_ClearPending
+ 362:.\Generated_Source\PSoC4/isr_pwm.c **** ********************************************************************************
+ 363:.\Generated_Source\PSoC4/isr_pwm.c **** *
+ 364:.\Generated_Source\PSoC4/isr_pwm.c **** * Summary:
+ 365:.\Generated_Source\PSoC4/isr_pwm.c **** *   Clears a pending interrupt.
+ 366:.\Generated_Source\PSoC4/isr_pwm.c **** *
+ 367:.\Generated_Source\PSoC4/isr_pwm.c **** * Parameters:
+ 368:.\Generated_Source\PSoC4/isr_pwm.c **** *   None
+ARM GAS  C:\Users\ole\AppData\Local\Temp\cccYGxhH.s 			page 18
 
 
  369:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 370:.\Generated_Source\PSoC4/isr_pwm.c **** * Summary:
- 371:.\Generated_Source\PSoC4/isr_pwm.c **** *   Clears a pending interrupt.
+ 370:.\Generated_Source\PSoC4/isr_pwm.c **** * Return:
+ 371:.\Generated_Source\PSoC4/isr_pwm.c **** *   None
  372:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 373:.\Generated_Source\PSoC4/isr_pwm.c **** * Parameters:
- 374:.\Generated_Source\PSoC4/isr_pwm.c **** *   None
- 375:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 376:.\Generated_Source\PSoC4/isr_pwm.c **** * Return:
- 377:.\Generated_Source\PSoC4/isr_pwm.c **** *   None
- 378:.\Generated_Source\PSoC4/isr_pwm.c **** *
- 379:.\Generated_Source\PSoC4/isr_pwm.c **** *******************************************************************************/
- 380:.\Generated_Source\PSoC4/isr_pwm.c **** void isr_pwm_ClearPending(void)
- 381:.\Generated_Source\PSoC4/isr_pwm.c **** {
- 601              		.loc 1 381 0
+ 373:.\Generated_Source\PSoC4/isr_pwm.c **** *******************************************************************************/
+ 374:.\Generated_Source\PSoC4/isr_pwm.c **** void isr_pwm_ClearPending(void)
+ 375:.\Generated_Source\PSoC4/isr_pwm.c **** {
+ 601              		.loc 1 375 0
  602              		.cfi_startproc
  603 0000 80B5     		push	{r7, lr}
  604              		.cfi_def_cfa_offset 8
@@ -1042,14 +1036,14 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  606              		.cfi_offset 14, -4
  607 0002 00AF     		add	r7, sp, #0
  608              		.cfi_def_cfa_register 7
- 382:.\Generated_Source\PSoC4/isr_pwm.c ****     *isr_pwm_INTC_CLR_PD = isr_pwm__INTC_MASK;
- 609              		.loc 1 382 0
+ 376:.\Generated_Source\PSoC4/isr_pwm.c ****     *isr_pwm_INTC_CLR_PD = isr_pwm__INTC_MASK;
+ 609              		.loc 1 376 0
  610 0004 024B     		ldr	r3, .L49
  611 0006 8022     		mov	r2, #128
  612 0008 5202     		lsl	r2, r2, #9
  613 000a 1A60     		str	r2, [r3]
- 383:.\Generated_Source\PSoC4/isr_pwm.c **** }
- 614              		.loc 1 383 0
+ 377:.\Generated_Source\PSoC4/isr_pwm.c **** }
+ 614              		.loc 1 377 0
  615 000c BD46     		mov	sp, r7
  616              		@ sp needed
  617 000e 80BD     		pop	{r7, pc}
@@ -1058,7 +1052,7 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  620              	.L49:
  621 0010 80E200E0 		.word	-536812928
  622              		.cfi_endproc
- 623              	.LFE12:
+ 623              	.LFE45:
  624              		.size	isr_pwm_ClearPending, .-isr_pwm_ClearPending
  625              		.text
  626              	.Letext0:
@@ -1078,15 +1072,15 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  640 0015 19020000 		.4byte	.LASF44
  641 0019 00000000 		.4byte	.Ldebug_ranges0+0
  642 001d 00000000 		.4byte	0
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 19
-
-
  643 0021 00000000 		.4byte	.Ldebug_line0
  644 0025 02       		.uleb128 0x2
  645 0026 01       		.byte	0x1
  646 0027 06       		.byte	0x6
  647 0028 DA020000 		.4byte	.LASF0
  648 002c 03       		.uleb128 0x3
+ARM GAS  C:\Users\ole\AppData\Local\Temp\cccYGxhH.s 			page 19
+
+
  649 002d 06000000 		.4byte	.LASF9
  650 0031 02       		.byte	0x2
  651 0032 1C       		.byte	0x1c
@@ -1138,15 +1132,15 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  697 0087 A1       		.byte	0xa1
  698 0088 37000000 		.4byte	0x37
  699 008c 03       		.uleb128 0x3
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 20
-
-
  700 008d 98010000 		.4byte	.LASF12
  701 0091 04       		.byte	0x4
  702 0092 A3       		.byte	0xa3
  703 0093 53000000 		.4byte	0x53
  704 0097 02       		.uleb128 0x2
  705 0098 04       		.byte	0x4
+ARM GAS  C:\Users\ole\AppData\Local\Temp\cccYGxhH.s 			page 20
+
+
  706 0099 04       		.byte	0x4
  707 009a 79000000 		.4byte	.LASF13
  708 009e 02       		.uleb128 0x2
@@ -1181,7 +1175,7 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  737 00d8 D3020000 		.4byte	.LASF45
  738 00dc 01       		.byte	0x1
  739 00dd 01       		.byte	0x1
- 740 00de 25       		.byte	0x25
+ 740 00de 1F       		.byte	0x1f
  741 00df FC000000 		.4byte	0xfc
  742 00e3 0A       		.uleb128 0xa
  743 00e4 E6020000 		.4byte	.LASF19
@@ -1198,28 +1192,28 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  754 00fb 00       		.byte	0
  755 00fc 0B       		.uleb128 0xb
  756 00fd 76010000 		.4byte	.LASF23
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 21
-
-
  757 0101 01       		.byte	0x1
- 758 0102 41       		.byte	0x41
- 759 0103 00000000 		.4byte	.LFB0
- 760 0107 24000000 		.4byte	.LFE0-.LFB0
+ 758 0102 3B       		.byte	0x3b
+ 759 0103 00000000 		.4byte	.LFB33
+ 760 0107 24000000 		.4byte	.LFE33-.LFB33
  761 010b 01       		.uleb128 0x1
  762 010c 9C       		.byte	0x9c
+ARM GAS  C:\Users\ole\AppData\Local\Temp\cccYGxhH.s 			page 21
+
+
  763 010d 0C       		.uleb128 0xc
  764 010e E0010000 		.4byte	.LASF26
  765 0112 01       		.byte	0x1
- 766 0113 5F       		.byte	0x5f
- 767 0114 00000000 		.4byte	.LFB1
- 768 0118 24000000 		.4byte	.LFE1-.LFB1
+ 766 0113 59       		.byte	0x59
+ 767 0114 00000000 		.4byte	.LFB34
+ 768 0118 24000000 		.4byte	.LFE34-.LFB34
  769 011c 01       		.uleb128 0x1
  770 011d 9C       		.byte	0x9c
  771 011e 31010000 		.4byte	0x131
  772 0122 0D       		.uleb128 0xd
  773 0123 AC010000 		.4byte	.LASF28
  774 0127 01       		.byte	0x1
- 775 0128 5F       		.byte	0x5f
+ 775 0128 59       		.byte	0x59
  776 0129 BD000000 		.4byte	0xbd
  777 012d 02       		.uleb128 0x2
  778 012e 91       		.byte	0x91
@@ -1228,62 +1222,62 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  781 0131 0B       		.uleb128 0xb
  782 0132 4C010000 		.4byte	.LASF24
  783 0136 01       		.byte	0x1
- 784 0137 7C       		.byte	0x7c
- 785 0138 00000000 		.4byte	.LFB2
- 786 013c 18000000 		.4byte	.LFE2-.LFB2
+ 784 0137 76       		.byte	0x76
+ 785 0138 00000000 		.4byte	.LFB35
+ 786 013c 18000000 		.4byte	.LFE35-.LFB35
  787 0140 01       		.uleb128 0x1
  788 0141 9C       		.byte	0x9c
  789 0142 0B       		.uleb128 0xb
  790 0143 67000000 		.4byte	.LASF25
  791 0147 01       		.byte	0x1
- 792 0148 97       		.byte	0x97
- 793 0149 00000000 		.4byte	.LFB3
- 794 014d C8000000 		.4byte	.LFE3-.LFB3
+ 792 0148 91       		.byte	0x91
+ 793 0149 00000000 		.4byte	.LFB36
+ 794 014d C8000000 		.4byte	.LFE36-.LFB36
  795 0151 01       		.uleb128 0x1
  796 0152 9C       		.byte	0x9c
  797 0153 0E       		.uleb128 0xe
  798 0154 76020000 		.4byte	.LASF27
  799 0158 01       		.byte	0x1
- 800 0159 C9       		.byte	0xc9
- 801 015a 00000000 		.4byte	.LFB4
- 802 015e 1C000000 		.4byte	.LFE4-.LFB4
+ 800 0159 C3       		.byte	0xc3
+ 801 015a 00000000 		.4byte	.LFB37
+ 802 015e 1C000000 		.4byte	.LFE37-.LFB37
  803 0162 01       		.uleb128 0x1
  804 0163 9C       		.byte	0x9c
  805 0164 77010000 		.4byte	0x177
  806 0168 0D       		.uleb128 0xd
  807 0169 AC010000 		.4byte	.LASF28
  808 016d 01       		.byte	0x1
- 809 016e C9       		.byte	0xc9
+ 809 016e C3       		.byte	0xc3
  810 016f BD000000 		.4byte	0xbd
  811 0173 02       		.uleb128 0x2
  812 0174 91       		.byte	0x91
  813 0175 74       		.sleb128 -12
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 22
-
-
  814 0176 00       		.byte	0
  815 0177 0F       		.uleb128 0xf
  816 0178 55000000 		.4byte	.LASF34
  817 017c 01       		.byte	0x1
- 818 017d DD       		.byte	0xdd
+ 818 017d D7       		.byte	0xd7
  819 017e BD000000 		.4byte	0xbd
- 820 0182 00000000 		.4byte	.LFB5
- 821 0186 14000000 		.4byte	.LFE5-.LFB5
+ARM GAS  C:\Users\ole\AppData\Local\Temp\cccYGxhH.s 			page 22
+
+
+ 820 0182 00000000 		.4byte	.LFB38
+ 821 0186 14000000 		.4byte	.LFE38-.LFB38
  822 018a 01       		.uleb128 0x1
  823 018b 9C       		.byte	0x9c
  824 018c 0C       		.uleb128 0xc
  825 018d 84010000 		.4byte	.LASF29
  826 0191 01       		.byte	0x1
- 827 0192 F5       		.byte	0xf5
- 828 0193 00000000 		.4byte	.LFB6
- 829 0197 50000000 		.4byte	.LFE6-.LFB6
+ 827 0192 EF       		.byte	0xef
+ 828 0193 00000000 		.4byte	.LFB39
+ 829 0197 50000000 		.4byte	.LFE39-.LFB39
  830 019b 01       		.uleb128 0x1
  831 019c 9C       		.byte	0x9c
  832 019d CC010000 		.4byte	0x1cc
  833 01a1 0D       		.uleb128 0xd
  834 01a2 30010000 		.4byte	.LASF30
  835 01a6 01       		.byte	0x1
- 836 01a7 F5       		.byte	0xf5
+ 836 01a7 EF       		.byte	0xef
  837 01a8 81000000 		.4byte	0x81
  838 01ac 02       		.uleb128 0x2
  839 01ad 91       		.byte	0x91
@@ -1291,7 +1285,7 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  841 01af 10       		.uleb128 0x10
  842 01b0 09010000 		.4byte	.LASF31
  843 01b4 01       		.byte	0x1
- 844 01b5 F7       		.byte	0xf7
+ 844 01b5 F1       		.byte	0xf1
  845 01b6 81000000 		.4byte	0x81
  846 01ba 02       		.uleb128 0x2
  847 01bb 91       		.byte	0x91
@@ -1299,7 +1293,7 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  849 01bd 10       		.uleb128 0x10
  850 01be 98020000 		.4byte	.LASF32
  851 01c2 01       		.byte	0x1
- 852 01c3 F8       		.byte	0xf8
+ 852 01c3 F2       		.byte	0xf2
  853 01c4 8C000000 		.4byte	0x8c
  854 01c8 02       		.uleb128 0x2
  855 01c9 91       		.byte	0x91
@@ -1308,28 +1302,28 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  858 01cc 11       		.uleb128 0x11
  859 01cd 2E000000 		.4byte	.LASF46
  860 01d1 01       		.byte	0x1
- 861 01d2 0F01     		.2byte	0x10f
+ 861 01d2 0901     		.2byte	0x109
  862 01d4 81000000 		.4byte	0x81
- 863 01d8 00000000 		.4byte	.LFB7
- 864 01dc 2C000000 		.4byte	.LFE7-.LFB7
+ 863 01d8 00000000 		.4byte	.LFB40
+ 864 01dc 2C000000 		.4byte	.LFE40-.LFB40
  865 01e0 01       		.uleb128 0x1
  866 01e1 9C       		.byte	0x9c
  867 01e2 05020000 		.4byte	0x205
  868 01e6 12       		.uleb128 0x12
  869 01e7 30010000 		.4byte	.LASF30
  870 01eb 01       		.byte	0x1
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 23
-
-
- 871 01ec 1101     		.2byte	0x111
+ 871 01ec 0B01     		.2byte	0x10b
  872 01ee 8C000000 		.4byte	0x8c
  873 01f2 02       		.uleb128 0x2
  874 01f3 91       		.byte	0x91
  875 01f4 70       		.sleb128 -16
  876 01f5 12       		.uleb128 0x12
+ARM GAS  C:\Users\ole\AppData\Local\Temp\cccYGxhH.s 			page 23
+
+
  877 01f6 98020000 		.4byte	.LASF32
  878 01fa 01       		.byte	0x1
- 879 01fb 1201     		.2byte	0x112
+ 879 01fb 0C01     		.2byte	0x10c
  880 01fd 8C000000 		.4byte	0x8c
  881 0201 02       		.uleb128 0x2
  882 0202 91       		.byte	0x91
@@ -1338,63 +1332,63 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  885 0205 13       		.uleb128 0x13
  886 0206 5D020000 		.4byte	.LASF33
  887 020a 01       		.byte	0x1
- 888 020b 2801     		.2byte	0x128
- 889 020d 00000000 		.4byte	.LFB8
- 890 0211 14000000 		.4byte	.LFE8-.LFB8
+ 888 020b 2201     		.2byte	0x122
+ 889 020d 00000000 		.4byte	.LFB41
+ 890 0211 14000000 		.4byte	.LFE41-.LFB41
  891 0215 01       		.uleb128 0x1
  892 0216 9C       		.byte	0x9c
  893 0217 14       		.uleb128 0x14
  894 0218 1D000000 		.4byte	.LASF35
  895 021c 01       		.byte	0x1
- 896 021d 3D01     		.2byte	0x13d
+ 896 021d 3701     		.2byte	0x137
  897 021f 81000000 		.4byte	0x81
- 898 0223 00000000 		.4byte	.LFB9
- 899 0227 20000000 		.4byte	.LFE9-.LFB9
+ 898 0223 00000000 		.4byte	.LFB42
+ 899 0227 20000000 		.4byte	.LFE42-.LFB42
  900 022b 01       		.uleb128 0x1
  901 022c 9C       		.byte	0x9c
  902 022d 13       		.uleb128 0x13
  903 022e 88020000 		.4byte	.LASF36
  904 0232 01       		.byte	0x1
- 905 0233 5201     		.2byte	0x152
- 906 0235 00000000 		.4byte	.LFB10
- 907 0239 14000000 		.4byte	.LFE10-.LFB10
+ 905 0233 4C01     		.2byte	0x14c
+ 906 0235 00000000 		.4byte	.LFB43
+ 907 0239 14000000 		.4byte	.LFE43-.LFB43
  908 023d 01       		.uleb128 0x1
  909 023e 9C       		.byte	0x9c
  910 023f 13       		.uleb128 0x13
  911 0240 39010000 		.4byte	.LASF37
  912 0244 01       		.byte	0x1
- 913 0245 6801     		.2byte	0x168
- 914 0247 00000000 		.4byte	.LFB11
- 915 024b 14000000 		.4byte	.LFE11-.LFB11
+ 913 0245 6201     		.2byte	0x162
+ 914 0247 00000000 		.4byte	.LFB44
+ 915 024b 14000000 		.4byte	.LFE44-.LFB44
  916 024f 01       		.uleb128 0x1
  917 0250 9C       		.byte	0x9c
  918 0251 13       		.uleb128 0x13
  919 0252 3D020000 		.4byte	.LASF38
  920 0256 01       		.byte	0x1
- 921 0257 7C01     		.2byte	0x17c
- 922 0259 00000000 		.4byte	.LFB12
- 923 025d 14000000 		.4byte	.LFE12-.LFB12
+ 921 0257 7601     		.2byte	0x176
+ 922 0259 00000000 		.4byte	.LFB45
+ 923 025d 14000000 		.4byte	.LFE45-.LFB45
  924 0261 01       		.uleb128 0x1
  925 0262 9C       		.byte	0x9c
  926 0263 15       		.uleb128 0x15
  927 0264 76000000 		.4byte	0x76
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 24
-
-
  928 0268 73020000 		.4byte	0x273
  929 026c 16       		.uleb128 0x16
  930 026d D0000000 		.4byte	0xd0
  931 0271 03       		.byte	0x3
  932 0272 00       		.byte	0
  933 0273 17       		.uleb128 0x17
+ARM GAS  C:\Users\ole\AppData\Local\Temp\cccYGxhH.s 			page 24
+
+
  934 0274 60010000 		.4byte	.LASF39
  935 0278 01       		.byte	0x1
- 936 0279 27       		.byte	0x27
+ 936 0279 21       		.byte	0x21
  937 027a 63020000 		.4byte	0x263
  938 027e 18       		.uleb128 0x18
  939 027f 6A010000 		.4byte	.LASF40
  940 0283 01       		.byte	0x1
- 941 0284 29       		.byte	0x29
+ 941 0284 23       		.byte	0x23
  942 0285 76000000 		.4byte	0x76
  943 0289 05       		.uleb128 0x5
  944 028a 03       		.byte	0x3
@@ -1409,7 +1403,7 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  953 029f 17       		.uleb128 0x17
  954 02a0 10000000 		.4byte	.LASF41
  955 02a4 01       		.byte	0x1
- 956 02a5 2D       		.byte	0x2d
+ 956 02a5 27       		.byte	0x27
  957 02a6 8F020000 		.4byte	0x28f
  958 02aa 00       		.byte	0
  959              		.section	.debug_abbrev,"",%progbits
@@ -1438,15 +1432,15 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  982 0015 00       		.byte	0
  983 0016 0B       		.uleb128 0xb
  984 0017 0B       		.uleb128 0xb
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 25
-
-
  985 0018 3E       		.uleb128 0x3e
  986 0019 0B       		.uleb128 0xb
  987 001a 03       		.uleb128 0x3
  988 001b 0E       		.uleb128 0xe
  989 001c 00       		.byte	0
  990 001d 00       		.byte	0
+ARM GAS  C:\Users\ole\AppData\Local\Temp\cccYGxhH.s 			page 25
+
+
  991 001e 03       		.uleb128 0x3
  992 001f 16       		.uleb128 0x16
  993 0020 00       		.byte	0
@@ -1498,15 +1492,15 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  1039 004e 0B       		.uleb128 0xb
  1040 004f 49       		.uleb128 0x49
  1041 0050 13       		.uleb128 0x13
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 26
-
-
  1042 0051 00       		.byte	0
  1043 0052 00       		.byte	0
  1044 0053 08       		.uleb128 0x8
  1045 0054 15       		.uleb128 0x15
  1046 0055 00       		.byte	0
  1047 0056 27       		.uleb128 0x27
+ARM GAS  C:\Users\ole\AppData\Local\Temp\cccYGxhH.s 			page 26
+
+
  1048 0057 19       		.uleb128 0x19
  1049 0058 00       		.byte	0
  1050 0059 00       		.byte	0
@@ -1558,15 +1552,15 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  1096 0088 00       		.byte	0
  1097 0089 00       		.byte	0
  1098 008a 0C       		.uleb128 0xc
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 27
-
-
  1099 008b 2E       		.uleb128 0x2e
  1100 008c 01       		.byte	0x1
  1101 008d 3F       		.uleb128 0x3f
  1102 008e 19       		.uleb128 0x19
  1103 008f 03       		.uleb128 0x3
  1104 0090 0E       		.uleb128 0xe
+ARM GAS  C:\Users\ole\AppData\Local\Temp\cccYGxhH.s 			page 27
+
+
  1105 0091 3A       		.uleb128 0x3a
  1106 0092 0B       		.uleb128 0xb
  1107 0093 3B       		.uleb128 0x3b
@@ -1618,15 +1612,15 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  1153 00c2 12       		.uleb128 0x12
  1154 00c3 06       		.uleb128 0x6
  1155 00c4 40       		.uleb128 0x40
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 28
-
-
  1156 00c5 18       		.uleb128 0x18
  1157 00c6 9742     		.uleb128 0x2117
  1158 00c8 19       		.uleb128 0x19
  1159 00c9 01       		.uleb128 0x1
  1160 00ca 13       		.uleb128 0x13
  1161 00cb 00       		.byte	0
+ARM GAS  C:\Users\ole\AppData\Local\Temp\cccYGxhH.s 			page 28
+
+
  1162 00cc 00       		.byte	0
  1163 00cd 0F       		.uleb128 0xf
  1164 00ce 2E       		.uleb128 0x2e
@@ -1678,15 +1672,15 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  1210 00fd 3A       		.uleb128 0x3a
  1211 00fe 0B       		.uleb128 0xb
  1212 00ff 3B       		.uleb128 0x3b
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 29
-
-
  1213 0100 05       		.uleb128 0x5
  1214 0101 27       		.uleb128 0x27
  1215 0102 19       		.uleb128 0x19
  1216 0103 49       		.uleb128 0x49
  1217 0104 13       		.uleb128 0x13
  1218 0105 11       		.uleb128 0x11
+ARM GAS  C:\Users\ole\AppData\Local\Temp\cccYGxhH.s 			page 29
+
+
  1219 0106 01       		.uleb128 0x1
  1220 0107 12       		.uleb128 0x12
  1221 0108 06       		.uleb128 0x6
@@ -1738,15 +1732,15 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  1267 0138 00       		.byte	0
  1268 0139 14       		.uleb128 0x14
  1269 013a 2E       		.uleb128 0x2e
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 30
-
-
  1270 013b 00       		.byte	0
  1271 013c 3F       		.uleb128 0x3f
  1272 013d 19       		.uleb128 0x19
  1273 013e 03       		.uleb128 0x3
  1274 013f 0E       		.uleb128 0xe
  1275 0140 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\ole\AppData\Local\Temp\cccYGxhH.s 			page 30
+
+
  1276 0141 0B       		.uleb128 0xb
  1277 0142 3B       		.uleb128 0x3b
  1278 0143 05       		.uleb128 0x5
@@ -1798,15 +1792,15 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  1324 0172 3C       		.uleb128 0x3c
  1325 0173 19       		.uleb128 0x19
  1326 0174 00       		.byte	0
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 31
-
-
  1327 0175 00       		.byte	0
  1328 0176 18       		.uleb128 0x18
  1329 0177 34       		.uleb128 0x34
  1330 0178 00       		.byte	0
  1331 0179 03       		.uleb128 0x3
  1332 017a 0E       		.uleb128 0xe
+ARM GAS  C:\Users\ole\AppData\Local\Temp\cccYGxhH.s 			page 31
+
+
  1333 017b 3A       		.uleb128 0x3a
  1334 017c 0B       		.uleb128 0xb
  1335 017d 3B       		.uleb128 0x3b
@@ -1828,70 +1822,70 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  1351 000b 00       		.byte	0
  1352 000c 0000     		.2byte	0
  1353 000e 0000     		.2byte	0
- 1354 0010 00000000 		.4byte	.LFB0
- 1355 0014 24000000 		.4byte	.LFE0-.LFB0
- 1356 0018 00000000 		.4byte	.LFB1
- 1357 001c 24000000 		.4byte	.LFE1-.LFB1
- 1358 0020 00000000 		.4byte	.LFB2
- 1359 0024 18000000 		.4byte	.LFE2-.LFB2
- 1360 0028 00000000 		.4byte	.LFB3
- 1361 002c C8000000 		.4byte	.LFE3-.LFB3
- 1362 0030 00000000 		.4byte	.LFB4
- 1363 0034 1C000000 		.4byte	.LFE4-.LFB4
- 1364 0038 00000000 		.4byte	.LFB5
- 1365 003c 14000000 		.4byte	.LFE5-.LFB5
- 1366 0040 00000000 		.4byte	.LFB6
- 1367 0044 50000000 		.4byte	.LFE6-.LFB6
- 1368 0048 00000000 		.4byte	.LFB7
- 1369 004c 2C000000 		.4byte	.LFE7-.LFB7
- 1370 0050 00000000 		.4byte	.LFB8
- 1371 0054 14000000 		.4byte	.LFE8-.LFB8
- 1372 0058 00000000 		.4byte	.LFB9
- 1373 005c 20000000 		.4byte	.LFE9-.LFB9
- 1374 0060 00000000 		.4byte	.LFB10
- 1375 0064 14000000 		.4byte	.LFE10-.LFB10
- 1376 0068 00000000 		.4byte	.LFB11
- 1377 006c 14000000 		.4byte	.LFE11-.LFB11
- 1378 0070 00000000 		.4byte	.LFB12
- 1379 0074 14000000 		.4byte	.LFE12-.LFB12
+ 1354 0010 00000000 		.4byte	.LFB33
+ 1355 0014 24000000 		.4byte	.LFE33-.LFB33
+ 1356 0018 00000000 		.4byte	.LFB34
+ 1357 001c 24000000 		.4byte	.LFE34-.LFB34
+ 1358 0020 00000000 		.4byte	.LFB35
+ 1359 0024 18000000 		.4byte	.LFE35-.LFB35
+ 1360 0028 00000000 		.4byte	.LFB36
+ 1361 002c C8000000 		.4byte	.LFE36-.LFB36
+ 1362 0030 00000000 		.4byte	.LFB37
+ 1363 0034 1C000000 		.4byte	.LFE37-.LFB37
+ 1364 0038 00000000 		.4byte	.LFB38
+ 1365 003c 14000000 		.4byte	.LFE38-.LFB38
+ 1366 0040 00000000 		.4byte	.LFB39
+ 1367 0044 50000000 		.4byte	.LFE39-.LFB39
+ 1368 0048 00000000 		.4byte	.LFB40
+ 1369 004c 2C000000 		.4byte	.LFE40-.LFB40
+ 1370 0050 00000000 		.4byte	.LFB41
+ 1371 0054 14000000 		.4byte	.LFE41-.LFB41
+ 1372 0058 00000000 		.4byte	.LFB42
+ 1373 005c 20000000 		.4byte	.LFE42-.LFB42
+ 1374 0060 00000000 		.4byte	.LFB43
+ 1375 0064 14000000 		.4byte	.LFE43-.LFB43
+ 1376 0068 00000000 		.4byte	.LFB44
+ 1377 006c 14000000 		.4byte	.LFE44-.LFB44
+ 1378 0070 00000000 		.4byte	.LFB45
+ 1379 0074 14000000 		.4byte	.LFE45-.LFB45
  1380 0078 00000000 		.4byte	0
  1381 007c 00000000 		.4byte	0
  1382              		.section	.debug_ranges,"",%progbits
  1383              	.Ldebug_ranges0:
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 32
+ 1384 0000 00000000 		.4byte	.LFB33
+ 1385 0004 24000000 		.4byte	.LFE33
+ 1386 0008 00000000 		.4byte	.LFB34
+ 1387 000c 24000000 		.4byte	.LFE34
+ 1388 0010 00000000 		.4byte	.LFB35
+ 1389 0014 18000000 		.4byte	.LFE35
+ARM GAS  C:\Users\ole\AppData\Local\Temp\cccYGxhH.s 			page 32
 
 
- 1384 0000 00000000 		.4byte	.LFB0
- 1385 0004 24000000 		.4byte	.LFE0
- 1386 0008 00000000 		.4byte	.LFB1
- 1387 000c 24000000 		.4byte	.LFE1
- 1388 0010 00000000 		.4byte	.LFB2
- 1389 0014 18000000 		.4byte	.LFE2
- 1390 0018 00000000 		.4byte	.LFB3
- 1391 001c C8000000 		.4byte	.LFE3
- 1392 0020 00000000 		.4byte	.LFB4
- 1393 0024 1C000000 		.4byte	.LFE4
- 1394 0028 00000000 		.4byte	.LFB5
- 1395 002c 14000000 		.4byte	.LFE5
- 1396 0030 00000000 		.4byte	.LFB6
- 1397 0034 50000000 		.4byte	.LFE6
- 1398 0038 00000000 		.4byte	.LFB7
- 1399 003c 2C000000 		.4byte	.LFE7
- 1400 0040 00000000 		.4byte	.LFB8
- 1401 0044 14000000 		.4byte	.LFE8
- 1402 0048 00000000 		.4byte	.LFB9
- 1403 004c 20000000 		.4byte	.LFE9
- 1404 0050 00000000 		.4byte	.LFB10
- 1405 0054 14000000 		.4byte	.LFE10
- 1406 0058 00000000 		.4byte	.LFB11
- 1407 005c 14000000 		.4byte	.LFE11
- 1408 0060 00000000 		.4byte	.LFB12
- 1409 0064 14000000 		.4byte	.LFE12
+ 1390 0018 00000000 		.4byte	.LFB36
+ 1391 001c C8000000 		.4byte	.LFE36
+ 1392 0020 00000000 		.4byte	.LFB37
+ 1393 0024 1C000000 		.4byte	.LFE37
+ 1394 0028 00000000 		.4byte	.LFB38
+ 1395 002c 14000000 		.4byte	.LFE38
+ 1396 0030 00000000 		.4byte	.LFB39
+ 1397 0034 50000000 		.4byte	.LFE39
+ 1398 0038 00000000 		.4byte	.LFB40
+ 1399 003c 2C000000 		.4byte	.LFE40
+ 1400 0040 00000000 		.4byte	.LFB41
+ 1401 0044 14000000 		.4byte	.LFE41
+ 1402 0048 00000000 		.4byte	.LFB42
+ 1403 004c 20000000 		.4byte	.LFE42
+ 1404 0050 00000000 		.4byte	.LFB43
+ 1405 0054 14000000 		.4byte	.LFE43
+ 1406 0058 00000000 		.4byte	.LFB44
+ 1407 005c 14000000 		.4byte	.LFE44
+ 1408 0060 00000000 		.4byte	.LFB45
+ 1409 0064 14000000 		.4byte	.LFE45
  1410 0068 00000000 		.4byte	0
  1411 006c 00000000 		.4byte	0
  1412              		.section	.debug_line,"",%progbits
  1413              	.Ldebug_line0:
- 1414 0000 98020000 		.section	.debug_str,"MS",%progbits,1
+ 1414 0000 97020000 		.section	.debug_str,"MS",%progbits,1
  1414      02004401 
  1414      00000201 
  1414      FB0E0D00 
@@ -1918,15 +1912,15 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  1424 002e 6973725F 		.ascii	"isr_pwm_GetPriority\000"
  1424      70776D5F 
  1424      47657450 
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 33
-
-
  1424      72696F72 
  1424      69747900 
  1425              	.LASF3:
  1426 0042 73686F72 		.ascii	"short unsigned int\000"
  1426      7420756E 
  1426      7369676E 
+ARM GAS  C:\Users\ole\AppData\Local\Temp\cccYGxhH.s 			page 33
+
+
  1426      65642069 
  1426      6E7400
  1427              	.LASF34:
@@ -1978,15 +1972,15 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  1442      7400
  1443              	.LASF11:
  1444 012a 75696E74 		.ascii	"uint8\000"
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 34
-
-
  1444      3800
  1445              	.LASF30:
  1446 0130 7072696F 		.ascii	"priority\000"
  1446      72697479 
  1446      00
  1447              	.LASF37:
+ARM GAS  C:\Users\ole\AppData\Local\Temp\cccYGxhH.s 			page 34
+
+
  1448 0139 6973725F 		.ascii	"isr_pwm_SetPending\000"
  1448      70776D5F 
  1448      53657450 
@@ -2038,15 +2032,15 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  1468      65642069 
  1469              	.LASF10:
  1470 01cb 75696E74 		.ascii	"uint8_t\000"
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 35
-
-
  1470      385F7400 
  1471              	.LASF17:
  1472 01d3 63796973 		.ascii	"cyisraddress\000"
  1472      72616464 
  1472      72657373 
  1472      00
+ARM GAS  C:\Users\ole\AppData\Local\Temp\cccYGxhH.s 			page 35
+
+
  1473              	.LASF26:
  1474 01e0 6973725F 		.ascii	"isr_pwm_StartEx\000"
  1474      70776D5F 
@@ -2098,15 +2092,15 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 1
  1494      7400
  1495              	.LASF27:
  1496 0276 6973725F 		.ascii	"isr_pwm_SetVector\000"
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cc8PWEhG.s 			page 36
-
-
  1496      70776D5F 
  1496      53657456 
  1496      6563746F 
  1496      7200
  1497              	.LASF36:
  1498 0288 6973725F 		.ascii	"isr_pwm_Disable\000"
+ARM GAS  C:\Users\ole\AppData\Local\Temp\cccYGxhH.s 			page 36
+
+
  1498      70776D5F 
  1498      44697361 
  1498      626C6500 

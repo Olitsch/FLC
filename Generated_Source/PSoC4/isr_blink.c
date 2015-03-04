@@ -26,9 +26,7 @@
 *  Place your includes, defines and code here 
 ********************************************************************************/
 /* `#START isr_blink_intc` */
-#include <uart_2_spi_uart.h>
-#include <blink_timer.h>
-#include <button.h>
+#include <project.h>
     
 enum lights {strobe = 0, collision, navigation, landing};
 enum chanels {ch1 = 0, ch2, ch3, ch4, ch5, ch6, ch7, ch8};
@@ -50,6 +48,7 @@ extern uint16_t flashTime_CollisionLight;
 uint16_t counter_blink = 0;
 uint16_t counter_off_millis = 0;
 uint16_t counter_setup_millis = 0;
+uint16_t counter_setup_adj_millis = 0;
 uint16_t counter_button_millis = 0;
     
 /* `#END` */
@@ -211,6 +210,15 @@ CY_ISR(isr_blink_Interrupt)
         counter_blink = 0;
     
     if (channelValue[ch3] == 0 && channelValue[ch2] == 255) // left stick in lower right corner
+    {
+        counter_setup_adj_millis++;
+    }
+    else
+    {
+        counter_setup_millis = 0;
+    }
+    
+    if (channelValue[ch3] == 0 && channelValue[ch2] == 0) // left stick in lower right corner
     {
         counter_setup_millis++;
     }

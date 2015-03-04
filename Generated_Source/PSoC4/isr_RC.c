@@ -26,20 +26,13 @@
 *  Place your includes, defines and code here 
 ********************************************************************************/
 /* `#START isr_RC_intc` */
-#include <isr_blink.h>
-#include <PWM_Timer.h>
-#include <RC_Timer.h> 
-#include <uart_2_spi_uart.h>
-#include <CollisionLight.h>
-#include <LandingLight.h>
-#include <NavLight.h>
-#include <StrobeLight.h>
+#include <project.h>
 #include <stdio.h>
 
 enum lights {strobe = 0, collision, navigation, landing};
 
 uint8_t channelCount = 0;
-uint8_t sync = 0;
+uint8_t cppm_sync = 0;
 extern int16_t channelTime[8];
 extern uint8_t pwm_light_adj[4];
 /* `#END` */
@@ -163,9 +156,9 @@ CY_ISR(isr_RC_Interrupt)
     if  (time > 4000)
     {
         channelCount = 0;
-        sync = 1;
+        cppm_sync = 1;
         //UART_2_UartPutChar('x');
-    }else if (time > 900 && sync == 1 && channelCount < 8)
+    }else if (time > 900 && cppm_sync == 1 && channelCount < 8)
     {
         channelTime[channelCount] = time;
         
@@ -175,7 +168,7 @@ CY_ISR(isr_RC_Interrupt)
         //UART_2_UartPutString(buffer);
         
         channelCount++;
-    }else sync = 0;
+    }else cppm_sync = 0;
     //channelCount++;
   
     
