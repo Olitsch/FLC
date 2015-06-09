@@ -664,15 +664,15 @@
 .set Blink_Timer_cy_m0s8_tcpwm_1__TR_CTRL2, CYREG_TCPWM_CNT1_TR_CTRL2
 
 /* StrobeLight */
-.set StrobeLight__0__DM__MASK, 0x1C0000
-.set StrobeLight__0__DM__SHIFT, 18
+.set StrobeLight__0__DM__MASK, 0x1C0
+.set StrobeLight__0__DM__SHIFT, 6
 .set StrobeLight__0__DR, CYREG_PRT1_DR
 .set StrobeLight__0__HSIOM, CYREG_HSIOM_PORT_SEL1
-.set StrobeLight__0__HSIOM_MASK, 0x0F000000
-.set StrobeLight__0__HSIOM_SHIFT, 24
+.set StrobeLight__0__HSIOM_MASK, 0x00000F00
+.set StrobeLight__0__HSIOM_SHIFT, 8
 .set StrobeLight__0__INTCFG, CYREG_PRT1_INTCFG
 .set StrobeLight__0__INTSTAT, CYREG_PRT1_INTSTAT
-.set StrobeLight__0__MASK, 0x40
+.set StrobeLight__0__MASK, 0x04
 .set StrobeLight__0__PA__CFG0, CYREG_UDB_PA1_CFG0
 .set StrobeLight__0__PA__CFG1, CYREG_UDB_PA1_CFG1
 .set StrobeLight__0__PA__CFG10, CYREG_UDB_PA1_CFG10
@@ -692,11 +692,11 @@
 .set StrobeLight__0__PC2, CYREG_PRT1_PC2
 .set StrobeLight__0__PORT, 1
 .set StrobeLight__0__PS, CYREG_PRT1_PS
-.set StrobeLight__0__SHIFT, 6
+.set StrobeLight__0__SHIFT, 2
 .set StrobeLight__DR, CYREG_PRT1_DR
 .set StrobeLight__INTCFG, CYREG_PRT1_INTCFG
 .set StrobeLight__INTSTAT, CYREG_PRT1_INTSTAT
-.set StrobeLight__MASK, 0x40
+.set StrobeLight__MASK, 0x04
 .set StrobeLight__PA__CFG0, CYREG_UDB_PA1_CFG0
 .set StrobeLight__PA__CFG1, CYREG_UDB_PA1_CFG1
 .set StrobeLight__PA__CFG10, CYREG_UDB_PA1_CFG10
@@ -716,7 +716,7 @@
 .set StrobeLight__PC2, CYREG_PRT1_PC2
 .set StrobeLight__PORT, 1
 .set StrobeLight__PS, CYREG_PRT1_PS
-.set StrobeLight__SHIFT, 6
+.set StrobeLight__SHIFT, 2
 
 /* LandingLight */
 .set LandingLight__0__DM__MASK, 0x07

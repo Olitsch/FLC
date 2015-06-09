@@ -664,15 +664,15 @@
 #define Blink_Timer_cy_m0s8_tcpwm_1__TR_CTRL2 CYREG_TCPWM_CNT1_TR_CTRL2
 
 /* StrobeLight */
-#define StrobeLight__0__DM__MASK 0x1C0000u
-#define StrobeLight__0__DM__SHIFT 18
+#define StrobeLight__0__DM__MASK 0x1C0u
+#define StrobeLight__0__DM__SHIFT 6
 #define StrobeLight__0__DR CYREG_PRT1_DR
 #define StrobeLight__0__HSIOM CYREG_HSIOM_PORT_SEL1
-#define StrobeLight__0__HSIOM_MASK 0x0F000000u
-#define StrobeLight__0__HSIOM_SHIFT 24u
+#define StrobeLight__0__HSIOM_MASK 0x00000F00u
+#define StrobeLight__0__HSIOM_SHIFT 8u
 #define StrobeLight__0__INTCFG CYREG_PRT1_INTCFG
 #define StrobeLight__0__INTSTAT CYREG_PRT1_INTSTAT
-#define StrobeLight__0__MASK 0x40u
+#define StrobeLight__0__MASK 0x04u
 #define StrobeLight__0__PA__CFG0 CYREG_UDB_PA1_CFG0
 #define StrobeLight__0__PA__CFG1 CYREG_UDB_PA1_CFG1
 #define StrobeLight__0__PA__CFG10 CYREG_UDB_PA1_CFG10
@@ -692,11 +692,11 @@
 #define StrobeLight__0__PC2 CYREG_PRT1_PC2
 #define StrobeLight__0__PORT 1u
 #define StrobeLight__0__PS CYREG_PRT1_PS
-#define StrobeLight__0__SHIFT 6
+#define StrobeLight__0__SHIFT 2
 #define StrobeLight__DR CYREG_PRT1_DR
 #define StrobeLight__INTCFG CYREG_PRT1_INTCFG
 #define StrobeLight__INTSTAT CYREG_PRT1_INTSTAT
-#define StrobeLight__MASK 0x40u
+#define StrobeLight__MASK 0x04u
 #define StrobeLight__PA__CFG0 CYREG_UDB_PA1_CFG0
 #define StrobeLight__PA__CFG1 CYREG_UDB_PA1_CFG1
 #define StrobeLight__PA__CFG10 CYREG_UDB_PA1_CFG10
@@ -716,7 +716,7 @@
 #define StrobeLight__PC2 CYREG_PRT1_PC2
 #define StrobeLight__PORT 1u
 #define StrobeLight__PS CYREG_PRT1_PS
-#define StrobeLight__SHIFT 6
+#define StrobeLight__SHIFT 2
 
 /* LandingLight */
 #define LandingLight__0__DM__MASK 0x07u
@@ -829,7 +829,7 @@
 #define CollisionLight__SHIFT 3
 
 /* Miscellaneous */
-#define CY_VERSION "PSoC Creator  3.1 SP1"
+#define CY_VERSION "PSoC Creator  3.1 SP2"
 #define CYDEV_BCLK__HFCLK__HZ 24000000U
 #define CYDEV_BCLK__HFCLK__KHZ 24000U
 #define CYDEV_BCLK__HFCLK__MHZ 24U

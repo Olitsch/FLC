@@ -733,7 +733,7 @@ END GROUP
                 0x00004880                appl2_start = (appl1_start + ALIGN ((((0x8000 - appl1_start) - (0x2 * CY_FLASH_ROW_SIZE)) / 0x2), CY_FLASH_ROW_SIZE))
                 0x00001180                appl_start = (CY_APPL_NUM == 0x1)?appl1_start:appl2_start
 
-.text           0x00001180     0x21e6
+.text           0x00001180     0x21f6
  CREATE_OBJECT_SYMBOLS
                 0x00001180                PROVIDE (__cy_interrupt_vector, RomVectors)
  *(.romvectors)
@@ -872,163 +872,163 @@ END GROUP
                 0x000026ec       0x24 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_blink.o)
                 0x000026ec                isr_blink_Start
  .text.isr_blink_Interrupt
-                0x00002710      0x1a8 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_blink.o)
+                0x00002710      0x1b8 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_blink.o)
                 0x00002710                isr_blink_Interrupt
  .text.isr_blink_SetVector
-                0x000028b8       0x1c .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_blink.o)
-                0x000028b8                isr_blink_SetVector
+                0x000028c8       0x1c .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_blink.o)
+                0x000028c8                isr_blink_SetVector
  .text.isr_blink_SetPriority
-                0x000028d4       0x50 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_blink.o)
-                0x000028d4                isr_blink_SetPriority
+                0x000028e4       0x50 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_blink.o)
+                0x000028e4                isr_blink_SetPriority
  .text.isr_blink_Enable
-                0x00002924       0x14 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_blink.o)
-                0x00002924                isr_blink_Enable
+                0x00002934       0x14 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_blink.o)
+                0x00002934                isr_blink_Enable
  .text.isr_blink_Disable
-                0x00002938       0x14 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_blink.o)
-                0x00002938                isr_blink_Disable
+                0x00002948       0x14 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_blink.o)
+                0x00002948                isr_blink_Disable
  .text.isr_blink_ClearPending
-                0x0000294c       0x14 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_blink.o)
-                0x0000294c                isr_blink_ClearPending
+                0x0000295c       0x14 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_blink.o)
+                0x0000295c                isr_blink_ClearPending
  .text.RC_Timer_Init
-                0x00002960       0x38 .\CortexM0\ARM_GCC_484\Debug\FLC.a(RC_Timer.o)
-                0x00002960                RC_Timer_Init
+                0x00002970       0x38 .\CortexM0\ARM_GCC_484\Debug\FLC.a(RC_Timer.o)
+                0x00002970                RC_Timer_Init
  .text.RC_Timer_Enable
-                0x00002998       0x38 .\CortexM0\ARM_GCC_484\Debug\FLC.a(RC_Timer.o)
-                0x00002998                RC_Timer_Enable
+                0x000029a8       0x38 .\CortexM0\ARM_GCC_484\Debug\FLC.a(RC_Timer.o)
+                0x000029a8                RC_Timer_Enable
  .text.RC_Timer_Start
-                0x000029d0       0x24 .\CortexM0\ARM_GCC_484\Debug\FLC.a(RC_Timer.o)
-                0x000029d0                RC_Timer_Start
+                0x000029e0       0x24 .\CortexM0\ARM_GCC_484\Debug\FLC.a(RC_Timer.o)
+                0x000029e0                RC_Timer_Start
  .text.RC_Timer_WriteCounter
-                0x000029f4       0x1c .\CortexM0\ARM_GCC_484\Debug\FLC.a(RC_Timer.o)
-                0x000029f4                RC_Timer_WriteCounter
+                0x00002a04       0x1c .\CortexM0\ARM_GCC_484\Debug\FLC.a(RC_Timer.o)
+                0x00002a04                RC_Timer_WriteCounter
  .text.RC_Timer_ReadCounter
-                0x00002a10       0x18 .\CortexM0\ARM_GCC_484\Debug\FLC.a(RC_Timer.o)
-                0x00002a10                RC_Timer_ReadCounter
+                0x00002a20       0x18 .\CortexM0\ARM_GCC_484\Debug\FLC.a(RC_Timer.o)
+                0x00002a20                RC_Timer_ReadCounter
  .text.RC_Timer_WritePeriod
-                0x00002a28       0x1c .\CortexM0\ARM_GCC_484\Debug\FLC.a(RC_Timer.o)
-                0x00002a28                RC_Timer_WritePeriod
+                0x00002a38       0x1c .\CortexM0\ARM_GCC_484\Debug\FLC.a(RC_Timer.o)
+                0x00002a38                RC_Timer_WritePeriod
  .text.RC_Timer_TriggerCommand
-                0x00002a44       0x3c .\CortexM0\ARM_GCC_484\Debug\FLC.a(RC_Timer.o)
-                0x00002a44                RC_Timer_TriggerCommand
+                0x00002a54       0x3c .\CortexM0\ARM_GCC_484\Debug\FLC.a(RC_Timer.o)
+                0x00002a54                RC_Timer_TriggerCommand
  .text.RC_Timer_SetInterruptMode
-                0x00002a80       0x18 .\CortexM0\ARM_GCC_484\Debug\FLC.a(RC_Timer.o)
-                0x00002a80                RC_Timer_SetInterruptMode
+                0x00002a90       0x18 .\CortexM0\ARM_GCC_484\Debug\FLC.a(RC_Timer.o)
+                0x00002a90                RC_Timer_SetInterruptMode
  .text.RC_Timer_ClearInterrupt
-                0x00002a98       0x18 .\CortexM0\ARM_GCC_484\Debug\FLC.a(RC_Timer.o)
-                0x00002a98                RC_Timer_ClearInterrupt
+                0x00002aa8       0x18 .\CortexM0\ARM_GCC_484\Debug\FLC.a(RC_Timer.o)
+                0x00002aa8                RC_Timer_ClearInterrupt
  .text.isr_pwm_Start
-                0x00002ab0       0x24 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_pwm.o)
-                0x00002ab0                isr_pwm_Start
+                0x00002ac0       0x24 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_pwm.o)
+                0x00002ac0                isr_pwm_Start
  .text.isr_pwm_Interrupt
-                0x00002ad4       0xc8 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_pwm.o)
-                0x00002ad4                isr_pwm_Interrupt
+                0x00002ae4       0xc8 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_pwm.o)
+                0x00002ae4                isr_pwm_Interrupt
  .text.isr_pwm_SetVector
-                0x00002b9c       0x1c .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_pwm.o)
-                0x00002b9c                isr_pwm_SetVector
+                0x00002bac       0x1c .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_pwm.o)
+                0x00002bac                isr_pwm_SetVector
  .text.isr_pwm_SetPriority
-                0x00002bb8       0x50 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_pwm.o)
-                0x00002bb8                isr_pwm_SetPriority
+                0x00002bc8       0x50 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_pwm.o)
+                0x00002bc8                isr_pwm_SetPriority
  .text.isr_pwm_Enable
-                0x00002c08       0x14 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_pwm.o)
-                0x00002c08                isr_pwm_Enable
+                0x00002c18       0x14 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_pwm.o)
+                0x00002c18                isr_pwm_Enable
  .text.isr_pwm_Disable
-                0x00002c1c       0x14 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_pwm.o)
-                0x00002c1c                isr_pwm_Disable
+                0x00002c2c       0x14 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_pwm.o)
+                0x00002c2c                isr_pwm_Disable
  .text.isr_pwm_ClearPending
-                0x00002c30       0x14 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_pwm.o)
-                0x00002c30                isr_pwm_ClearPending
+                0x00002c40       0x14 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_pwm.o)
+                0x00002c40                isr_pwm_ClearPending
  .text.Blink_Timer_Init
-                0x00002c44       0x34 .\CortexM0\ARM_GCC_484\Debug\FLC.a(Blink_Timer.o)
-                0x00002c44                Blink_Timer_Init
+                0x00002c54       0x34 .\CortexM0\ARM_GCC_484\Debug\FLC.a(Blink_Timer.o)
+                0x00002c54                Blink_Timer_Init
  .text.Blink_Timer_Enable
-                0x00002c78       0x38 .\CortexM0\ARM_GCC_484\Debug\FLC.a(Blink_Timer.o)
-                0x00002c78                Blink_Timer_Enable
+                0x00002c88       0x38 .\CortexM0\ARM_GCC_484\Debug\FLC.a(Blink_Timer.o)
+                0x00002c88                Blink_Timer_Enable
  .text.Blink_Timer_Start
-                0x00002cb0       0x24 .\CortexM0\ARM_GCC_484\Debug\FLC.a(Blink_Timer.o)
-                0x00002cb0                Blink_Timer_Start
+                0x00002cc0       0x24 .\CortexM0\ARM_GCC_484\Debug\FLC.a(Blink_Timer.o)
+                0x00002cc0                Blink_Timer_Start
  .text.Blink_Timer_WriteCounter
-                0x00002cd4       0x1c .\CortexM0\ARM_GCC_484\Debug\FLC.a(Blink_Timer.o)
-                0x00002cd4                Blink_Timer_WriteCounter
+                0x00002ce4       0x1c .\CortexM0\ARM_GCC_484\Debug\FLC.a(Blink_Timer.o)
+                0x00002ce4                Blink_Timer_WriteCounter
  .text.Blink_Timer_WritePeriod
-                0x00002cf0       0x1c .\CortexM0\ARM_GCC_484\Debug\FLC.a(Blink_Timer.o)
-                0x00002cf0                Blink_Timer_WritePeriod
+                0x00002d00       0x1c .\CortexM0\ARM_GCC_484\Debug\FLC.a(Blink_Timer.o)
+                0x00002d00                Blink_Timer_WritePeriod
  .text.Blink_Timer_TriggerCommand
-                0x00002d0c       0x3c .\CortexM0\ARM_GCC_484\Debug\FLC.a(Blink_Timer.o)
-                0x00002d0c                Blink_Timer_TriggerCommand
+                0x00002d1c       0x3c .\CortexM0\ARM_GCC_484\Debug\FLC.a(Blink_Timer.o)
+                0x00002d1c                Blink_Timer_TriggerCommand
  .text.Blink_Timer_SetInterruptMode
-                0x00002d48       0x18 .\CortexM0\ARM_GCC_484\Debug\FLC.a(Blink_Timer.o)
-                0x00002d48                Blink_Timer_SetInterruptMode
+                0x00002d58       0x18 .\CortexM0\ARM_GCC_484\Debug\FLC.a(Blink_Timer.o)
+                0x00002d58                Blink_Timer_SetInterruptMode
  .text.Blink_Timer_ClearInterrupt
-                0x00002d60       0x18 .\CortexM0\ARM_GCC_484\Debug\FLC.a(Blink_Timer.o)
-                0x00002d60                Blink_Timer_ClearInterrupt
+                0x00002d70       0x18 .\CortexM0\ARM_GCC_484\Debug\FLC.a(Blink_Timer.o)
+                0x00002d70                Blink_Timer_ClearInterrupt
  .text.isr_RC_Start
-                0x00002d78       0x24 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_RC.o)
-                0x00002d78                isr_RC_Start
+                0x00002d88       0x24 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_RC.o)
+                0x00002d88                isr_RC_Start
  .text.isr_RC_Interrupt
-                0x00002d9c       0x88 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_RC.o)
-                0x00002d9c                isr_RC_Interrupt
+                0x00002dac       0x88 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_RC.o)
+                0x00002dac                isr_RC_Interrupt
  .text.isr_RC_SetVector
-                0x00002e24       0x1c .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_RC.o)
-                0x00002e24                isr_RC_SetVector
+                0x00002e34       0x1c .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_RC.o)
+                0x00002e34                isr_RC_SetVector
  .text.isr_RC_SetPriority
-                0x00002e40       0x50 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_RC.o)
-                0x00002e40                isr_RC_SetPriority
+                0x00002e50       0x50 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_RC.o)
+                0x00002e50                isr_RC_SetPriority
  .text.isr_RC_Enable
-                0x00002e90       0x14 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_RC.o)
-                0x00002e90                isr_RC_Enable
+                0x00002ea0       0x14 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_RC.o)
+                0x00002ea0                isr_RC_Enable
  .text.isr_RC_Disable
-                0x00002ea4       0x14 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_RC.o)
-                0x00002ea4                isr_RC_Disable
+                0x00002eb4       0x14 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_RC.o)
+                0x00002eb4                isr_RC_Disable
  .text.isr_RC_ClearPending
-                0x00002eb8       0x14 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_RC.o)
-                0x00002eb8                isr_RC_ClearPending
+                0x00002ec8       0x14 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_RC.o)
+                0x00002ec8                isr_RC_ClearPending
  .text.Em_EEPROM_1_Write
-                0x00002ecc      0x174 .\CortexM0\ARM_GCC_484\Debug\FLC.a(Em_EEPROM_1.o)
-                0x00002ecc                Em_EEPROM_1_Write
+                0x00002edc      0x174 .\CortexM0\ARM_GCC_484\Debug\FLC.a(Em_EEPROM_1.o)
+                0x00002edc                Em_EEPROM_1_Write
  .text.Button_Read
-                0x00003040       0x1c .\CortexM0\ARM_GCC_484\Debug\FLC.a(Button.o)
-                0x00003040                Button_Read
+                0x00003050       0x1c .\CortexM0\ARM_GCC_484\Debug\FLC.a(Button.o)
+                0x00003050                Button_Read
  .text.UART_1_SpiUartReadRxData
-                0x0000305c       0x20 .\CortexM0\ARM_GCC_484\Debug\FLC.a(UART_1_SPI_UART.o)
-                0x0000305c                UART_1_SpiUartReadRxData
+                0x0000306c       0x20 .\CortexM0\ARM_GCC_484\Debug\FLC.a(UART_1_SPI_UART.o)
+                0x0000306c                UART_1_SpiUartReadRxData
  .text.UART_1_SpiUartGetRxBufferSize
-                0x0000307c       0x20 .\CortexM0\ARM_GCC_484\Debug\FLC.a(UART_1_SPI_UART.o)
-                0x0000307c                UART_1_SpiUartGetRxBufferSize
+                0x0000308c       0x20 .\CortexM0\ARM_GCC_484\Debug\FLC.a(UART_1_SPI_UART.o)
+                0x0000308c                UART_1_SpiUartGetRxBufferSize
  .text.UART_2_SpiUartReadRxData
-                0x0000309c       0x20 .\CortexM0\ARM_GCC_484\Debug\FLC.a(UART_2_SPI_UART.o)
-                0x0000309c                UART_2_SpiUartReadRxData
+                0x000030ac       0x20 .\CortexM0\ARM_GCC_484\Debug\FLC.a(UART_2_SPI_UART.o)
+                0x000030ac                UART_2_SpiUartReadRxData
  .text.UART_2_SpiUartGetRxBufferSize
-                0x000030bc       0x20 .\CortexM0\ARM_GCC_484\Debug\FLC.a(UART_2_SPI_UART.o)
-                0x000030bc                UART_2_SpiUartGetRxBufferSize
+                0x000030cc       0x20 .\CortexM0\ARM_GCC_484\Debug\FLC.a(UART_2_SPI_UART.o)
+                0x000030cc                UART_2_SpiUartGetRxBufferSize
  .text.UART_2_SpiUartWriteTxData
-                0x000030dc       0x2c .\CortexM0\ARM_GCC_484\Debug\FLC.a(UART_2_SPI_UART.o)
-                0x000030dc                UART_2_SpiUartWriteTxData
+                0x000030ec       0x2c .\CortexM0\ARM_GCC_484\Debug\FLC.a(UART_2_SPI_UART.o)
+                0x000030ec                UART_2_SpiUartWriteTxData
  .text.LandingLight_Write
-                0x00003108       0x48 .\CortexM0\ARM_GCC_484\Debug\FLC.a(LandingLight.o)
-                0x00003108                LandingLight_Write
+                0x00003118       0x48 .\CortexM0\ARM_GCC_484\Debug\FLC.a(LandingLight.o)
+                0x00003118                LandingLight_Write
  .text.NavLight_Write
-                0x00003150       0x4c .\CortexM0\ARM_GCC_484\Debug\FLC.a(NavLight.o)
-                0x00003150                NavLight_Write
+                0x00003160       0x4c .\CortexM0\ARM_GCC_484\Debug\FLC.a(NavLight.o)
+                0x00003160                NavLight_Write
  .text.StrobeLight_Write
-                0x0000319c       0x4c .\CortexM0\ARM_GCC_484\Debug\FLC.a(StrobeLight.o)
-                0x0000319c                StrobeLight_Write
+                0x000031ac       0x4c .\CortexM0\ARM_GCC_484\Debug\FLC.a(StrobeLight.o)
+                0x000031ac                StrobeLight_Write
  .text.CollisionLight_Write
-                0x000031e8       0x4c .\CortexM0\ARM_GCC_484\Debug\FLC.a(CollisionLight.o)
-                0x000031e8                CollisionLight_Write
- .text          0x00003234       0xc0 c:/program files (x86)/cypress/psoc creator/3.1/psoc creator/import/gnu_cs/arm/4.8.4/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m\libgcc.a(_divsi3.o)
-                0x00003234                __divsi3
-                0x00003234                __aeabi_idiv
-                0x000032e0                __aeabi_idivmod
- .text          0x000032f4        0x4 c:/program files (x86)/cypress/psoc creator/3.1/psoc creator/import/gnu_cs/arm/4.8.4/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m\libgcc.a(_dvmd_tls.o)
-                0x000032f4                __aeabi_idiv0
-                0x000032f4                __aeabi_ldiv0
+                0x000031f8       0x4c .\CortexM0\ARM_GCC_484\Debug\FLC.a(CollisionLight.o)
+                0x000031f8                CollisionLight_Write
+ .text          0x00003244       0xc0 c:/program files (x86)/cypress/psoc creator/3.1/psoc creator/import/gnu_cs/arm/4.8.4/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m\libgcc.a(_divsi3.o)
+                0x00003244                __divsi3
+                0x00003244                __aeabi_idiv
+                0x000032f0                __aeabi_idivmod
+ .text          0x00003304        0x4 c:/program files (x86)/cypress/psoc creator/3.1/psoc creator/import/gnu_cs/arm/4.8.4/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m\libgcc.a(_dvmd_tls.o)
+                0x00003304                __aeabi_idiv0
+                0x00003304                __aeabi_ldiv0
  .text.__libc_init_array
-                0x000032f8       0x4c c:/program files (x86)/cypress/psoc creator/3.1/psoc creator/import/gnu_cs/arm/4.8.4/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv6-m\libg_s.a(lib_a-init.o)
-                0x000032f8                __libc_init_array
- .text.memcpy   0x00003344       0x12 c:/program files (x86)/cypress/psoc creator/3.1/psoc creator/import/gnu_cs/arm/4.8.4/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv6-m\libg_s.a(lib_a-memcpy-stub.o)
-                0x00003344                memcpy
- .text.memset   0x00003356       0x10 c:/program files (x86)/cypress/psoc creator/3.1/psoc creator/import/gnu_cs/arm/4.8.4/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv6-m\libg_s.a(lib_a-memset.o)
-                0x00003356                memset
+                0x00003308       0x4c c:/program files (x86)/cypress/psoc creator/3.1/psoc creator/import/gnu_cs/arm/4.8.4/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv6-m\libg_s.a(lib_a-init.o)
+                0x00003308                __libc_init_array
+ .text.memcpy   0x00003354       0x12 c:/program files (x86)/cypress/psoc creator/3.1/psoc creator/import/gnu_cs/arm/4.8.4/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv6-m\libg_s.a(lib_a-memcpy-stub.o)
+                0x00003354                memcpy
+ .text.memset   0x00003366       0x10 c:/program files (x86)/cypress/psoc creator/3.1/psoc creator/import/gnu_cs/arm/4.8.4/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv6-m\libg_s.a(lib_a-memset.o)
+                0x00003366                memset
  *(.plt)
  *(.gnu.warning)
  *(.glue_7t)
@@ -1041,77 +1041,77 @@ END GROUP
  *(.ARM.extab* .gnu.linkonce.armextab.*)
  *(.gcc_except_table)
 
-.v4_bx          0x00003368        0x0
+.v4_bx          0x00003378        0x0
  .v4_bx         0x00000000        0x0 linker stubs
 
-.iplt           0x00003368        0x0
+.iplt           0x00003378        0x0
  .iplt          0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.1/psoc creator/import/gnu_cs/arm/4.8.4/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m/crtbegin.o
 
 .eh_frame_hdr
  *(.eh_frame_hdr)
 
-.eh_frame       0x00003368        0x4
+.eh_frame       0x00003378        0x4
  *(.eh_frame)
- .eh_frame      0x00003368        0x0 c:/program files (x86)/cypress/psoc creator/3.1/psoc creator/import/gnu_cs/arm/4.8.4/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m/crtbegin.o
- .eh_frame      0x00003368        0x4 c:/program files (x86)/cypress/psoc creator/3.1/psoc creator/import/gnu_cs/arm/4.8.4/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m/crtend.o
-                0x0000336c                PROVIDE (__exidx_start, .)
+ .eh_frame      0x00003378        0x0 c:/program files (x86)/cypress/psoc creator/3.1/psoc creator/import/gnu_cs/arm/4.8.4/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m/crtbegin.o
+ .eh_frame      0x00003378        0x4 c:/program files (x86)/cypress/psoc creator/3.1/psoc creator/import/gnu_cs/arm/4.8.4/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m/crtend.o
+                0x0000337c                PROVIDE (__exidx_start, .)
 
 .ARM.exidx
  *(.ARM.exidx* .gnu.linkonce.armexidx.*)
-                0x0000336c                __exidx_end = .
+                0x0000337c                __exidx_end = .
 
-.rodata         0x0000336c       0xac
+.rodata         0x0000337c       0xac
  *(.rodata .rodata.* .gnu.linkonce.r.*)
- .rodata        0x0000336c        0x4 .\CortexM0\ARM_GCC_484\Debug\main.o
- .rodata        0x00003370       0x2c .\CortexM0\ARM_GCC_484\Debug\FLC.a(cyfitter_cfg.o)
- .rodata        0x0000339c       0x44 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_uart.o)
-                0x000033e0                . = ALIGN (0x4)
+ .rodata        0x0000337c        0x4 .\CortexM0\ARM_GCC_484\Debug\main.o
+ .rodata        0x00003380       0x2c .\CortexM0\ARM_GCC_484\Debug\FLC.a(cyfitter_cfg.o)
+ .rodata        0x000033ac       0x44 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_uart.o)
+                0x000033f0                . = ALIGN (0x4)
  *(.init)
- .init          0x000033e0        0x4 c:/program files (x86)/cypress/psoc creator/3.1/psoc creator/import/gnu_cs/arm/4.8.4/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m/crti.o
-                0x000033e0                _init
- .init          0x000033e4        0x8 c:/program files (x86)/cypress/psoc creator/3.1/psoc creator/import/gnu_cs/arm/4.8.4/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m/crtn.o
-                0x000033ec                . = ALIGN (0x4)
-                0x000033ec                __preinit_array_start = .
+ .init          0x000033f0        0x4 c:/program files (x86)/cypress/psoc creator/3.1/psoc creator/import/gnu_cs/arm/4.8.4/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m/crti.o
+                0x000033f0                _init
+ .init          0x000033f4        0x8 c:/program files (x86)/cypress/psoc creator/3.1/psoc creator/import/gnu_cs/arm/4.8.4/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m/crtn.o
+                0x000033fc                . = ALIGN (0x4)
+                0x000033fc                __preinit_array_start = .
  *(.preinit_array)
-                0x000033ec                __preinit_array_end = .
-                0x000033ec                . = ALIGN (0x4)
-                0x000033ec                __init_array_start = .
+                0x000033fc                __preinit_array_end = .
+                0x000033fc                . = ALIGN (0x4)
+                0x000033fc                __init_array_start = .
  *(SORT(.init_array.*))
  *(.init_array)
- .init_array    0x000033ec        0x4 c:/program files (x86)/cypress/psoc creator/3.1/psoc creator/import/gnu_cs/arm/4.8.4/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m/crtbegin.o
- .init_array    0x000033f0        0x4 .\CortexM0\ARM_GCC_484\Debug\Cm0Start.o
-                0x000033f4                __init_array_end = .
-                0x000033f4                . = ALIGN (0x4)
- *(.fini)
- .fini          0x000033f4        0x4 c:/program files (x86)/cypress/psoc creator/3.1/psoc creator/import/gnu_cs/arm/4.8.4/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m/crti.o
-                0x000033f4                _fini
- .fini          0x000033f8        0x8 c:/program files (x86)/cypress/psoc creator/3.1/psoc creator/import/gnu_cs/arm/4.8.4/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m/crtn.o
-                0x00003400                . = ALIGN (0x4)
-                0x00003400                __fini_array_start = .
- *(.fini_array)
- .fini_array    0x00003400        0x4 c:/program files (x86)/cypress/psoc creator/3.1/psoc creator/import/gnu_cs/arm/4.8.4/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m/crtbegin.o
- *(SORT(.fini_array.*))
-                0x00003404                __fini_array_end = .
+ .init_array    0x000033fc        0x4 c:/program files (x86)/cypress/psoc creator/3.1/psoc creator/import/gnu_cs/arm/4.8.4/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m/crtbegin.o
+ .init_array    0x00003400        0x4 .\CortexM0\ARM_GCC_484\Debug\Cm0Start.o
+                0x00003404                __init_array_end = .
                 0x00003404                . = ALIGN (0x4)
+ *(.fini)
+ .fini          0x00003404        0x4 c:/program files (x86)/cypress/psoc creator/3.1/psoc creator/import/gnu_cs/arm/4.8.4/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m/crti.o
+                0x00003404                _fini
+ .fini          0x00003408        0x8 c:/program files (x86)/cypress/psoc creator/3.1/psoc creator/import/gnu_cs/arm/4.8.4/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m/crtn.o
+                0x00003410                . = ALIGN (0x4)
+                0x00003410                __fini_array_start = .
+ *(.fini_array)
+ .fini_array    0x00003410        0x4 c:/program files (x86)/cypress/psoc creator/3.1/psoc creator/import/gnu_cs/arm/4.8.4/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m/crtbegin.o
+ *(SORT(.fini_array.*))
+                0x00003414                __fini_array_end = .
+                0x00003414                . = ALIGN (0x4)
  *crtbegin.o(.ctors)
  *(EXCLUDE_FILE(*crtend.o) .ctors)
  *(SORT(.ctors.*))
  *crtend.o(.ctors)
-                0x00003404                . = ALIGN (0x4)
+                0x00003414                . = ALIGN (0x4)
  *crtbegin.o(.dtors)
  *(EXCLUDE_FILE(*crtend.o) .dtors)
  *(SORT(.dtors.*))
  *crtend.o(.dtors)
-                0x00003404                . = ALIGN (0x4)
-                0x00003404                __cy_regions = .
-                0x00003404        0x4 LONG 0x3418 __cy_region_init_ram
-                0x00003408        0x4 LONG 0x200000d0 __cy_region_start_data
-                0x0000340c        0x4 LONG 0x28 __cy_region_init_size_ram
-                0x00003410        0x4 LONG 0x78 __cy_region_zero_size_ram
-                0x00003414                __cy_regions_end = .
-                0x00003418                . = ALIGN (0x8)
- *fill*         0x00003414        0x4 
-                0x00003418                _etext = .
+                0x00003414                . = ALIGN (0x4)
+                0x00003414                __cy_regions = .
+                0x00003414        0x4 LONG 0x3428 __cy_region_init_ram
+                0x00003418        0x4 LONG 0x200000d0 __cy_region_start_data
+                0x0000341c        0x4 LONG 0x28 __cy_region_init_size_ram
+                0x00003420        0x4 LONG 0x78 __cy_region_zero_size_ram
+                0x00003424                __cy_regions_end = .
+                0x00003428                . = ALIGN (0x8)
+ *fill*         0x00003424        0x4 
+                0x00003428                _etext = .
 
 .ramvectors     0x20000000       0xc0
                 0x20000000                __cy_region_start_ram = .
@@ -1129,7 +1129,7 @@ END GROUP
  *(.noinit)
  .noinit        0x200000c8        0x4 .\CortexM0\ARM_GCC_484\Debug\Cm0Start.o
 
-.data           0x200000d0       0x28 load address 0x00003418
+.data           0x200000d0       0x28 load address 0x00003428
                 0x200000d0                __cy_region_start_data = .
  *(.jcr)
  .jcr           0x200000d0        0x0 c:/program files (x86)/cypress/psoc creator/3.1/psoc creator/import/gnu_cs/arm/4.8.4/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m/crtbegin.o
@@ -1154,10 +1154,10 @@ END GROUP
  *(.ram)
                 0x200000f8                _edata = .
 
-.igot.plt       0x200000f8        0x0 load address 0x00003440
+.igot.plt       0x200000f8        0x0 load address 0x00003450
  .igot.plt      0x00000000        0x0 c:/program files (x86)/cypress/psoc creator/3.1/psoc creator/import/gnu_cs/arm/4.8.4/bin/../lib/gcc/arm-none-eabi/4.8.4/armv6-m/crtbegin.o
 
-.bss            0x200000f8       0x78 load address 0x00003440
+.bss            0x200000f8       0x78 load address 0x00003450
                 0x200000f8                PROVIDE (__bss_start__, .)
  *(.shbss)
  *(.bss .bss.* .gnu.linkonce.b.*)
@@ -1209,11 +1209,11 @@ END GROUP
                 0x20000170                __end = .
                 0x20000170                PROVIDE (end, .)
                 0x20000170                PROVIDE (__bss_end__, .)
-                0x00003418                __cy_region_init_ram = LOADADDR (.data)
+                0x00003428                __cy_region_init_ram = LOADADDR (.data)
                 0x00000028                __cy_region_init_size_ram = (_edata - ADDR (.data))
                 0x00000078                __cy_region_zero_size_ram = (_end - _edata)
 
-.heap           0x20000170      0x100 load address 0x00003440
+.heap           0x20000170      0x100 load address 0x00003450
                 0x20000170                . = _end
                 0x20000270                . = (. + 0x100)
  *fill*         0x20000170      0x100 
@@ -1338,7 +1338,7 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x5222
+.debug_info     0x00000000     0x522a
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x293 .\CortexM0\ARM_GCC_484\Debug\main.o
  .debug_info    0x00000293      0x14d .\CortexM0\ARM_GCC_484\Debug\cybootloader.o
@@ -1357,19 +1357,19 @@ END GROUP
  .debug_info    0x000027e4      0x6f0 .\CortexM0\ARM_GCC_484\Debug\FLC.a(PWM_Timer.o)
  .debug_info    0x00002ed4      0x3c2 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_blink.o)
  .debug_info    0x00003296      0x6f0 .\CortexM0\ARM_GCC_484\Debug\FLC.a(RC_Timer.o)
- .debug_info    0x00003986      0x2ab .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_pwm.o)
- .debug_info    0x00003c31      0x6f0 .\CortexM0\ARM_GCC_484\Debug\FLC.a(Blink_Timer.o)
- .debug_info    0x00004321      0x2c0 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_RC.o)
- .debug_info    0x000045e1      0x1ab .\CortexM0\ARM_GCC_484\Debug\FLC.a(Em_EEPROM_1.o)
- .debug_info    0x0000478c      0x14c .\CortexM0\ARM_GCC_484\Debug\FLC.a(Button.o)
- .debug_info    0x000048d8      0x20d .\CortexM0\ARM_GCC_484\Debug\FLC.a(UART_1_SPI_UART.o)
- .debug_info    0x00004ae5      0x20d .\CortexM0\ARM_GCC_484\Debug\FLC.a(UART_2_SPI_UART.o)
- .debug_info    0x00004cf2      0x14c .\CortexM0\ARM_GCC_484\Debug\FLC.a(LandingLight.o)
- .debug_info    0x00004e3e      0x14c .\CortexM0\ARM_GCC_484\Debug\FLC.a(NavLight.o)
- .debug_info    0x00004f8a      0x14c .\CortexM0\ARM_GCC_484\Debug\FLC.a(StrobeLight.o)
- .debug_info    0x000050d6      0x14c .\CortexM0\ARM_GCC_484\Debug\FLC.a(CollisionLight.o)
+ .debug_info    0x00003986      0x2af .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_pwm.o)
+ .debug_info    0x00003c35      0x6f0 .\CortexM0\ARM_GCC_484\Debug\FLC.a(Blink_Timer.o)
+ .debug_info    0x00004325      0x2c4 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_RC.o)
+ .debug_info    0x000045e9      0x1ab .\CortexM0\ARM_GCC_484\Debug\FLC.a(Em_EEPROM_1.o)
+ .debug_info    0x00004794      0x14c .\CortexM0\ARM_GCC_484\Debug\FLC.a(Button.o)
+ .debug_info    0x000048e0      0x20d .\CortexM0\ARM_GCC_484\Debug\FLC.a(UART_1_SPI_UART.o)
+ .debug_info    0x00004aed      0x20d .\CortexM0\ARM_GCC_484\Debug\FLC.a(UART_2_SPI_UART.o)
+ .debug_info    0x00004cfa      0x14c .\CortexM0\ARM_GCC_484\Debug\FLC.a(LandingLight.o)
+ .debug_info    0x00004e46      0x14c .\CortexM0\ARM_GCC_484\Debug\FLC.a(NavLight.o)
+ .debug_info    0x00004f92      0x14c .\CortexM0\ARM_GCC_484\Debug\FLC.a(StrobeLight.o)
+ .debug_info    0x000050de      0x14c .\CortexM0\ARM_GCC_484\Debug\FLC.a(CollisionLight.o)
 
-.debug_abbrev   0x00000000     0x1d68
+.debug_abbrev   0x00000000     0x1dab
  *(.debug_abbrev)
  .debug_abbrev  0x00000000       0xcb .\CortexM0\ARM_GCC_484\Debug\main.o
  .debug_abbrev  0x000000cb       0x77 .\CortexM0\ARM_GCC_484\Debug\cybootloader.o
@@ -1388,19 +1388,19 @@ END GROUP
  .debug_abbrev  0x00000ead      0x109 .\CortexM0\ARM_GCC_484\Debug\FLC.a(PWM_Timer.o)
  .debug_abbrev  0x00000fb6      0x191 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_blink.o)
  .debug_abbrev  0x00001147      0x109 .\CortexM0\ARM_GCC_484\Debug\FLC.a(RC_Timer.o)
- .debug_abbrev  0x00001250      0x188 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_pwm.o)
- .debug_abbrev  0x000013d8      0x109 .\CortexM0\ARM_GCC_484\Debug\FLC.a(Blink_Timer.o)
- .debug_abbrev  0x000014e1      0x170 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_RC.o)
- .debug_abbrev  0x00001651       0xcc .\CortexM0\ARM_GCC_484\Debug\FLC.a(Em_EEPROM_1.o)
- .debug_abbrev  0x0000171d       0xb7 .\CortexM0\ARM_GCC_484\Debug\FLC.a(Button.o)
- .debug_abbrev  0x000017d4      0x15c .\CortexM0\ARM_GCC_484\Debug\FLC.a(UART_1_SPI_UART.o)
- .debug_abbrev  0x00001930      0x15c .\CortexM0\ARM_GCC_484\Debug\FLC.a(UART_2_SPI_UART.o)
- .debug_abbrev  0x00001a8c       0xb7 .\CortexM0\ARM_GCC_484\Debug\FLC.a(LandingLight.o)
- .debug_abbrev  0x00001b43       0xb7 .\CortexM0\ARM_GCC_484\Debug\FLC.a(NavLight.o)
- .debug_abbrev  0x00001bfa       0xb7 .\CortexM0\ARM_GCC_484\Debug\FLC.a(StrobeLight.o)
- .debug_abbrev  0x00001cb1       0xb7 .\CortexM0\ARM_GCC_484\Debug\FLC.a(CollisionLight.o)
+ .debug_abbrev  0x00001250      0x1a2 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_pwm.o)
+ .debug_abbrev  0x000013f2      0x109 .\CortexM0\ARM_GCC_484\Debug\FLC.a(Blink_Timer.o)
+ .debug_abbrev  0x000014fb      0x199 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_RC.o)
+ .debug_abbrev  0x00001694       0xcc .\CortexM0\ARM_GCC_484\Debug\FLC.a(Em_EEPROM_1.o)
+ .debug_abbrev  0x00001760       0xb7 .\CortexM0\ARM_GCC_484\Debug\FLC.a(Button.o)
+ .debug_abbrev  0x00001817      0x15c .\CortexM0\ARM_GCC_484\Debug\FLC.a(UART_1_SPI_UART.o)
+ .debug_abbrev  0x00001973      0x15c .\CortexM0\ARM_GCC_484\Debug\FLC.a(UART_2_SPI_UART.o)
+ .debug_abbrev  0x00001acf       0xb7 .\CortexM0\ARM_GCC_484\Debug\FLC.a(LandingLight.o)
+ .debug_abbrev  0x00001b86       0xb7 .\CortexM0\ARM_GCC_484\Debug\FLC.a(NavLight.o)
+ .debug_abbrev  0x00001c3d       0xb7 .\CortexM0\ARM_GCC_484\Debug\FLC.a(StrobeLight.o)
+ .debug_abbrev  0x00001cf4       0xb7 .\CortexM0\ARM_GCC_484\Debug\FLC.a(CollisionLight.o)
 
-.debug_line     0x00000000     0x2f21
+.debug_line     0x00000000     0x2f23
  *(.debug_line)
  .debug_line    0x00000000      0x1ea .\CortexM0\ARM_GCC_484\Debug\main.o
  .debug_line    0x000001ea       0x55 .\CortexM0\ARM_GCC_484\Debug\cybootloader.o
@@ -1417,19 +1417,19 @@ END GROUP
  .debug_line    0x00000cd6      0x703 .\CortexM0\ARM_GCC_484\Debug\FLC.a(CyLib.o)
  .debug_line    0x000013d9      0x2e2 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_uart.o)
  .debug_line    0x000016bb      0x372 .\CortexM0\ARM_GCC_484\Debug\FLC.a(PWM_Timer.o)
- .debug_line    0x00001a2d      0x287 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_blink.o)
- .debug_line    0x00001cb4      0x371 .\CortexM0\ARM_GCC_484\Debug\FLC.a(RC_Timer.o)
- .debug_line    0x00002025      0x29b .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_pwm.o)
- .debug_line    0x000022c0      0x374 .\CortexM0\ARM_GCC_484\Debug\FLC.a(Blink_Timer.o)
- .debug_line    0x00002634      0x265 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_RC.o)
- .debug_line    0x00002899       0xc9 .\CortexM0\ARM_GCC_484\Debug\FLC.a(Em_EEPROM_1.o)
- .debug_line    0x00002962       0xac .\CortexM0\ARM_GCC_484\Debug\FLC.a(Button.o)
- .debug_line    0x00002a0e      0x127 .\CortexM0\ARM_GCC_484\Debug\FLC.a(UART_1_SPI_UART.o)
- .debug_line    0x00002b35      0x127 .\CortexM0\ARM_GCC_484\Debug\FLC.a(UART_2_SPI_UART.o)
- .debug_line    0x00002c5c       0xb2 .\CortexM0\ARM_GCC_484\Debug\FLC.a(LandingLight.o)
- .debug_line    0x00002d0e       0xae .\CortexM0\ARM_GCC_484\Debug\FLC.a(NavLight.o)
- .debug_line    0x00002dbc       0xb1 .\CortexM0\ARM_GCC_484\Debug\FLC.a(StrobeLight.o)
- .debug_line    0x00002e6d       0xb4 .\CortexM0\ARM_GCC_484\Debug\FLC.a(CollisionLight.o)
+ .debug_line    0x00001a2d      0x289 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_blink.o)
+ .debug_line    0x00001cb6      0x371 .\CortexM0\ARM_GCC_484\Debug\FLC.a(RC_Timer.o)
+ .debug_line    0x00002027      0x29b .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_pwm.o)
+ .debug_line    0x000022c2      0x374 .\CortexM0\ARM_GCC_484\Debug\FLC.a(Blink_Timer.o)
+ .debug_line    0x00002636      0x265 .\CortexM0\ARM_GCC_484\Debug\FLC.a(isr_RC.o)
+ .debug_line    0x0000289b       0xc9 .\CortexM0\ARM_GCC_484\Debug\FLC.a(Em_EEPROM_1.o)
+ .debug_line    0x00002964       0xac .\CortexM0\ARM_GCC_484\Debug\FLC.a(Button.o)
+ .debug_line    0x00002a10      0x127 .\CortexM0\ARM_GCC_484\Debug\FLC.a(UART_1_SPI_UART.o)
+ .debug_line    0x00002b37      0x127 .\CortexM0\ARM_GCC_484\Debug\FLC.a(UART_2_SPI_UART.o)
+ .debug_line    0x00002c5e       0xb2 .\CortexM0\ARM_GCC_484\Debug\FLC.a(LandingLight.o)
+ .debug_line    0x00002d10       0xae .\CortexM0\ARM_GCC_484\Debug\FLC.a(NavLight.o)
+ .debug_line    0x00002dbe       0xb1 .\CortexM0\ARM_GCC_484\Debug\FLC.a(StrobeLight.o)
+ .debug_line    0x00002e6f       0xb4 .\CortexM0\ARM_GCC_484\Debug\FLC.a(CollisionLight.o)
 
 .debug_frame    0x00000000     0x2c30
  *(.debug_frame)

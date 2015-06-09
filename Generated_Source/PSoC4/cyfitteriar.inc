@@ -664,15 +664,15 @@ Blink_Timer_cy_m0s8_tcpwm_1__TR_CTRL1 EQU CYREG_TCPWM_CNT1_TR_CTRL1
 Blink_Timer_cy_m0s8_tcpwm_1__TR_CTRL2 EQU CYREG_TCPWM_CNT1_TR_CTRL2
 
 /* StrobeLight */
-StrobeLight__0__DM__MASK EQU 0x1C0000
-StrobeLight__0__DM__SHIFT EQU 18
+StrobeLight__0__DM__MASK EQU 0x1C0
+StrobeLight__0__DM__SHIFT EQU 6
 StrobeLight__0__DR EQU CYREG_PRT1_DR
 StrobeLight__0__HSIOM EQU CYREG_HSIOM_PORT_SEL1
-StrobeLight__0__HSIOM_MASK EQU 0x0F000000
-StrobeLight__0__HSIOM_SHIFT EQU 24
+StrobeLight__0__HSIOM_MASK EQU 0x00000F00
+StrobeLight__0__HSIOM_SHIFT EQU 8
 StrobeLight__0__INTCFG EQU CYREG_PRT1_INTCFG
 StrobeLight__0__INTSTAT EQU CYREG_PRT1_INTSTAT
-StrobeLight__0__MASK EQU 0x40
+StrobeLight__0__MASK EQU 0x04
 StrobeLight__0__PA__CFG0 EQU CYREG_UDB_PA1_CFG0
 StrobeLight__0__PA__CFG1 EQU CYREG_UDB_PA1_CFG1
 StrobeLight__0__PA__CFG10 EQU CYREG_UDB_PA1_CFG10
@@ -692,11 +692,11 @@ StrobeLight__0__PC EQU CYREG_PRT1_PC
 StrobeLight__0__PC2 EQU CYREG_PRT1_PC2
 StrobeLight__0__PORT EQU 1
 StrobeLight__0__PS EQU CYREG_PRT1_PS
-StrobeLight__0__SHIFT EQU 6
+StrobeLight__0__SHIFT EQU 2
 StrobeLight__DR EQU CYREG_PRT1_DR
 StrobeLight__INTCFG EQU CYREG_PRT1_INTCFG
 StrobeLight__INTSTAT EQU CYREG_PRT1_INTSTAT
-StrobeLight__MASK EQU 0x40
+StrobeLight__MASK EQU 0x04
 StrobeLight__PA__CFG0 EQU CYREG_UDB_PA1_CFG0
 StrobeLight__PA__CFG1 EQU CYREG_UDB_PA1_CFG1
 StrobeLight__PA__CFG10 EQU CYREG_UDB_PA1_CFG10
@@ -716,7 +716,7 @@ StrobeLight__PC EQU CYREG_PRT1_PC
 StrobeLight__PC2 EQU CYREG_PRT1_PC2
 StrobeLight__PORT EQU 1
 StrobeLight__PS EQU CYREG_PRT1_PS
-StrobeLight__SHIFT EQU 6
+StrobeLight__SHIFT EQU 2
 
 /* LandingLight */
 LandingLight__0__DM__MASK EQU 0x07

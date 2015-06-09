@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 1
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccQ5hhXN.s 			page 1
 
 
    1              		.cpu cortex-m0
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 1
   55 0002 10       		.byte	16
   56 0003 10       		.byte	16
   57              		.global	channelValue
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 2
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccQ5hhXN.s 			page 2
 
 
   58              		.bss
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 1
   19:.\main.c      **** uint8_t lightOff = flight;
   20:.\main.c      **** uint8_t mode = 0;
   21:.\main.c      **** uint8_t pwm_light_adj[4] = {0x10, 0x10, 0x10, 0x10};
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 3
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccQ5hhXN.s 			page 3
 
 
   22:.\main.c      **** static const uint8 CYCODE pwm_light_init[4] = {0x10, 0x10, 0x10, 0x10};
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 1
  118 0016 FFF7FEFF 		bl	RC_Timer_Start
   51:.\main.c      ****     UART_1_Start();
  119              		.loc 1 51 0
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 4
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccQ5hhXN.s 			page 4
 
 
  120 001a FFF7FEFF 		bl	UART_1_Start
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 1
  162              		.loc 1 58 0 is_stmt 0 discriminator 1
  163 0064 FB1D     		add	r3, r7, #7
  164 0066 1B78     		ldrb	r3, [r3]
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 5
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccQ5hhXN.s 			page 5
 
 
  165 0068 032B     		cmp	r3, #3
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 1
  205 00a6 1B78     		ldrb	r3, [r3]
  206 00a8 022B     		cmp	r3, #2
  207 00aa 02D0     		beq	.L6
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 6
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccQ5hhXN.s 			page 6
 
 
   76:.\main.c      ****         {
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 1
  240 00d8 634B     		ldr	r3, .L28+28
  241 00da 5200     		lsl	r2, r2, #1
  242 00dc D35A     		ldrh	r3, [r2, r3]
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 7
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccQ5hhXN.s 			page 7
 
 
  243 00de 1AB2     		sxth	r2, r3
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 1
  289 012e FA23     		mov	r3, #250
  290 0130 9900     		lsl	r1, r3, #2
  291 0132 FFF7FEFF 		bl	__aeabi_idiv
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 8
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccQ5hhXN.s 			page 8
 
 
  292 0136 031C     		mov	r3, r0
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 1
  337 0182 BB1D     		add	r3, r7, #6
  338 0184 1A70     		strb	r2, [r3]
  113:.\main.c      ****                         for (i=0;i<4;i++)       //Turn all lights off on after 2s of stick in right
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 9
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccQ5hhXN.s 			page 9
 
 
  339              		.loc 1 113 0
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 1
  384              	.L17:
  121:.\main.c      ****                     }
  122:.\main.c      ****                         
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 10
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccQ5hhXN.s 			page 10
 
 
  123:.\main.c      ****                     if (counter_off_millis == 1500 && lightOff == 1) //Turn all lights back on afte
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 1
  136:.\main.c      ****             uartByte = UART_2_UartGetChar();
  424              		.loc 1 136 0
  425 0200 FFF7FEFF 		bl	UART_2_UartGetChar
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 11
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccQ5hhXN.s 			page 11
 
 
  426 0204 021C     		mov	r2, r0
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 1
  468              	.L22:
  469 0248 10E7     		b	.L25
  470              	.L29:
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 12
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccQ5hhXN.s 			page 12
 
 
  471 024a C046     		.align	2
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 1
  525 003f 20000000 		.4byte	.LASF3
  526 0043 02       		.byte	0x2
  527 0044 25       		.byte	0x25
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 13
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccQ5hhXN.s 			page 13
 
 
  528 0045 49000000 		.4byte	0x49
@@ -778,7 +778,7 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 1
  582 00ae B8000000 		.4byte	.LASF15
  583 00b2 04       		.byte	0x4
  584 00b3 A1       		.byte	0xa1
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 14
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccQ5hhXN.s 			page 14
 
 
  585 00b4 37000000 		.4byte	0x37
@@ -838,7 +838,7 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 1
  639 011d 07       		.uleb128 0x7
  640 011e FD000000 		.4byte	.LASF22
  641 0122 00       		.sleb128 0
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 15
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccQ5hhXN.s 			page 15
 
 
  642 0123 07       		.uleb128 0x7
@@ -898,7 +898,7 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 1
  696 018d 05       		.uleb128 0x5
  697 018e 03       		.byte	0x3
  698 018f 00000000 		.4byte	pwm_light_init
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 16
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccQ5hhXN.s 			page 16
 
 
  699 0193 0D       		.uleb128 0xd
@@ -958,7 +958,7 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 1
  753 0208 03       		.byte	0x3
  754 0209 00000000 		.4byte	channelValue
  755 020d 0B       		.uleb128 0xb
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 17
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccQ5hhXN.s 			page 17
 
 
  756 020e 97000000 		.4byte	0x97
@@ -1018,7 +1018,7 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 1
  810 0286 01       		.byte	0x1
  811 0287 26       		.byte	0x26
  812 0288 A2000000 		.4byte	0xa2
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 18
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccQ5hhXN.s 			page 18
 
 
  813 028c 05       		.uleb128 0x5
@@ -1078,7 +1078,7 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 1
  867 0030 3E       		.uleb128 0x3e
  868 0031 0B       		.uleb128 0xb
  869 0032 03       		.uleb128 0x3
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 19
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccQ5hhXN.s 			page 19
 
 
  870 0033 08       		.uleb128 0x8
@@ -1138,7 +1138,7 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 1
  924 0069 18       		.uleb128 0x18
  925 006a 9642     		.uleb128 0x2116
  926 006c 19       		.uleb128 0x19
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 20
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccQ5hhXN.s 			page 20
 
 
  927 006d 01       		.uleb128 0x1
@@ -1198,7 +1198,7 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 1
  981 00a3 00       		.byte	0
  982 00a4 49       		.uleb128 0x49
  983 00a5 13       		.uleb128 0x13
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 21
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccQ5hhXN.s 			page 21
 
 
  984 00a6 00       		.byte	0
@@ -1258,7 +1258,7 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 1
  1038 000c 00000000 		.4byte	0
  1039              		.section	.debug_line,"",%progbits
  1040              	.Ldebug_line0:
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 22
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccQ5hhXN.s 			page 22
 
 
  1041 0000 E6010000 		.section	.debug_str,"MS",%progbits,1
@@ -1318,7 +1318,7 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 1
  1063      7200
  1064              	.LASF41:
  1065 008d 666C6173 		.ascii	"flashTime_CollisionLight\000"
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 23
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccQ5hhXN.s 			page 23
 
 
  1065      6854696D 
@@ -1378,7 +1378,7 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 1
  1091      206C6F6E 
  1091      6720756E 
  1091      7369676E 
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 24
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccQ5hhXN.s 			page 24
 
 
  1091      65642069 
@@ -1438,7 +1438,7 @@ ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 1
  1115 0221 63686172 		.ascii	"char\000"
  1115      00
  1116              	.LASF4:
-ARM GAS  C:\Users\ole\AppData\Local\Temp\cctM02NI.s 			page 25
+ARM GAS  C:\Users\ole\AppData\Local\Temp\ccQ5hhXN.s 			page 25
 
 
  1117 0226 73686F72 		.ascii	"short int\000"
